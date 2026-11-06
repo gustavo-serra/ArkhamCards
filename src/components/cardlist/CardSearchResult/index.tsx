@@ -6,6 +6,8 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useSelector } from 'react-redux';
+import { t } from 'ttag';
 
 import ArkhamIcon from '@icons/ArkhamIcon';
 import { TouchableOpacity } from '@components/core/Touchables';
@@ -20,6 +22,65 @@ import { usePressCallback, useSettingValue } from '@components/core/hooks';
 import AppIcon from '@icons/AppIcon';
 import IconizedText from '@components/core/IconizedText';
 import { LinkedListCard, ListCard } from '@data/types/ListCard';
+import { getCanonicalCardCode } from '@data/types/cardHelpers';
+import { usePhysicalCollectionAllocations } from '@components/deck/usePhysicalCollectionTracker';
+import {
+  getCardPrintingOverrides,
+  getPackQuantities,
+  getPacksInCollection,
+} from '@reducers';
+
+export interface ListCardPhysicalAvailability {
+  canonicalCode: string;
+  totalOwned: number;
+  inBinder: number;
+  totalAllocated: number;
+  conflictCount: number;
+}
+
+export function useListCardPhysicalAvailability(
+  card: ListCard | undefined
+): ListCardPhysicalAvailability | undefined {
+  const { mode, allocationsByCanonicalCode } = usePhysicalCollectionAllocations();
+  const inCollection = useSelector(getPacksInCollection);
+  const packQuantities = useSelector(getPackQuantities);
+  const printingOverrides = useSelector(getCardPrintingOverrides);
+  const ignoreCollection = useSettingValue('ignore_collection');
+
+  return useMemo(() => {
+    if (!card || mode === 'disabled' || !card.deck_limit || card.deck_limit <= 0) {
+      return undefined;
+    }
+    const canonicalCode = getCanonicalCardCode(card);
+    const allocation = allocationsByCanonicalCode[canonicalCode];
+    const totalOwned = card.collectionQuantity(
+      inCollection,
+      ignoreCollection,
+      packQuantities,
+      printingOverrides
+    );
+    const totalAllocated = allocation ? allocation.totalAllocated : 0;
+    const totalPhysicalRequested = allocation ? allocation.totalPhysicalRequested : 0;
+    const inBinder = Math.max(0, totalOwned - totalAllocated);
+    const conflictCount = Math.max(0, totalPhysicalRequested - totalOwned);
+
+    return {
+      canonicalCode,
+      totalOwned,
+      inBinder,
+      totalAllocated,
+      conflictCount,
+    };
+  }, [
+    card,
+    mode,
+    allocationsByCanonicalCode,
+    inCollection,
+    ignoreCollection,
+    packQuantities,
+    printingOverrides,
+  ]);
+}
 
 interface Props<T extends ListCard> {
   card: T;
@@ -161,6 +222,52 @@ export default function CardSearchResult<T extends ListCard>(props: Props<T>) {
   }, [onPress, onPressId, id, card]);
   const handleCardPress = usePressCallback(handleCardPressFunction, onPressDebounce);
   const colorblind = useSettingValue('colorblind');
+  const availability = useListCardPhysicalAvailability(card);
+
+  const availabilityBadge = useMemo(() => {
+    if (!availability || (availability.totalAllocated <= 0 && availability.conflictCount <= 0)) {
+      return null;
+    }
+    const { inBinder, totalOwned, conflictCount } = availability;
+    const isDepleted = inBinder === 0;
+    const badgeBorderColor = conflictCount > 0
+      ? colors.red
+      : isDepleted
+        ? colors.warn
+        : colors.green;
+    const badgeTextColor = conflictCount > 0
+      ? colors.red
+      : isDepleted
+        ? colors.D30
+        : colors.green;
+    const badgeBackgroundColor = isDepleted && conflictCount === 0
+      ? colors.warn
+      : colors.L20;
+
+    return (
+      <View
+        style={[
+          styles.availabilityBadge,
+          {
+            borderColor: badgeBorderColor,
+            backgroundColor: badgeBackgroundColor,
+          },
+        ]}
+      >
+        <Text
+          style={[
+            typography.tiny,
+            typography.bold,
+            { color: badgeTextColor },
+          ]}
+          numberOfLines={1}
+        >
+          { t`📦 ${inBinder}/${totalOwned} livres` }
+        </Text>
+      </View>
+    );
+  }, [availability, colors, typography]);
+
   const dualFactionIcons = useMemo(() => {
     const faction_code = card.factionCode();
     if (!card.faction2_code && (!colorblind || faction_code === 'mythos' || card.type_code === 'investigator' || card.type_code === 'skill')) {
@@ -251,7 +358,7 @@ export default function CardSearchResult<T extends ListCard>(props: Props<T>) {
             { custom && <EncounterIcon encounter_code={card.pack_code} size={18} color={colors.L10} pack /> }
           </Text>
         </View>
-        { !!(skillIcons || dualFactionIcons || tabooBlock || card.advanced || card.renderSubname || description) && (
+        { !!(skillIcons || dualFactionIcons || tabooBlock || card.advanced || card.renderSubname || description || availabilityBadge) && (
           <View style={[styles.row, { backgroundColor: 'transparent' }]}>
             { dualFactionIcons }
             { skillIcons }
@@ -261,6 +368,7 @@ export default function CardSearchResult<T extends ListCard>(props: Props<T>) {
                 <AppIcon name="parallel" size={18 * fontScale} color={colors.darkText} />
               </View>
             ) }
+            { availabilityBadge }
             { (!!card.renderSubname || !!description || custom) && (
               <View style={[styles.row, styles.subname, space.marginRightS]}>
                 <Text style={[typography.cardTraits, { flex: 1 }]} numberOfLines={1} ellipsizeMode="clip">
@@ -272,7 +380,7 @@ export default function CardSearchResult<T extends ListCard>(props: Props<T>) {
         ) }
       </View>
     );
-  }, [colors, fontScale, typography, card, invalid, tabooBlock, skillIcons, dualFactionIcons, description]);
+  }, [colors, fontScale, typography, card, invalid, tabooBlock, skillIcons, dualFactionIcons, description, availabilityBadge]);
 
   if (!card) {
     return (
@@ -407,5 +515,14 @@ const styles = StyleSheet.create({
   },
   investigatorFactionIcon: {
     marginBottom: 4,
+  },
+  availabilityBadge: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 6,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    marginRight: s,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

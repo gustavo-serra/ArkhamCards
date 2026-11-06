@@ -20,7 +20,7 @@ import LanguagePicker, { NarrationLanguagePicker } from './LanguagePicker';
 import SettingsTabooPicker from './SettingsTabooPicker';
 import { requestFetchCards } from '@components/card/actions';
 import { prefetch } from '@lib/auth';
-import { AppState, getLangChoice, getPacksInCollection, getPackSpoilers, getAllPacks, getAudioLangPreference } from '@reducers';
+import { AppState, getLangChoice, getPacksInCollection, getPackSpoilers, getAllPacks, getAudioLangPreference, getPhysicalCollectionMode } from '@reducers';
 import StyleContext from '@styles/StyleContext';
 import AccountSection from './AccountSection';
 import space, { s } from '@styles/space';
@@ -72,6 +72,7 @@ function SettingsView() {
   const ignoreCollection = useSettingValue('ignore_collection');
   const spoilerSettings = useSelector(getPackSpoilers);
   const packs = useSelector(getAllPacks);
+  const physicalCollectionMode = useSelector(getPhysicalCollectionMode);
   const summarizePacks = useCallback((selection: { [pack: string]: boolean | undefined }, ignoreCollection?: boolean) => {
     if (ignoreCollection) {
       return t`All Cycles and Packs`;
@@ -86,6 +87,18 @@ function SettingsView() {
   }, [packs]);
   const collectionSummary = useMemo(() => summarizePacks(packsInCollection, ignoreCollection), [summarizePacks, packsInCollection, ignoreCollection]);
   const spoilerSummary = useMemo(() => summarizePacks(spoilerSettings), [summarizePacks, spoilerSettings]);
+  const physicalCollectionModeSummary = useMemo(() => {
+    switch (physicalCollectionMode) {
+      case 'manual':
+        return t`Modo: Manual por Deck/Campanha`;
+      case 'active_campaigns':
+        return t`Modo: Campanhas Ativas`;
+      case 'all_decks':
+        return t`Modo: Todos os Decks`;
+      case 'disabled':
+        return t`Modo: Desativado`;
+    }
+  }, [physicalCollectionMode]);
   const updateRemoteSetting = useUpdateRemoteSetting();
   const [showCardSingleCardView, setSingleCardView] = useRemoteSettingFlag('single_card', updateRemoteSetting);
   const [alphabetizeEncounterSets, setAlphabetizeEncounterSets] = useRemoteSettingFlag('alphabetize', updateRemoteSetting);
@@ -104,6 +117,10 @@ function SettingsView() {
 
   const myCollectionPressed = useCallback(() => {
     navigation.navigate('My.Collection', {});
+  }, [navigation]);
+
+  const myPhysicalCollectionPressed = useCallback(() => {
+    navigation.navigate('My.PhysicalCollection');
   }, [navigation]);
 
   const editSpoilersPressed = useCallback(() => {
@@ -179,6 +196,14 @@ function SettingsView() {
                 <SettingsTabooPicker />
                 <SettingsCardPoolPicker last />
               </View>
+              <DeckButton
+                icon="deck"
+                onPress={myPhysicalCollectionPressed}
+                title={t`Gerenciador de Coleção Física & Decks Montados`}
+                detail={physicalCollectionModeSummary}
+                thin
+                bottomMargin={s}
+              />
               <DeckButton
                 icon="arkhamdb"
                 onPress={cardsLoading ? undefined : doSyncCards}

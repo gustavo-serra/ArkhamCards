@@ -10,6 +10,7 @@ import BondedCardsComponent from './BondedCardsComponent';
 import TwoSidedCardComponent from './TwoSidedCardComponent';
 import SignatureCardsComponent from './SignatureCardsComponent';
 import AlternatePrintingsComponent from './AlternatePrintingsComponent';
+import CardCollectionUsageComponent from './CardCollectionUsageComponent';
 import space, { m, s } from '@styles/space';
 import StyleContext from '@styles/StyleContext';
 import { useParallelInvestigator } from '@components/core/hooks';
@@ -128,6 +129,28 @@ function SpoilersComponent({ card, width, toggleShowSpoilers }: Props) {
   );
 }
 
+function canCardGoInPlayerDeck(card: Card | undefined): boolean {
+  if (!card) {
+    return false;
+  }
+  if (
+    card.type_code === 'investigator' ||
+    card.type_code === 'scenario' ||
+    card.type_code === 'location' ||
+    card.type_code === 'act' ||
+    card.type_code === 'agenda'
+  ) {
+    return false;
+  }
+  if (card.deck_limit && card.deck_limit > 0) {
+    return true;
+  }
+  if (card.subtype_code === 'weakness' || card.subtype_code === 'basicweakness') {
+    return true;
+  }
+  return !card.mythos_card;
+}
+
 export default function CardDetailComponent({
   card, backCard, width, showSpoilers, tabooSetId, simple, noImage,
   toggleShowSpoilers, showInvestigatorCards,
@@ -135,6 +158,7 @@ export default function CardDetailComponent({
   const { backgroundStyle } = useContext(StyleContext);
   const shouldBlur = !showSpoilers && !!(card && card.mythos_card);
   const bondedCards = useMemo(() => [card], [card]);
+  const showCollectionUsage = !simple && canCardGoInPlayerDeck(card);
   if (shouldBlur) {
     return (
       <SpoilersComponent
@@ -164,6 +188,12 @@ export default function CardDetailComponent({
             cards={bondedCards}
             width={width}
             tabooSetId={tabooSetId}
+          />
+        ) }
+        { showCollectionUsage && (
+          <CardCollectionUsageComponent
+            card={card}
+            width={width}
           />
         ) }
       </View>

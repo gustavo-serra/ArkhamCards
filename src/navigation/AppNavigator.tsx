@@ -92,6 +92,7 @@ import SimpleChaosBagScreen from '@components/chaos/SimpleChaosBagScreen';
 
 // Settings screens
 import CollectionEditView from '@components/settings/CollectionEditView';
+import PhysicalCollectionManagerView from '@components/settings/PhysicalCollectionManagerView';
 import RuleView from '@components/settings/RuleView';
 import DiagnosticsView from '@components/settings/DiagnosticsView';
 import BackupView from '@components/settings/BackupView';
@@ -540,6 +541,11 @@ function renderCommonScreens<ParamList extends BasicStackParamList>(
         name="My.Collection"
         component={CollectionEditView}
         options={CollectionEditView.options}
+      />
+      <Stack.Screen
+        name="My.PhysicalCollection"
+        component={PhysicalCollectionManagerView}
+        options={{ title: t`Physical Collection` }}
       />
       <Stack.Screen
         name="My.Spoilers"

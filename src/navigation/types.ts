@@ -138,6 +138,7 @@ export type BasicStackParamList = {
 
   // Settings screens
   'My.Collection': CollectionEditProps;
+  'My.PhysicalCollection': undefined;
   'My.Spoilers': undefined;
   'Settings.Diagnostics': undefined;
   'Settings.Backup': BackupProps;
