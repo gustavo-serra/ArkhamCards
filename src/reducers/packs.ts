@@ -12,6 +12,9 @@ import {
   PacksActions,
   Pack,
   SET_PACK_DRAFT,
+  SET_PACK_QUANTITY,
+  SET_CARD_PRINTING_OVERRIDE,
+  CardPrintingOverrides,
 } from '@actions/types';
 
 interface PacksState {
@@ -22,6 +25,10 @@ interface PacksState {
   in_collection: {
     [code: string]: boolean;
   };
+  pack_quantities?: {
+    [code: string]: number;
+  };
+  card_printing_overrides?: CardPrintingOverrides;
   show_spoilers: {
     [code: string]: boolean;
   };
@@ -40,6 +47,8 @@ const DEFAULT_PACKS_STATE: PacksState = {
   dateFetched: null,
   dateUpdatePrompt: null,
   in_collection: { core: true },
+  pack_quantities: {},
+  card_printing_overrides: {},
   show_spoilers: {},
   loading: false,
   error: null,
@@ -100,16 +109,84 @@ export default function(
 
   if (action.type === SYNC_IN_COLLECTION) {
     const new_collection = Object.assign({}, state.in_collection);
+    const new_quantities = Object.assign({}, state.pack_quantities || {});
     forEach(action.updates, (value, code) => {
       if (value) {
         new_collection[code] = true;
+        if (code === 'no_core') {
+          new_quantities.core = 0;
+        } else if (code === 'core' && (new_quantities.core || 0) < 2) {
+          new_quantities.core = 2;
+        }
       } else {
         delete new_collection[code];
+        if (code === 'no_core') {
+          new_quantities.core = new_collection.core ? 2 : 1;
+        } else if (code === 'core') {
+          new_quantities.core = new_collection.no_core ? 0 : 1;
+        } else {
+          delete new_quantities[code];
+        }
       }
     });
     return {
       ...state,
       in_collection: new_collection,
+      pack_quantities: new_quantities,
+    };
+  }
+
+  if (action.type === SET_PACK_QUANTITY) {
+    const new_collection = Object.assign({}, state.in_collection);
+    const new_quantities = Object.assign({}, state.pack_quantities || {});
+    const qty = Math.max(0, Math.floor(action.quantity));
+    if (action.code === 'core') {
+      new_quantities.core = qty;
+      if (qty === 0) {
+        new_collection.no_core = true;
+        delete new_collection.core;
+      } else if (qty === 1) {
+        delete new_collection.no_core;
+        delete new_collection.core;
+      } else {
+        delete new_collection.no_core;
+        new_collection.core = true;
+      }
+    } else {
+      if (qty <= 0) {
+        delete new_collection[action.code];
+        delete new_quantities[action.code];
+      } else if (qty === 1) {
+        new_collection[action.code] = true;
+        delete new_quantities[action.code];
+      } else {
+        new_collection[action.code] = true;
+        new_quantities[action.code] = qty;
+      }
+    }
+    return {
+      ...state,
+      in_collection: new_collection,
+      pack_quantities: new_quantities,
+    };
+  }
+
+  if (action.type === SET_CARD_PRINTING_OVERRIDE) {
+    const new_overrides: CardPrintingOverrides = Object.assign({}, state.card_printing_overrides || {});
+    const cardEntry = Object.assign({}, new_overrides[action.canonicalCode] || {});
+    if (action.delta === 0) {
+      delete cardEntry[action.packCode];
+    } else {
+      cardEntry[action.packCode] = action.delta;
+    }
+    if (Object.keys(cardEntry).length === 0) {
+      delete new_overrides[action.canonicalCode];
+    } else {
+      new_overrides[action.canonicalCode] = cardEntry;
+    }
+    return {
+      ...state,
+      card_printing_overrides: new_overrides,
     };
   }
 

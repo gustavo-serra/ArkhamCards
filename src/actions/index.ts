@@ -26,6 +26,22 @@ import {
   SYNC_PACK_SPOILER,
   SyncInCollectionAction,
   SyncPackSpoilerAction,
+  SET_PACK_QUANTITY,
+  SET_CARD_PRINTING_OVERRIDE,
+  SetPackQuantityAction,
+  SetCardPrintingOverrideAction,
+  SET_PHYSICAL_COLLECTION_MODE,
+  CONFIRM_PHYSICAL_DECK_ASSEMBLY,
+  DISASSEMBLE_PHYSICAL_DECK,
+  SET_DECK_PHYSICAL_TRACKING,
+  DISASSEMBLE_CAMPAIGN_DECKS,
+  PhysicalCollectionMode,
+  ConfirmPhysicalDeckAssemblyAction,
+  DisassemblePhysicalDeckAction,
+  SetDeckPhysicalTrackingAction,
+  DisassembleCampaignDecksAction,
+  SetPhysicalCollectionModeAction,
+  CampaignId,
 } from './types';
 import { AppState, getAllPacks, getArkhamDbDecks } from '@reducers';
 
@@ -390,6 +406,89 @@ export function setCycleDraft(
       cycle_code,
       value,
     });
+  };
+}
+
+export function setPackQuantity(
+  code: string,
+  quantity: number,
+  updateRemote?: UpdateRemotePack
+): SetPackQuantityAction {
+  const qty = Math.max(0, Math.floor(quantity));
+  if (updateRemote) {
+    if (code === 'core') {
+      updateRemote('in_collection', {
+        no_core: qty === 0,
+        core: qty >= 2,
+      });
+    } else {
+      updateRemote('in_collection', {
+        [code]: qty >= 1,
+      });
+    }
+  }
+  return {
+    type: SET_PACK_QUANTITY,
+    code,
+    quantity: qty,
+  };
+}
+
+export function setCardPrintingOverride(
+  canonicalCode: string,
+  packCode: string,
+  delta: number
+): SetCardPrintingOverrideAction {
+  return {
+    type: SET_CARD_PRINTING_OVERRIDE,
+    canonicalCode,
+    packCode,
+    delta,
+  };
+}
+
+export function setPhysicalCollectionMode(
+  mode: PhysicalCollectionMode
+): SetPhysicalCollectionModeAction {
+  return {
+    type: SET_PHYSICAL_COLLECTION_MODE,
+    mode,
+  };
+}
+
+export function confirmPhysicalDeckAssembly(
+  payload: Omit<ConfirmPhysicalDeckAssemblyAction, 'type'>
+): ConfirmPhysicalDeckAssemblyAction {
+  return {
+    type: CONFIRM_PHYSICAL_DECK_ASSEMBLY,
+    ...payload,
+  };
+}
+
+export function disassemblePhysicalDeck(
+  deckKey: string
+): DisassemblePhysicalDeckAction {
+  return {
+    type: DISASSEMBLE_PHYSICAL_DECK,
+    deckKey,
+  };
+}
+
+export function setDeckPhysicalTracking(
+  payload: Omit<SetDeckPhysicalTrackingAction, 'type'>
+): SetDeckPhysicalTrackingAction {
+  return {
+    type: SET_DECK_PHYSICAL_TRACKING,
+    ...payload,
+  };
+}
+
+export function disassembleCampaignDecks(
+  campaignId: CampaignId
+): DisassembleCampaignDecksAction {
+  return {
+    type: DISASSEMBLE_CAMPAIGN_DECKS,
+    campaignId,
   };
 }
 

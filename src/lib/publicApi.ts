@@ -140,7 +140,10 @@ function handleDerivativeData(
     if (dupes[card.code] || reprints[card.code]) {
       const theDupes = dupes[card.code] ?? [];
       const theReprints = reprints[card.code] ?? [];
-      card.reprint_pack_codes = uniq(map(theDupes, (c) => c.pack_code));
+      card.reprint_pack_codes = uniq([
+        ...map(theDupes, (c) => c.pack_code),
+        ...map(theReprints, (c) => c.pack_code),
+      ]);
       const reprint_info = uniq(
         [
           ...map(theDupes, (c) => CardReprintInfo.parse(c)),
@@ -148,12 +151,29 @@ function handleDerivativeData(
         ]
       );
       card.reprint_info = reprint_info;
-      forEach(reprints[card.code], reprint => {
+      forEach(theDupes, dupe => {
+        dupe.reprint_pack_codes = uniq([
+          card.pack_code,
+          ...flatMap(theDupes, (c) => c.code !== dupe.code ? c.pack_code : []),
+          ...map(theReprints, (c) => c.pack_code),
+        ]);
+        dupe.reprint_info = uniq([
+          CardReprintInfo.parse(card),
+          ...flatMap(theDupes, (c) => c.code !== dupe.code ? CardReprintInfo.parse(c) : []),
+          ...map(theReprints, (c) => CardReprintInfo.parse(c)),
+        ]);
+      });
+      forEach(theReprints, reprint => {
+        reprint.reprint_pack_codes = uniq([
+          card.pack_code,
+          ...map(theDupes, (c) => c.pack_code),
+          ...flatMap(theReprints, (c) => c.code !== reprint.code ? c.pack_code : []),
+        ]);
         reprint.reprint_info = uniq([
           CardReprintInfo.parse(card),
           ...map(theDupes, (c) => CardReprintInfo.parse(c)),
           ...flatMap(theReprints, (c) => c.code !== reprint.code ? CardReprintInfo.parse(c) : []),
-        ])
+        ]);
       });
     }
     if (!card.hidden && card.encounter_code) {

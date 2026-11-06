@@ -1,7 +1,7 @@
 import { FactionCodeType, SkillCodeType, TypeCodeType } from '@app_constants';
 import Card, { CardStatusType, normalize_array } from './Card';
-import { cardFactionCode, cardSkillCount, cardCustom, cardRealCost, cardCollectionDeckLimit } from './cardHelpers';
-import { SORT_BY_TYPE_SLOT, SORT_BY_FACTION_PACK, SORT_BY_FACTION_XP, SORT_BY_TITLE, SORT_BY_COST, SORT_BY_XP, SORT_BY_SLOT, SortType, ExtendedSortType, SORT_BY_TYPE, SORT_BY_FACTION, SORT_BY_PACK, SORT_BY_ENCOUNTER_SET, SORT_BY_CYCLE, SORT_BY_CARD_ID } from '@actions/types';
+import { cardFactionCode, cardSkillCount, cardCustom, cardRealCost, cardCollectionDeckLimit, calculateCardCollectionQuantity } from './cardHelpers';
+import { SORT_BY_TYPE_SLOT, SORT_BY_FACTION_PACK, SORT_BY_FACTION_XP, SORT_BY_TITLE, SORT_BY_COST, SORT_BY_XP, SORT_BY_SLOT, SortType, ExtendedSortType, SORT_BY_TYPE, SORT_BY_FACTION, SORT_BY_PACK, SORT_BY_ENCOUNTER_SET, SORT_BY_CYCLE, SORT_BY_CARD_ID, CardPrintingOverrides } from '@actions/types';
 import { c, t } from 'ttag';
 import CustomizationOption, { CustomizationChoice } from './CustomizationOption';
 import { filter, find, forEach, head, sortBy, sumBy, uniq } from 'lodash';
@@ -46,6 +46,8 @@ export type ListCard = LinkedListCard & Pick<Card,
   | 'real_name'
   | 'renderName'
   | 'renderSubname'
+  | 'duplicate_of_code'
+  | 'reprint_of_code'
   // Display
   // Faction
   | 'faction3_code'
@@ -79,6 +81,7 @@ export type ListCard = LinkedListCard & Pick<Card,
   | 'skillCount'
   | 'custom'
   | 'hasInvestigatorRestrictions'
+  | 'collectionQuantity'
   | 'collectionDeckLimit'
 > & {
   // Methods that return ListCard instead of Card
@@ -260,6 +263,8 @@ export class ListCardImpl implements ListCardWithHeader {
   linked_card?: LinkedListCard;
   spoiler?: boolean;
   reprint_pack_codes?: string[];
+  duplicate_of_code?: string;
+  reprint_of_code?: string;
   tags?: string[];
   customization_options?: CustomizationOption[];
   bonded_name?: string;
@@ -279,6 +284,8 @@ export class ListCardImpl implements ListCardWithHeader {
     this.real_name = data.real_name || data.name || '';
     this.renderName = data.renderName || data.name || '';
     this.renderSubname = data.renderSubname;
+    this.duplicate_of_code = data.duplicate_of_code;
+    this.reprint_of_code = data.reprint_of_code;
     this.pack_code = data.pack_code || '';
     this.type_code = data.type_code || '';
     this.subtype_code = data.subtype_code;
@@ -376,6 +383,8 @@ export class ListCardImpl implements ListCardWithHeader {
       'c.real_name',
       'c.renderName',
       'c.renderSubname',
+      'c.duplicate_of_code',
+      'c.reprint_of_code',
       'c.pack_code',
       'c.type_code',
       'c.subtype_code',
@@ -488,11 +497,34 @@ export class ListCardImpl implements ListCardWithHeader {
     return card;
   }
 
+  collectionQuantity(
+    packInCollection: { [pack_code: string]: boolean | undefined },
+    ignore_collection: boolean,
+    packQuantities?: { [pack_code: string]: number | undefined },
+    cardPrintingOverrides?: CardPrintingOverrides
+  ): number {
+    return calculateCardCollectionQuantity(
+      this,
+      packInCollection,
+      ignore_collection,
+      packQuantities,
+      cardPrintingOverrides
+    );
+  }
+
   collectionDeckLimit(
     packInCollection: { [pack_code: string]: boolean | undefined },
-    ignore_collection: boolean
+    ignore_collection: boolean,
+    packQuantities?: { [pack_code: string]: number | undefined },
+    cardPrintingOverrides?: CardPrintingOverrides
   ): number {
-    return cardCollectionDeckLimit(this, packInCollection, ignore_collection);
+    return cardCollectionDeckLimit(
+      this,
+      packInCollection,
+      ignore_collection,
+      packQuantities,
+      cardPrintingOverrides
+    );
   }
 
   withHeaderId(headerId: string): ListCardImpl {

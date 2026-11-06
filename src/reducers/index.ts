@@ -18,6 +18,7 @@ import packs from './packs';
 import settings from './settings';
 import dissonantVoices from './dissonantVoices';
 import patreon from './patreon';
+import physicalCollection from './physicalCollection';
 import { CardFilterData, FilterState } from '@lib/filters';
 import { getSystemLanguage } from '@lib/i18n';
 import {
@@ -153,6 +154,14 @@ const filtersPersistConfig = {
   blacklist: ['all', 'defaults', 'mythos', 'sorts', 'newSorts', 'cardData'],
 };
 
+const physicalCollectionPersistConfig = {
+  key: 'physicalCollection',
+  timeout: 0,
+  throttle: Platform.OS === 'android' ? 1000 : undefined,
+  storage: AsyncStorage,
+  blacklist: [],
+};
+
 // Combine all the reducers
 const rootReducer = combineReducers({
   packs: persistReducer(packsPersistConfig, packs),
@@ -170,6 +179,7 @@ const rootReducer = combineReducers({
   decks: persistReducer(decksPersistConfig, decks),
   legacyGuides: persistReducer(legacyGuidesPersistConfig, legacyGuides),
   campaigns: legacyCampaigns,
+  physicalCollection: persistReducer(physicalCollectionPersistConfig, physicalCollection),
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
@@ -456,6 +466,26 @@ export const getShowCustomContent = createSelector(
 export const getPacksInCollection = createSelector(
   (state: AppState) => state.packs.in_collection,
   (in_collection) => in_collection || DEFAULT_OBJECT
+);
+
+export const getPackQuantities = createSelector(
+  (state: AppState) => state.packs.pack_quantities,
+  (pack_quantities): { [code: string]: number } => pack_quantities || DEFAULT_OBJECT
+);
+
+export const getCardPrintingOverrides = createSelector(
+  (state: AppState) => state.packs.card_printing_overrides,
+  (card_printing_overrides) => card_printing_overrides || DEFAULT_OBJECT
+);
+
+export const getPhysicalCollectionMode = createSelector(
+  (state: AppState) => state.physicalCollection?.mode,
+  (mode) => mode || 'manual'
+);
+
+export const getAssembledDecks = createSelector(
+  (state: AppState) => state.physicalCollection?.assembledDecks,
+  (assembledDecks) => assembledDecks || DEFAULT_OBJECT
 );
 
 export const getDraftPacks = createSelector(

@@ -4,6 +4,9 @@ import Card from './Card';
 
 export default class CardReprintInfo {
   @Column('text', { nullable: true })
+  public code?: string;
+
+  @Column('text', { nullable: true })
   public pack_code?: string;
 
   @Column('text', { nullable: true })
@@ -23,6 +26,7 @@ export default class CardReprintInfo {
 
   static parse(card: Card): CardReprintInfo {
     const cri = new CardReprintInfo();
+    cri.code = card.code;
     cri.pack_code = card.pack_code;
     cri.pack_name = card.pack_name;
     cri.quantity = card.quantity;

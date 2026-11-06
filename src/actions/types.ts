@@ -442,6 +442,8 @@ export interface ScenarioResult {
   xp?: number;
   scenarioPack?: string;
   interlude?: boolean;
+  startedAt?: string;
+  completedAt?: string;
 }
 
 export interface LegacyBackupState {
@@ -1138,6 +1140,91 @@ export interface SetPackDraftAction {
   value: boolean;
 }
 
+export interface CardPrintingOverrides {
+  [canonicalCode: string]: {
+    [packCodeOrExtra: string]: number | undefined;
+  } | undefined;
+}
+
+export const SET_PACK_QUANTITY = 'SET_PACK_QUANTITY';
+export interface SetPackQuantityAction {
+  type: typeof SET_PACK_QUANTITY;
+  code: string;
+  quantity: number;
+}
+
+export const SET_CARD_PRINTING_OVERRIDE = 'SET_CARD_PRINTING_OVERRIDE';
+export interface SetCardPrintingOverrideAction {
+  type: typeof SET_CARD_PRINTING_OVERRIDE;
+  canonicalCode: string;
+  packCode: string;
+  delta: number;
+}
+
+export type PhysicalCollectionMode = 'disabled' | 'manual' | 'active_campaigns' | 'all_decks';
+
+export interface AssembledDeckState {
+  deckKey: string;
+  campaignId?: CampaignId;
+  campaignName?: string;
+  investigatorCode: string;
+  deckId: DeckId;
+  deckName?: string;
+  tracked: boolean;
+  assembled: boolean;
+  physicalSlots: Slots;
+  assembledAt: string;
+}
+
+export const SET_PHYSICAL_COLLECTION_MODE = 'SET_PHYSICAL_COLLECTION_MODE';
+export interface SetPhysicalCollectionModeAction {
+  type: typeof SET_PHYSICAL_COLLECTION_MODE;
+  mode: PhysicalCollectionMode;
+}
+
+export const CONFIRM_PHYSICAL_DECK_ASSEMBLY = 'CONFIRM_PHYSICAL_DECK_ASSEMBLY';
+export interface ConfirmPhysicalDeckAssemblyAction {
+  type: typeof CONFIRM_PHYSICAL_DECK_ASSEMBLY;
+  deckKey: string;
+  campaignId?: CampaignId;
+  campaignName?: string;
+  investigatorCode: string;
+  deckId: DeckId;
+  deckName?: string;
+  physicalSlots: Slots;
+  assembledAt: string;
+}
+
+export const DISASSEMBLE_PHYSICAL_DECK = 'DISASSEMBLE_PHYSICAL_DECK';
+export interface DisassemblePhysicalDeckAction {
+  type: typeof DISASSEMBLE_PHYSICAL_DECK;
+  deckKey: string;
+}
+
+export const SET_DECK_PHYSICAL_TRACKING = 'SET_DECK_PHYSICAL_TRACKING';
+export interface SetDeckPhysicalTrackingAction {
+  type: typeof SET_DECK_PHYSICAL_TRACKING;
+  deckKey: string;
+  tracked: boolean;
+  campaignId?: CampaignId;
+  investigatorCode?: string;
+  deckId?: DeckId;
+}
+
+export const DISASSEMBLE_CAMPAIGN_DECKS = 'DISASSEMBLE_CAMPAIGN_DECKS';
+export interface DisassembleCampaignDecksAction {
+  type: typeof DISASSEMBLE_CAMPAIGN_DECKS;
+  campaignId: CampaignId;
+}
+
+export type PhysicalCollectionActions =
+  | SetPhysicalCollectionModeAction
+  | ConfirmPhysicalDeckAssemblyAction
+  | DisassemblePhysicalDeckAction
+  | SetDeckPhysicalTrackingAction
+  | DisassembleCampaignDecksAction;
+
+
 export const NEW_CAMPAIGN = 'NEW_CAMPAIGN';
 export interface NewCampaignAction {
   type: typeof NEW_CAMPAIGN;
@@ -1668,6 +1755,8 @@ export type PacksActions =
   | SyncInCollectionAction
   | SyncPackSpoilerAction
   | SetPackDraftAction
+  | SetPackQuantityAction
+  | SetCardPrintingOverrideAction
   | UpdatePromptDismissedAction;
 
 export type SignInActions =

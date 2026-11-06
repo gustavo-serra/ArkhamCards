@@ -23,7 +23,7 @@ import {
 import { removeDiacriticalMarks } from 'remove-diacritical-marks';
 import { remove as removeAccents } from 'remove-accents';
 import { c, t } from 'ttag';
-import { cardFactionCode, cardSkillCount, cardCustom, cardRealCost, cardCollectionDeckLimit } from './cardHelpers';
+import { cardFactionCode, cardSkillCount, cardCustom, cardRealCost, cardCollectionDeckLimit, calculateCardCollectionQuantity, getCanonicalCardCode } from './cardHelpers';
 
 import {
   Pack,
@@ -39,6 +39,7 @@ import {
   SORT_BY_XP,
   SORT_BY_CARD_ID,
   SORT_BY_SLOT,
+  CardPrintingOverrides,
 } from '@actions/types';
 import {
   BASIC_SKILLS,
@@ -1039,59 +1040,38 @@ export default class Card {
     return [];
   }
 
+  public get canonicalCode(): string {
+    return getCanonicalCardCode(this);
+  }
+
   collectionQuantity(
     packInCollection: { [pack_code: string]: boolean | undefined },
-    ignore_collection: boolean
+    ignore_collection: boolean,
+    packQuantities?: { [pack_code: string]: number | undefined },
+    cardPrintingOverrides?: CardPrintingOverrides
   ): number {
-    if (this.encounter_code || this.subtype_code) {
-      return this.quantity || 0;
-    }
-
-    let quantity = this.quantity || 0;
-    if (this.pack_code === 'core') {
-      if (packInCollection.no_core) {
-        quantity = 0;
-      } else if (packInCollection.core) {
-        // Second core set is indicated.
-        quantity *= 2;
-      } else if (ignore_collection) {
-        quantity = Math.max(this.deck_limit || 0, this.quantity || 0);
-      }
-    } else if (!ignore_collection && !packInCollection[this.pack_code]) {
-      quantity = 0;
-    }
-    if (this.reprint_info) {
-      forEach(this.reprint_info, (reprint) => {
-        if (reprint.pack_code && !!packInCollection[reprint.pack_code]) {
-          quantity += Math.max(reprint.quantity || 0, this.deck_limit || 0);
-        }
-      });
-    } else {
-      forEach(this.reprint_pack_codes, (pack) => {
-        if (!!packInCollection[pack]) {
-          quantity += Math.max(this.quantity || 0, this.deck_limit || 0);
-        }
-      });
-    }
-
-    const alternatePack = this.encounter_code
-      ? specialReprintCampaignPacks[this.pack_code]
-      : specialReprintPlayerPacks[this.pack_code];
-    if (alternatePack && packInCollection[alternatePack]) {
-      quantity += this.quantity ?? 0;
-    }
-    const alternateCodePack = specialReprintCardPacks[this.code];
-    if (alternateCodePack && packInCollection[alternateCodePack]) {
-      quantity += this.quantity ?? 0;
-    }
-    return quantity;
+    return calculateCardCollectionQuantity(
+      this,
+      packInCollection,
+      ignore_collection,
+      packQuantities,
+      cardPrintingOverrides
+    );
   }
 
   collectionDeckLimit(
     packInCollection: { [pack_code: string]: boolean | undefined },
-    ignore_collection: boolean
+    ignore_collection: boolean,
+    packQuantities?: { [pack_code: string]: number | undefined },
+    cardPrintingOverrides?: CardPrintingOverrides
   ): number {
-    return cardCollectionDeckLimit(this, packInCollection, ignore_collection);
+    return cardCollectionDeckLimit(
+      this,
+      packInCollection,
+      ignore_collection,
+      packQuantities,
+      cardPrintingOverrides
+    );
   }
 
   static parseRestrictions(json?: {
