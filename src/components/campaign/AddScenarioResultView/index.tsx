@@ -50,10 +50,16 @@ function AddScenarioResultView() {
   const [campaignNotes, setCampaignNotes] = useState<CampaignNotes | undefined>();
   const [xp, setXp] = useState(0);
   const actions = useUpdateCampaignActions();
+  const startedAt = useMemo(() => new Date().toISOString(), []);
 
   const doSave = useCallback((showDeckUpgrade: boolean) => {
     if (scenario && campaign) {
-      const scenarioResult: ScenarioResult = { ...scenario, xp };
+      const scenarioResult: ScenarioResult = {
+        ...scenario,
+        xp,
+        startedAt: scenario.startedAt || startedAt,
+        completedAt: new Date().toISOString(),
+      };
       dispatch(addScenarioResult(actions, campaign, scenarioResult, campaignNotes));
       const passProps: UpgradeDecksProps = {
         id,
@@ -80,7 +86,7 @@ function AddScenarioResultView() {
         navigation.goBack();
       }
     }
-  }, [navigation, campaign, id, actions, dispatch, scenario, xp, campaignNotes]);
+  }, [navigation, campaign, id, actions, dispatch, scenario, xp, campaignNotes, startedAt]);
 
   const savePressed = useMemo(() => throttle((showDeckUpgrade: boolean) => doSave(showDeckUpgrade), 200), [doSave]);
   const saveEnabled = useMemo(() => {

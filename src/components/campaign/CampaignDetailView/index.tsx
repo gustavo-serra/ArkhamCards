@@ -1,13 +1,14 @@
-import React, { useCallback, useContext, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
-import { map } from 'lodash';
-import { useDispatch } from 'react-redux';
+import { forEach, map } from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { t } from 'ttag';
 import { Action } from 'redux';
 
 import BasicButton from '@components/core/BasicButton';
 import { CampaignId, CUSTOM, Deck, DeckId, getDeckId, OZ, Slots, Trauma, WeaknessSet } from '@actions/types';
+import { disassembleCampaignDecks, disassemblePhysicalDeck } from '@actions';
 import DecksSection from './DecksSection';
 import { updateCampaignXp, cleanBrokenCampaigns, addInvestigator, removeInvestigator, updateCampaignInvestigatorTrauma, updateCampaignWeaknessSet, updateCampaignName } from '../actions';
 import COLORS from '@styles/colors';
@@ -34,9 +35,10 @@ import { useDeckActions } from '@data/remote/decks';
 import { useCampaignDeleted, useDismissOnCampaignDeleted, useUpdateCampaignActions } from '@data/remote/campaigns';
 import LoadingSpinner from '@components/core/LoadingSpinner';
 import { ThunkDispatch } from 'redux-thunk';
-import { AppState } from '@reducers';
+import { AppState, getAllDecks, getAssembledDecks } from '@reducers';
 import { useAppDispatch } from '@app/store';
 import DeckOverlapComponent from '@components/deck/DeckDetailView/DeckOverlapComponent';
+import { resolveCanonicalDeckKey } from '@components/deck/usePhysicalCollectionTracker';
 import CampaignHeader from '@components/campaignguide/CampaignHeader';
 import { CampaignInvestigator } from '@data/scenario/GuidedCampaignLog';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -220,6 +222,20 @@ function CampaignDetailView() {
   });
   const latestDecks = useMemo(() => campaign?.latestDecks(), [campaign]);
   const [cards] = useLatestDecksCards(latestDecks, false, latestDecks?.length ? (latestDecks[0].deck.taboo_id || 0) : 0);
+  const allDecks = useSelector(getAllDecks);
+  const assembledDecks = useSelector(getAssembledDecks);
+  const prevArchivedRef = useRef<boolean | undefined>(campaign?.archived);
+
+  useEffect(() => {
+    if (campaign?.archived && !prevArchivedRef.current) {
+      dispatch(disassembleCampaignDecks(campaignId));
+      forEach(latestDecks, d => {
+        const deckKey = resolveCanonicalDeckKey(d.deck, allDecks, assembledDecks);
+        dispatch(disassemblePhysicalDeck(deckKey));
+      });
+    }
+    prevArchivedRef.current = campaign?.archived;
+  }, [campaign?.archived, campaignId, latestDecks, allDecks, assembledDecks, dispatch]);
 
   if (!campaign) {
     if (campaignId.serverId) {
