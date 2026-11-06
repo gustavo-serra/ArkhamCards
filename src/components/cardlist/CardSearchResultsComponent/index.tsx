@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { find } from 'lodash';
+import { find, forEach, sumBy } from 'lodash';
 import { Brackets } from 'typeorm/browser';
 import RegexEscape from 'regex-escape';
 
@@ -34,6 +34,7 @@ import useDebouncedEffect from 'use-debounced-effect-hook';
 import { useSettingValue } from '@components/core/hooks';
 import { useParsedDeck } from '@components/deck/hooks';
 import { ParsedDeckContextProvider } from '@components/deck/DeckEditContext';
+import { usePhysicalCollectionAllocations } from '@components/deck/usePhysicalCollectionTracker';
 import SimpleFab from '@components/core/SimpleFab';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -62,8 +63,9 @@ interface Props {
   filterId: string;
 }
 
-function searchOptionsHeight(fontScale: number) {
-  return 20 + (fontScale * 20 + 8) * 3 + 12;
+function searchOptionsHeight(fontScale: number, showPhysicalToggle: boolean) {
+  const rowCount = showPhysicalToggle ? 5 : 4;
+  return 20 + (fontScale * 20 + 8) * rowCount + 12;
 }
 
 const FILTER_BUILDER = new FilterBuilder('filters');
@@ -77,16 +79,26 @@ function SearchOptions({
   searchText,
   searchFlavor,
   searchBack,
+  showDuplicates,
+  showPhysicalToggle,
+  hideOccupiedPhysical,
   toggleSearchText,
   toggleSearchFlavor,
   toggleSearchBack,
+  toggleShowDuplicates,
+  toggleHideOccupiedPhysical,
 }: {
   searchText: boolean;
   searchFlavor: boolean;
   searchBack: boolean;
+  showDuplicates: boolean;
+  showPhysicalToggle: boolean;
+  hideOccupiedPhysical: boolean;
   toggleSearchText: () => void;
   toggleSearchFlavor: () => void;
   toggleSearchBack: () => void;
+  toggleShowDuplicates: () => void;
+  toggleHideOccupiedPhysical: () => void;
 }) {
   const { colors, typography } = useContext(StyleContext);
   return (
@@ -124,6 +136,26 @@ function SearchOptions({
             onValueChange={toggleSearchBack}
           />
         </View>
+        <View style={styles.row}>
+          <Text style={[typography.searchLabel, styles.searchOption, typography.dark]}>
+            { t`Show duplicate / reprint cards` }
+          </Text>
+          <ArkhamSwitch
+            value={showDuplicates}
+            onValueChange={toggleShowDuplicates}
+          />
+        </View>
+        { showPhysicalToggle && (
+          <View style={styles.row}>
+            <Text style={[typography.searchLabel, styles.searchOption, typography.dark]}>
+              { t`Ocultar cartas ocupadas em outros decks` }
+            </Text>
+            <ArkhamSwitch
+              value={hideOccupiedPhysical}
+              onValueChange={toggleHideOccupiedPhysical}
+            />
+          </View>
+        ) }
       </View>
     </>
   );
@@ -248,6 +280,10 @@ export default function({
   const [searchText, setSearchText] = useState(false);
   const [searchFlavor, setSearchFlavor] = useState(false);
   const [searchBack, setSearchBack] = useState(false);
+  const [showDuplicates, setShowDuplicates] = useState(!!includeDuplicates);
+  const [hideOccupiedPhysical, setHideOccupiedPhysical] = useState(false);
+  const { mode: physicalMode, allocationsByCanonicalCode } = usePhysicalCollectionAllocations();
+  const showPhysicalToggle = physicalMode !== 'disabled';
   const customContent = useSettingValue('custom_content');
   const searchEnglish = useSettingValue('search_english');
   const showCustomContent = customContent && (!deckId || deckId.local);
@@ -256,6 +292,25 @@ export default function({
   const toggleSearchText = useCallback(() => setSearchText(!searchText), [searchText]);
   const toggleSearchFlavor = useCallback(() => setSearchFlavor(!searchFlavor), [searchFlavor]);
   const toggleSearchBack = useCallback(() => setSearchBack(!searchBack), [searchBack]);
+  const toggleShowDuplicates = useCallback(() => setShowDuplicates(!showDuplicates), [showDuplicates]);
+  const toggleHideOccupiedPhysical = useCallback(() => setHideOccupiedPhysical(!hideOccupiedPhysical), [hideOccupiedPhysical]);
+
+  const occupiedCanonicalCodes = useMemo(() => {
+    if (!showPhysicalToggle || !hideOccupiedPhysical) {
+      return [];
+    }
+    const result: string[] = [];
+    forEach(allocationsByCanonicalCode, (allocation, canonicalCode) => {
+      const heldByOthers = sumBy(
+        allocation.holders,
+        h => (deckId && h.deckId.uuid === deckId.uuid) ? 0 : h.heldCopies
+      );
+      if (heldByOthers > 0 && allocation.totalOwned - heldByOthers <= 0) {
+        result.push(canonicalCode);
+      }
+    });
+    return result;
+  }, [showPhysicalToggle, hideOccupiedPhysical, allocationsByCanonicalCode, deckId]);
   useDebouncedEffect(() => {
     if (!searchTerm) {
       setSearchState(EMPTY_SEARCH_STATE);
@@ -325,15 +380,20 @@ export default function({
       searchText={searchText}
       searchFlavor={searchFlavor}
       searchBack={searchBack}
+      showDuplicates={showDuplicates}
+      showPhysicalToggle={showPhysicalToggle}
+      hideOccupiedPhysical={hideOccupiedPhysical}
       toggleSearchText={toggleSearchText}
       toggleSearchFlavor={toggleSearchFlavor}
       toggleSearchBack={toggleSearchBack}
+      toggleShowDuplicates={toggleShowDuplicates}
+      toggleHideOccupiedPhysical={toggleHideOccupiedPhysical}
     />
   );
 
   const query = useCallback((slots: Slots | undefined) => {
     const queryParts: Brackets[] = [];
-    const actuallyIncludeDuplicates = includeDuplicates;
+    const actuallyIncludeDuplicates = !!(includeDuplicates || showDuplicates);
     // const specialtyBuilder = new FilterBuilder("specialty");
     // return specialtyBuilder.illegalSpecialistFilter(
     //   ["#drifter#", "#homeless#"],
@@ -363,12 +423,25 @@ export default function({
     if (!actuallyIncludeDuplicates) {
       queryParts.push(NO_DUPLICATES_QUERY);
     }
+    if (hideOccupiedPhysical && occupiedCanonicalCodes.length > 0) {
+      const filteredOccupied = slots
+        ? occupiedCanonicalCodes.filter(code => !(slots[code] && slots[code] > 0))
+        : occupiedCanonicalCodes;
+      if (filteredOccupied.length > 0) {
+        queryParts.push(
+          where(
+            'c.code NOT IN (:...occupiedCodes) AND (c.duplicate_of_code IS NULL OR c.duplicate_of_code NOT IN (:...occupiedCodes)) AND (c.reprint_of_code IS NULL OR c.reprint_of_code NOT IN (:...occupiedCodes))',
+            { occupiedCodes: filteredOccupied }
+          )
+        );
+      }
+    }
     return combineQueries(
       BASIC_QUERY,
       queryParts,
       'and'
     );
-  }, [baseQuery, filters, mythosToggle, selectedSorts, mythosMode, includeDuplicates, showCustomContent]);
+  }, [baseQuery, filters, mythosToggle, selectedSorts, mythosMode, includeDuplicates, showDuplicates, showCustomContent, hideOccupiedPhysical, occupiedCanonicalCodes]);
   const filterQuery = useMemo(() => filters && FILTER_BUILDER.filterToQuery(filters, useCardTraits), [filters, useCardTraits]);
   const [hasFilters, showFiltersPress] = useFilterButton({ filterId, baseQuery });
   const renderFabIcon = useMemo(() => (
@@ -399,7 +472,7 @@ export default function({
         prompt={t`Search for a card`}
         advancedOptions={{
           controls,
-          height: searchOptionsHeight(fontScale),
+          height: searchOptionsHeight(fontScale, showPhysicalToggle),
         }}
         searchTerm={searchTerm || ''}
         onSearchChange={setSearchTerm}

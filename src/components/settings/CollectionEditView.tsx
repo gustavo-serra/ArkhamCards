@@ -10,8 +10,8 @@ import { BasicStackParamList, RootStackParamList } from '@navigation/types';
 import { t } from 'ttag';
 
 import PackListComponent from '@components/core/PackListComponent';
-import { setInCollection, setCycleInCollection, setPackDraft } from '@actions';
-import { getAllRealPacks, getDraftPacks, getPacksInCollection } from '@reducers';
+import { setInCollection, setCycleInCollection, setPackDraft, setPackQuantity } from '@actions';
+import { getAllRealPacks, getDraftPacks, getPacksInCollection, getPackQuantities } from '@reducers';
 import StyleContext from '@styles/StyleContext';
 import DeckCheckboxButton from '@components/deck/controls/DeckCheckboxButton';
 import space from '@styles/space';
@@ -44,6 +44,7 @@ export default function CollectionEditView() {
   const [draftFromCollection, toggleDraftFromCollection] = useSettingFlag('draft_from_collection');
   const packs = useSelector(getAllRealPacks);
   const in_collection = useSelector(getPacksInCollection);
+  const packQuantities = useSelector(getPackQuantities);
   const updateRemoteSetting = useUpdateRemoteSetting();
   const updateRemotePack = useUpdateRemotePack();
   const [ignoreCollection, toggleIgnoreCollection] = useRemoteSettingFlag('ignore_collection', updateRemoteSetting);
@@ -63,9 +64,18 @@ export default function CollectionEditView() {
     }
   }, [dispatch, draftMode, updateRemotePack]);
 
+  const handleSetPackQuantity = useCallback((code: string, quantity: number) => {
+    if (!draftMode) {
+      dispatch(setPackQuantity(code, quantity, updateRemotePack));
+    }
+  }, [dispatch, draftMode, updateRemotePack]);
+
   const { backgroundStyle, typography } = useContext(StyleContext);
   const onEditCollection = useCallback(() => {
     navigation.navigate('My.Collection', { draftMode: false });
+  }, [navigation]);
+  const onManagePhysicalCollection = useCallback(() => {
+    navigation.navigate('My.PhysicalCollection' as never);
   }, [navigation]);
   const header = useMemo(() => {
     if (draftMode) {
@@ -93,6 +103,13 @@ export default function CollectionEditView() {
         <Text style={[typography.small, space.paddingS]}>
           { t`Use these controls to limit which cards are visible while searching, building decks, or upgrading cards to those in your own collection.` }
         </Text>
+        <View style={[space.paddingSideS, space.paddingBottomS]}>
+          <DeckButton
+            icon="deck"
+            title={t`Gerenciar Coleção Física & Decks Montados`}
+            onPress={onManagePhysicalCollection}
+          />
+        </View>
         <View style={space.paddingSideS}>
           <DeckCheckboxButton
             icon="show"
@@ -104,7 +121,7 @@ export default function CollectionEditView() {
         </View>
       </>
     );
-  }, [ignoreCollection, typography, draftMode, draftFromCollection, onEditCollection, toggleIgnoreCollection, toggleDraftFromCollection]);
+  }, [ignoreCollection, typography, draftMode, draftFromCollection, onEditCollection, onManagePhysicalCollection, toggleIgnoreCollection, toggleDraftFromCollection]);
   if (!packs.length) {
     return (
       <LoadingSpinner large />
@@ -121,8 +138,10 @@ export default function CollectionEditView() {
           cyclesOnly={draftMode}
           includeNoCore
           checkState={draftMode ? draft : in_collection}
+          packQuantities={draftMode ? undefined : packQuantities}
           setChecked={draftMode && draftFromCollection ? undefined : setChecked}
           setCycleChecked={draftMode && draftFromCollection ? undefined : setCycleChecked}
+          setPackQuantity={draftMode ? undefined : handleSetPackQuantity}
         />
       ) }
     </View>

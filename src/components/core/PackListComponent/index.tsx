@@ -46,8 +46,10 @@ interface Props {
   coreSetName?: string;
   packs: Pack[];
   checkState?: { [pack_code: string]: boolean | undefined };
+  packQuantities?: { [pack_code: string]: number | undefined };
   setChecked?: (pack_code: string, checked: boolean) => void;
   setCycleChecked?: (cycle_code: string, checked: boolean) => void;
+  setPackQuantity?: (code: string, count: number) => void;
   header?: React.ReactElement;
   renderFooter?: () => React.ReactElement;
   baseQuery?: Brackets;
@@ -80,8 +82,10 @@ export default function PackListComponent({
   coreSetName,
   packs,
   checkState,
+  packQuantities,
   setChecked,
   setCycleChecked,
+  setPackQuantity,
   header,
   renderFooter,
   baseQuery,
@@ -109,7 +113,9 @@ export default function PackListComponent({
               cycle={cyclePacks}
               baseQuery={baseQuery}
               compact={compact}
-              setChecked={!checkState?.core ? setChecked : undefined}
+              setChecked={setPackQuantity || !checkState?.core ? setChecked : undefined}
+              packQuantities={packQuantities}
+              setPackQuantity={setPackQuantity}
               checked={!checkState?.no_core}
             />
           ) }
@@ -121,6 +127,8 @@ export default function PackListComponent({
               cycle={cyclePacks}
               setChecked={setChecked}
               setCycleChecked={setCycleChecked}
+              packQuantities={packQuantities}
+              setPackQuantity={setPackQuantity}
               checked={checkState && checkState[pack.code]}
               baseQuery={baseQuery}
               compact={compact}
@@ -137,13 +145,15 @@ export default function PackListComponent({
         cycle={cyclePacks}
         setChecked={setChecked}
         setCycleChecked={setCycleChecked}
+        packQuantities={packQuantities}
+        setPackQuantity={setPackQuantity}
         checked={checkState && checkState[pack.code]}
         baseQuery={baseQuery}
         compact={compact}
         alwaysCycle={cyclesOnly}
       />
     );
-  }, [packs, checkState, cyclesOnly, alwaysShowCoreSet, includeNoCore, setChecked, setCycleChecked, baseQuery, compact, coreSetName]);
+  }, [packs, checkState, packQuantities, cyclesOnly, alwaysShowCoreSet, includeNoCore, setChecked, setCycleChecked, setPackQuantity, baseQuery, compact, coreSetName]);
 
   const renderItem = useCallback(({ item }: SectionListRenderItemInfo<PackItem>) => {
     switch (item.type) {
@@ -157,6 +167,8 @@ export default function PackListComponent({
             cycle={[]}
             setChecked={setChecked}
             setCycleChecked={setCycleChecked}
+            packQuantities={packQuantities}
+            setPackQuantity={setPackQuantity}
             checked={checkState && checkState[item.pack.code]}
             baseQuery={baseQuery}
             compact={compact}
@@ -174,6 +186,8 @@ export default function PackListComponent({
                   cycle={[]}
                   setChecked={setChecked}
                   setCycleChecked={setCycleChecked}
+                  packQuantities={packQuantities}
+                  setPackQuantity={setPackQuantity}
                   checked={checkState && checkState[pack.code]}
                   baseQuery={baseQuery}
                   compact={compact}
@@ -190,7 +204,7 @@ export default function PackListComponent({
           </View>
         );
     }
-  }, [baseQuery, compact, cyclesOnly, setChecked, setCycleChecked, renderPack, checkState, setShowLegacy, showLegacy]);
+  }, [baseQuery, compact, cyclesOnly, setChecked, setCycleChecked, setPackQuantity, packQuantities, renderPack, checkState, setShowLegacy, showLegacy]);
 
 
   if (!packs.length) {

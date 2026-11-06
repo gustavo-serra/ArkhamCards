@@ -13,7 +13,7 @@ import { TouchableOpacity } from '@components/core/Touchables';
 import { Pack } from '@actions/types';
 import EncounterIcon from '@icons/EncounterIcon';
 import ArkhamSwitch from '@components/core/ArkhamSwitch';
-import { s } from '@styles/space';
+import { s, xs } from '@styles/space';
 import StyleContext from '@styles/StyleContext';
 import { useNavigation } from '@react-navigation/native';
 
@@ -23,6 +23,8 @@ interface Props {
   cycle: Pack[];
   setChecked?: (pack_code: string, checked: boolean) => void;
   setCycleChecked?: (cycle_code: string, checked: boolean) => void;
+  packQuantities?: { [pack_code: string]: number | undefined };
+  setPackQuantity?: (code: string, count: number) => void;
   checked?: boolean;
   baseQuery?: Brackets;
   compact?: boolean;
@@ -39,6 +41,8 @@ export default function PackRow({
   alwaysCycle,
   setChecked,
   setCycleChecked,
+  packQuantities,
+  setPackQuantity,
   checked,
   baseQuery,
   compact,
@@ -54,9 +58,27 @@ export default function PackRow({
     });
   }, [navigation, pack, baseQuery]);
 
+  const currentQuantity = packQuantities?.[pack.code] !== undefined ? (packQuantities[pack.code] ?? 0) : 1;
+
+  const onDecrementQuantity = useCallback(() => {
+    if (setPackQuantity) {
+      setPackQuantity(pack.code, Math.max(0, currentQuantity - 1));
+    }
+  }, [setPackQuantity, pack.code, currentQuantity]);
+
+  const onIncrementQuantity = useCallback(() => {
+    if (setPackQuantity) {
+      setPackQuantity(pack.code, currentQuantity + 1);
+    }
+  }, [setPackQuantity, pack.code, currentQuantity]);
+
   const onCheckPress = useCallback(() => {
     const value = !checked;
     if (packId) {
+      if (packId === 'no_core' && setPackQuantity) {
+        setPackQuantity('core', value ? 1 : 0);
+        return;
+      }
       setChecked && setChecked(packId, !value);
       return;
     }
@@ -94,7 +116,7 @@ export default function PackRow({
         ],
       );
     }
-  }, [pack, cycle, checked, alwaysCycle, packId, setCycleChecked, setChecked]);
+  }, [pack, cycle, checked, alwaysCycle, packId, setCycleChecked, setChecked, setPackQuantity]);
 
   const backgroundColor = colors.background;
   const iconSize = 24;
@@ -142,6 +164,29 @@ export default function PackRow({
       </View>
       { (!!setChecked || checked) && (
         <View style={[styles.checkbox, { height: rowHeight }]}>
+          { !!setChecked && !!checked && !!setPackQuantity && (
+            <View style={styles.quantityControls}>
+              <TouchableOpacity
+                style={[styles.qtyButton, { borderColor: colors.M, backgroundColor: colors.L20 }]}
+                onPress={onDecrementQuantity}
+              >
+                <Text style={[typography.text, styles.qtyButtonText, { color: colors.darkText }]}>
+                  -
+                </Text>
+              </TouchableOpacity>
+              <Text style={[typography.small, styles.qtyText, { color: colors.darkText }]}>
+                { `${currentQuantity}x` }
+              </Text>
+              <TouchableOpacity
+                style={[styles.qtyButton, { borderColor: colors.M, backgroundColor: colors.L20 }]}
+                onPress={onIncrementQuantity}
+              >
+                <Text style={[typography.text, styles.qtyButtonText, { color: colors.darkText }]}>
+                  +
+                </Text>
+              </TouchableOpacity>
+            </View>
+          ) }
           <ArkhamSwitch
             value={!!checked}
             disabled={!setChecked}
@@ -182,5 +227,29 @@ const styles = StyleSheet.create({
     marginRight: s,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  quantityControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: xs,
+  },
+  qtyButton: {
+    width: 26,
+    height: 26,
+    borderRadius: 4,
+    borderWidth: StyleSheet.hairlineWidth,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  qtyButtonText: {
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight: 20,
+  },
+  qtyText: {
+    minWidth: 26,
+    textAlign: 'center',
+    marginHorizontal: 4,
+    fontWeight: '600',
   },
 });
