@@ -212,12 +212,25 @@ function DeckPhysicalBoxSection({
   const missingCount = sumBy(plan.missingFromCollection, item => item.count);
 
   const statusLabel = isFriendDeck
-    ? t`🤝 Deck de Amigo (Ignorado na sua Coleção Física)`
+    ? t`🤝 Friend's Deck (Ignored in your Physical Collection)`
     : isAssembled
       ? (plan.hasPendingUpgrade
-          ? t`🔄 Upgrade Físico Pendente (Deckbox precisa ser atualizada)`
-          : t`✅ Montado Fisicamente na Deckbox`)
-      : t`📦 Ainda não montado fisicamente`;
+          ? t`🔄 Pending Physical Upgrade (Deckbox needs updating)`
+          : t`✅ Physically Assembled in Deckbox`)
+      : t`📦 Not yet physically assembled`;
+
+  const unbuiltSummary = useMemo(() => {
+    if (retrieveCount > 0 && missingCount > 0) {
+      return t`To assemble now: ${binderCount} from binder, ${retrieveCount} from other assembled decks (${missingCount} missing from collection).`;
+    }
+    if (retrieveCount > 0) {
+      return t`To assemble now: ${binderCount} from binder, ${retrieveCount} from other assembled decks.`;
+    }
+    if (missingCount > 0) {
+      return t`To assemble now: ${binderCount} from binder (${missingCount} missing from collection).`;
+    }
+    return t`To assemble now: ${binderCount} from binder.`;
+  }, [binderCount, retrieveCount, missingCount]);
 
   return (
     <View style={space.marginBottomM}>
@@ -226,7 +239,7 @@ function DeckPhysicalBoxSection({
         header={
           <DeckSectionHeader
             faction={parsedDeck.faction}
-            title={t`Coleção Física (Deckbox)`}
+            title={t`Physical Collection (Deckbox)`}
           />
         }
       >
@@ -238,11 +251,11 @@ function DeckPhysicalBoxSection({
             <Text style={[typography.small, { color: colors.M, marginTop: 2 }]}>
               { isAssembled
                 ? (retrieveCount > 0
-                    ? t`⚠️ ${retrieveCount} carta(s) deste deck estão emprestadas para outro deck montado mais recente.`
+                    ? t`⚠️ ${retrieveCount} card(s) from this deck are borrowed by a more recently assembled deck.`
                     : (returnCount > 0 || binderCount > 0)
-                      ? t`Para atualizar a deckbox: devolver ${returnCount} ao fichário e pegar ${binderCount}.`
-                      : t`Todas as cartas físicas deste deck estão alocadas nesta deckbox.`)
-                : t`Para montar agora: ${binderCount} do fichário${retrieveCount > 0 ? `, ${retrieveCount} de outros decks montados` : ''}${missingCount > 0 ? ` (${missingCount} em falta na coleção)` : ''}.` }
+                      ? t`To update deckbox: return ${returnCount} to binder and take ${binderCount}.`
+                      : t`All physical cards for this deck are allocated in this deckbox.`)
+                : unbuiltSummary }
             </Text>
           ) }
           <View style={space.marginTopS}>
@@ -250,7 +263,7 @@ function DeckPhysicalBoxSection({
               <DeckButton
                 icon="check-thin"
                 color="default"
-                title={t`Marcar Deck como Montado`}
+                title={t`Mark Deck as Assembled`}
                 onPress={handleConfirmOrUpdateAssembly}
                 bottomMargin={xs}
                 thin
@@ -260,7 +273,7 @@ function DeckPhysicalBoxSection({
               <DeckButton
                 icon="upgrade"
                 color="gold"
-                title={t`Confirmar Troca Física (Atualizar Deckbox)`}
+                title={t`Confirm Physical Swap (Update Deckbox)`}
                 onPress={handleConfirmOrUpdateAssembly}
                 bottomMargin={xs}
                 thin
@@ -270,7 +283,7 @@ function DeckPhysicalBoxSection({
               <DeckButton
                 icon="check-thin"
                 color="default"
-                title={t`Resgatar Cartas Emprestadas para este Deck`}
+                title={t`Reclaim Borrowed Cards for this Deck`}
                 onPress={handleConfirmOrUpdateAssembly}
                 bottomMargin={xs}
                 thin
@@ -280,7 +293,7 @@ function DeckPhysicalBoxSection({
               <DeckButton
                 icon="dismiss"
                 color="red_outline"
-                title={t`Desmontar Deck (Devolver ao Fichário)`}
+                title={t`Disassemble Deck (Return to Binder)`}
                 onPress={handleDisassemble}
                 bottomMargin={xs}
                 thin
@@ -289,7 +302,7 @@ function DeckPhysicalBoxSection({
             <DeckButton
               icon="log"
               color="light_gray"
-              title={t`Abrir Checklist & Guia de Montagem Física`}
+              title={t`Open Checklist & Physical Assembly Guide`}
               onPress={handleOpenChecklist}
               bottomMargin={xs}
               thin
@@ -299,8 +312,8 @@ function DeckPhysicalBoxSection({
               color="light_gray_outline"
               title={
                 isFriendDeck
-                  ? t`Voltar a Rastrear na Minha Coleção Física`
-                  : t`Marcar como Deck de Amigo (Não usa minha coleção)`
+                  ? t`Resume Tracking in My Physical Collection`
+                  : t`Mark as Friend's Deck (Doesn't use my collection)`
               }
               onPress={handleToggleFriendDeck}
               thin

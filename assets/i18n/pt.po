@@ -4690,7 +4690,7 @@ msgid "Show all available cards for parallel"
 msgstr ""
 
 msgid "Show fan-made cards"
-msgstr ""
+msgstr "Mostrar cartas feitas por fãs"
 
 msgid "Reset onboarding"
 msgstr ""
@@ -4788,16 +4788,16 @@ msgid "Re-generate deck"
 msgstr ""
 
 msgid "Draft from card collection"
-msgstr ""
+msgstr "Fazer draft da coleção de cartas"
 
 msgid "Disable to choose which packs to draft from"
-msgstr ""
+msgstr "Desative para escolher de quais pacotes fazer draft"
 
 msgid "Draft using your card collection"
-msgstr ""
+msgstr "Fazer draft usando sua coleção de cartas"
 
 msgid "Draft Pool"
-msgstr ""
+msgstr "Conjunto de Draft"
 
 msgid "Invalid deck"
 msgstr ""
@@ -5271,7 +5271,7 @@ msgid "In order to support custom modes like \"Stan-hard\", you may choose to us
 msgstr ""
 
 msgid "Disabled"
-msgstr ""
+msgstr "Desativado"
 
 msgid "Use campaign setting"
 msgstr ""
@@ -5301,7 +5301,7 @@ msgid "Recomputing deck changes..."
 msgstr ""
 
 msgid "Grants access to previewed player cards"
-msgstr ""
+msgstr "Concede acesso a cartas de jogador em pré-visualização"
 
 msgid "Key"
 msgstr ""
@@ -6181,7 +6181,7 @@ msgid "Safe Mode"
 msgstr ""
 
 msgid "Choose Packs"
-msgstr ""
+msgstr "Escolher Pacotes"
 
 msgid "Rule"
 msgstr ""
@@ -9009,3 +9009,347 @@ msgstr "Independentes"
 msgctxt "scenario"
 msgid "Custom"
 msgstr "Personalizado"
+
+msgid "Physical Collection"
+msgstr "Coleção Física"
+
+msgid "Manage Physical Collection & Assembled Decks"
+msgstr "Gerenciar Coleção Física & Decks Montados"
+
+msgid "Physical Collection & Assembled Decks"
+msgstr "Gerenciador de Coleção Física & Decks Montados"
+
+msgid "Mode: Manual per Deck/Campaign"
+msgstr "Modo: Manual por Deck/Campanha"
+
+msgid "Mode: Active Campaigns"
+msgstr "Modo: Campanhas Ativas"
+
+msgid "Mode: All Decks"
+msgstr "Modo: Todos os Decks"
+
+msgid "Mode: Disabled"
+msgstr "Modo: Desativado"
+
+msgid "Show duplicate / reprint cards"
+msgstr "Mostrar reimpressões / cartas duplicadas"
+
+msgid "Hide cards occupied in other decks"
+msgstr "Ocultar cartas ocupadas em outros decks"
+
+msgid "Manual per Deck/Campaign (Default)"
+msgstr "Manual por Deck/Campanha (Padrão)"
+
+msgid "You choose which decks are physically assembled."
+msgstr "Você escolhe quais decks estão fisicamente montados."
+
+msgid "Active Campaigns"
+msgstr "Campanhas Ativas"
+
+msgid "Automatically tracks all decks in non-archived campaigns."
+msgstr "Rastreia automaticamente todos os decks de campanhas não arquivadas."
+
+msgid "All Decks"
+msgstr "Todos os Decks"
+
+msgid "Treats all your active decks as physically assembled."
+msgstr "Considera todos os seus decks ativos como montados."
+
+msgid "Hides physical collection warnings and badges."
+msgstr "Oculta avisos e indicadores de coleção física."
+
+msgid "Automatic"
+msgstr "Automático"
+
+msgid "Physical Tracking Mode"
+msgstr "Modo de Rastreamento Físico"
+
+msgid "Calculating physical allocations..."
+msgstr "Calculando alocações físicas..."
+
+#, javascript-format
+msgid "Active Conflicts & Borrowed Cards (${ conflictCount })"
+msgstr "Resumo de Conflitos e Empréstimos Ativos (${ conflictCount })"
+
+msgid "✅ No physical conflicts among assembled decks right now."
+msgstr "✅ Nenhum conflito físico entre os decks montados no momento."
+
+#, javascript-format
+msgid "In use: ${ totalRequested } / Owned: ${ totalOwned }"
+msgstr "Em uso: ${ totalRequested } / Na coleção: ${ totalOwned }"
+
+msgid "📦 Physical copy currently held by:"
+msgstr "📦 Cópia física atual com:"
+
+msgid "⚠️ Borrowed / Missing in:"
+msgstr "⚠️ Emprestada / Faltando em:"
+
+#, javascript-format
+msgid "• ${ deckLabel }: missing ${ missingCount }x"
+msgstr "• ${ deckLabel }: faltam ${ missingCount }x"
+
+#, javascript-format
+msgid "Physically Assembled Decks (${ assembledCount })"
+msgstr "Decks Fisicamente Montados (${ assembledCount })"
+
+msgid "No decks marked as physically assembled."
+msgstr "Nenhum deck marcado como fisicamente montado."
+
+#, javascript-format
+msgid "${ totalPhysicalCards } cards · Assembled: ${ assembledDate }"
+msgstr "${ totalPhysicalCards } cartas · Montado em: ${ assembledDate }"
+
+msgid "🔄 Pending Physical Upgrade"
+msgstr "🔄 Upgrade Físico Pendente"
+
+msgid "✅ Physically Assembled"
+msgstr "✅ Montado Fisicamente"
+
+msgid "Update Deckbox"
+msgstr "Atualizar Deckbox"
+
+msgid "Syncs physical deckbox with latest upgrades"
+msgstr "Sincroniza a deckbox física com os upgrades mais recentes"
+
+msgid "Open Checklist"
+msgstr "Abrir Checklist"
+
+msgid "Disassemble (Return to Binder)"
+msgstr "Desmontar (Devolver ao Fichário)"
+
+#, javascript-format
+msgid "Other Decks Available to Assemble (${ availableCount })"
+msgstr "Outros Decks Disponíveis para Montar (${ availableCount })"
+
+msgid "No other active decks available for physical assembly."
+msgstr "Não há outros decks ativos disponíveis para montagem física."
+
+#, javascript-format
+msgid "${ totalTargetCards } cards"
+msgstr "${ totalTargetCards } cartas"
+
+msgid "Ignored (Friend)"
+msgstr "Ignorado (Amigo)"
+
+msgid "Mark as Assembled"
+msgstr "Marcar como Montado"
+
+msgid "Ignored (Friend's Deck) — Tap to Track"
+msgstr "Ignorado (Deck de Amigo) — Toque para Rastrear"
+
+msgid "Ignore (Friend's Deck)"
+msgstr "Ignorar (Deck de Amigo)"
+
+#, javascript-format
+msgid "${ packsOwned }x pack (${ quantityPerPack } per pack = ${ baseCopies })"
+msgstr "${ packsOwned }x pacote (${ quantityPerPack } por pacote = ${ baseCopies })"
+
+#, javascript-format
+msgid "Default (${ baseCopies })"
+msgstr "Padrão (${ baseCopies })"
+
+#, javascript-format
+msgid "Decrease copies of ${ packName }"
+msgstr "Diminuir cópias de ${ packName }"
+
+#, javascript-format
+msgid "Increase copies of ${ packName }"
+msgstr "Aumentar cópias de ${ packName }"
+
+#, javascript-format
+msgid "${ heldCount }/${ physicalCount }x in Deckbox"
+msgstr "${ heldCount }/${ physicalCount }x na Deckbox"
+
+#, javascript-format
+msgid "⚠️ Borrowed (${ borrowedCount }x) by: ${ borrowedDecksLabel }"
+msgstr "⚠️ Emprestada (${ borrowedCount }x) para: ${ borrowedDecksLabel }"
+
+#, javascript-format
+msgid "⚠️ Borrowed / Missing (${ borrowedCount }x)"
+msgstr "⚠️ Emprestada / Faltando (${ borrowedCount }x)"
+
+#, javascript-format
+msgid "🔄 Pending physical upgrade (${ physicalCount }x -> ${ targetCount }x)"
+msgstr "🔄 Upgrade físico pendente (${ physicalCount }x -> ${ targetCount }x)"
+
+msgid "Physical Collection & Where to Find"
+msgstr "Coleção Física & Onde Encontrar"
+
+msgid "Total in Collection"
+msgstr "Total na Coleção"
+
+msgid "In Binder"
+msgstr "No Fichário"
+
+msgid "In Decks"
+msgstr "Em Decks"
+
+#, javascript-format
+msgid "⚠️ Missing ${ conflictCount } physical copies"
+msgstr "⚠️ Faltam ${ conflictCount } cópias físicas"
+
+msgid "Inventory by Pack / Printing"
+msgstr "Estoque por Pacote / Impressão"
+
+msgid "Singles / Extras / Proxies"
+msgstr "Avulsas / Extras / Proxies"
+
+msgid "Extra copies outside of packs"
+msgstr "Cópias extras fora de pacotes"
+
+msgid "Decrease extra copies"
+msgstr "Diminuir cópias avulsas"
+
+msgid "Increase extra copies"
+msgstr "Aumentar cópias avulsas"
+
+msgid "Where are my copies right now?"
+msgstr "Onde estão minhas cópias agora?"
+
+#, javascript-format
+msgid "📦 In Binder / Box: ${ inBinder }x"
+msgstr "📦 No Fichário / Caixa: ${ inBinder }x"
+
+msgid "No assembled deck is currently using this card."
+msgstr "Nenhum deck montado está usando esta carta no momento."
+
+msgid "🔄 Retrieve from Other Decks"
+msgstr "🔄 Resgatar de Outros Decks"
+
+msgid "No cards need to be retrieved from another deck."
+msgstr "Nenhuma carta precisa ser retirada de outro deck."
+
+msgid "From:"
+msgstr "De:"
+
+msgid "📦 Deck not yet physically assembled"
+msgstr "📦 Deck ainda não montado fisicamente"
+
+msgid "🔄 Pending Physical Upgrade (Deckbox out of date)"
+msgstr "🔄 Upgrade Físico Pendente (Deckbox desatualizada)"
+
+msgid "✅ Physically Assembled in Deckbox"
+msgstr "✅ Montado Fisicamente na Deckbox"
+
+msgid "Physical Collection Assistant (Deckbox)"
+msgstr "Assistente de Coleção Física (Deckbox)"
+
+msgid "Confirm Physical Assembly"
+msgstr "Confirmar Montagem Física"
+
+msgid "Confirm Card Swap (Update Deckbox)"
+msgstr "Confirmar Troca de Cartas (Atualizar Deckbox)"
+
+msgid "Disassemble Deck"
+msgstr "Desmontar Deck"
+
+msgid "Update Physical Possession (Reclaim Borrowed)"
+msgstr "Atualizar Posse Física (Resgatar Emprestadas)"
+
+msgid "Disassemble Deck (Return to Binder)"
+msgstr "Desmontar Deck (Devolver ao Fichário)"
+
+msgid "▲ Hide Physical Assembly / Swap Guide"
+msgstr "▲ Ocultar Guia de Montagem / Troca Física"
+
+msgid "▼ View Physical Assembly / Swap Guide"
+msgstr "▼ Ver Guia de Montagem / Troca Física"
+
+msgid "📤 Remove from Deckbox (Return to Binder)"
+msgstr "📤 Retirar da Deckbox (Devolver ao Fichário)"
+
+msgid "No cards need to be returned to the binder."
+msgstr "Nenhuma carta precisa ser devolvida ao fichário."
+
+msgid "📦 Take from Binder / Box"
+msgstr "📦 Pegar do Fichário / Caixa"
+
+msgid "No cards need to be taken from the binder."
+msgstr "Nenhuma carta precisa ser retirada do fichário."
+
+msgid "✅ Already in Deckbox"
+msgstr "✅ Já estão na Deckbox"
+
+msgid "No cards from this deck are in the deckbox yet."
+msgstr "Nenhuma carta deste deck está na deckbox ainda."
+
+msgid "⚠️ Missing from Physical Collection"
+msgstr "⚠️ Faltam na Coleção Física"
+
+msgid "✅ Physically Assembled (Disassemble)"
+msgstr "✅ Montado Fisicamente (Desmontar)"
+
+msgid "📦 Mark as Physically Assembled"
+msgstr "📦 Marcar como Montado Fisicamente"
+
+msgid "🤝 Friend's Deck (Ignored in Collection)"
+msgstr "🤝 Deck de Amigo (Ignorado na Coleção)"
+
+msgid "🤝 Friend's Deck (Doesn't use my collection)"
+msgstr "🤝 Deck de Amigo (Não usa minha coleção)"
+
+msgid "This Campaign Only"
+msgstr "Apenas Esta Campanha"
+
+msgid "All Physically Assembled Decks (Global)"
+msgstr "Todos os Decks Físicos Montados (Global)"
+
+msgid "The total number of these cards among decks from this campaign and your other physically assembled decks exceeds your card collection."
+msgstr "O total dessas cartas entre os decks desta campanha e seus outros decks físicos montados excede sua coleção."
+
+msgid "🤝 Friend's Deck (Ignored in your Physical Collection)"
+msgstr "🤝 Deck de Amigo (Ignorado na sua Coleção Física)"
+
+msgid "🔄 Pending Physical Upgrade (Deckbox needs updating)"
+msgstr "🔄 Upgrade Físico Pendente (Deckbox precisa ser atualizada)"
+
+msgid "📦 Not yet physically assembled"
+msgstr "📦 Ainda não montado fisicamente"
+
+#, javascript-format
+msgid "To assemble now: ${ binderCount } from binder, ${ retrieveCount } from other assembled decks (${ missingCount } missing from collection)."
+msgstr "Para montar agora: ${ binderCount } do fichário, ${ retrieveCount } de outros decks montados (${ missingCount } em falta na coleção)."
+
+#, javascript-format
+msgid "To assemble now: ${ binderCount } from binder, ${ retrieveCount } from other assembled decks."
+msgstr "Para montar agora: ${ binderCount } do fichário, ${ retrieveCount } de outros decks montados."
+
+#, javascript-format
+msgid "To assemble now: ${ binderCount } from binder (${ missingCount } missing from collection)."
+msgstr "Para montar agora: ${ binderCount } do fichário (${ missingCount } em falta na coleção)."
+
+#, javascript-format
+msgid "To assemble now: ${ binderCount } from binder."
+msgstr "Para montar agora: ${ binderCount } do fichário."
+
+msgid "Physical Collection (Deckbox)"
+msgstr "Coleção Física (Deckbox)"
+
+#, javascript-format
+msgid "⚠️ ${ retrieveCount } card(s) from this deck are borrowed by a more recently assembled deck."
+msgstr "⚠️ ${ retrieveCount } carta(s) deste deck estão emprestadas para outro deck montado mais recente."
+
+#, javascript-format
+msgid "To update deckbox: return ${ returnCount } to binder and take ${ binderCount }."
+msgstr "Para atualizar a deckbox: devolver ${ returnCount } ao fichário e pegar ${ binderCount }."
+
+msgid "All physical cards for this deck are allocated in this deckbox."
+msgstr "Todas as cartas físicas deste deck estão alocadas nesta deckbox."
+
+msgid "Mark Deck as Assembled"
+msgstr "Marcar Deck como Montado"
+
+msgid "Confirm Physical Swap (Update Deckbox)"
+msgstr "Confirmar Troca Física (Atualizar Deckbox)"
+
+msgid "Reclaim Borrowed Cards for this Deck"
+msgstr "Resgatar Cartas Emprestadas para este Deck"
+
+msgid "Open Checklist & Physical Assembly Guide"
+msgstr "Abrir Checklist & Guia de Montagem Física"
+
+msgid "Resume Tracking in My Physical Collection"
+msgstr "Voltar a Rastrear na Minha Coleção Física"
+
+msgid "Mark as Friend's Deck (Doesn't use my collection)"
+msgstr "Marcar como Deck de Amigo (Não usa minha coleção)"

@@ -106,7 +106,7 @@ export default function CollectionEditView() {
         <View style={[space.paddingSideS, space.paddingBottomS]}>
           <DeckButton
             icon="deck"
-            title={t`Gerenciar Coleção Física & Decks Montados`}
+            title={t`Manage Physical Collection & Assembled Decks`}
             onPress={onManagePhysicalCollection}
           />
         </View>

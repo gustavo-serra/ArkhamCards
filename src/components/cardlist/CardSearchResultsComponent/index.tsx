@@ -150,7 +150,7 @@ function SearchOptions({
         { showPhysicalToggle && (
           <View style={styles.row}>
             <Text style={[typography.searchLabel, styles.searchOption, typography.dark]}>
-              { t`Ocultar cartas ocupadas em outros decks` }
+              { t`Hide cards occupied in other decks` }
             </Text>
             <ArkhamSwitch
               value={hideOccupiedPhysical}
