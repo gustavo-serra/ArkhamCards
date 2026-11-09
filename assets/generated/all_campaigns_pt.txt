@@ -3593,27 +3593,33 @@
           },
           {
             "id": "$codex_rule",
-            "title": "The Codex / O Códice [codex]",
+            "title": "O Códice",
             "type": "rule_reminder",
-            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, alguns efeitos de cartas podem instruir que um jogador leia uma entrada específica de um códice. Enquanto estiver jogando, tenha o Guia de Campanha em mãos para referência.\nCertos locais, personagens ou inimigos em <i>O Banquete de Hemlock Vale</i> têm entradas de códices, marcadas com ([codex] X). Para ler a entrada do códice de um personagem ou local, você deve pagar todos os custos dessa habilidade primeiro, então ir até o Códice do cenário ou prelúdio atual neste Guia de Campanha e resolver todo o texto.\n• Cada entrada de códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que especificado de outra forma.\n• Ao resolver uma entrada de códice, o jogador que desencadeou essa entrada resolve todos os efeitos (resolver um teste, causar dano, pagar recursos etc.). Caso não esteja claro quem desencadeou a entrada do códice, o investigador líder resolve a entrada.\n• Se uma entrada de códice instruir os jogadores a colocar em jogo um residente nomeado previamente separado, coloque esse personagem em jogo com seu lado de ativo de história virado para cima, a menos que seja indicado o contrário.\n• Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários. Se o nome de um residente estiver riscado, todas as entradas nas Anotações desse residente também estarão.\n• Enquanto estiver resolvendo uma entrada do códice de um personagem específico, você só pode ler uma única seção para a qual você atenda aos requisitos. Se você não atender aos requisitos da primeira seção da entrada de um códice, pule para a próxima seção. Consulte apenas as Anotações e Nível de Relacionamento desse personagem no Registro da Campanha, a menos que seja indicado o contrário.\n• Após resolver uma entrada de um códice e fazer quaisquer mudanças no Registro da Campanha, retome o jogo.",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, os investigadores consultarão o Códice para ler passagens de história, resolver encontros com os residentes da Ilha Hemlock e descobrir os mistérios sombrios que cercam a ilha.\nO Códice funciona como um guia narrativo interativo com entradas numeradas que expandem a história conforme as escolhas dos jogadores:",
             "bullets": [
               {
-                "text": "Cada entrada do códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que seja indicado o contrário."
+                "text": "Quando instruído a ler uma entrada do Códice, localize o número indicado no livro do Códice (ou selecione-o diretamente no aplicativo) e leia apenas a passagem especificada.",
+                "bullet_type": "small"
               },
               {
-                "text": "Ao resolver uma entrada do códice, o jogador que a ativou resolve todos os efeitos (resolver um teste, causar dano, pagar recursos, etc.). Se não estiver claro quem ativou a entrada do códice, o investigador principal a resolve."
+                "text": "Não leia nenhuma outra entrada além daquela explicitamente indicada pelo efeito de jogo ou instrução de cenário.",
+                "bullet_type": "small"
               },
               {
-                "text": "As entradas do códice que são acionadas por um tipo de ação específico (como <b>Fight / Lute</b>, <b>Evade / Evadir</b>, <b>Parley / Negociata</b>, etc.) são consideradas como sendo desse tipo de ação durante toda a resolução daquela entrada do códice."
+                "text": "Algumas entradas do Códice instruirão os investigadores a registrar informações no Registro da Campanha ou alterar o estado do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "Ao resolver uma entrada do códice, o jogador lê apenas a seção para a qual preenche os requisitos. Caso não preencha os requisitos para resolver a primeira seção de uma entrada do códice, deve passar para a seção seguinte."
+                "text": "O Códice contém informações sobre os residentes locais, suas motivações e segredos ocultos que podem ajudar nas investigações.",
+                "bullet_type": "small"
               },
               {
-                "text": "Se um efeito de carta instruir os jogadores a resolver uma entrada do códice que não existe para o cenário em questão, esse efeito falha."
+                "text": "Se uma instrução do Códice entrar em conflito com o Guia de Campanha, siga a instrução do Códice.",
+                "bullet_type": "small"
               },
               {
-                "text": "Após resolver uma entrada do códice e fazer quaisquer alterações no jogo e/ou no registro da campanha, retome o jogo."
+                "text": "No aplicativo, as passagens do Códice são apresentadas automaticamente nos momentos oportunos da narrativa.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -3647,12 +3653,13 @@
           },
           {
             "id": "$elusive_rule",
-            "title": "Elusive / Elusivo",
+            "title": "Elusivo",
             "type": "rule_reminder",
-            "text": "Alguns inimigos nesta campanha têm a palavra-chave elusivo. Os inimigos elusivos representam inimigos que desejam evitar os investigadores para sua própria sobrevivência ou para atingir seus próprios objetivos.\nSe um inimigo preparado com a palavra-chave elusivo atacar ou for atacado, após a resolução desse ataque, esse inimigo desengaja imediatamente de todos os investigadores, move-se para um local conectado (sem nenhum investigador, se possível) e fica esgotado. Este efeito ocorre independentemente de o inimigo estar engajado ou não com o investigador atacante.",
+            "text": "Elusivo é uma habilidade de palavra-chave.\nInimigos elusivos representam inimigos que querem evitar os investigadores para sua própria sobrevivência ou para cumprir seus próprios objetivos. Se um inimigo preparado com a palavra-chave elusivo atacar ou for atacado, após a resolução desse ataque, esse inimigo se desengaja imediatamente de todos os investigadores, move-se para um local conectado (sem investigadores, se possível) e se esgota.",
             "bullets": [
               {
-                "text": "Esse efeito ocorre independentemente de o inimigo estar ou não engajado com o investigador atacante."
+                "text": "Este efeito ocorre quer o inimigo estivesse ou não engajado com o investigador atacante.",
+                "bullet_type": "small"
               }
             ]
           }
@@ -74856,87 +74863,105 @@
           },
           {
             "id": "$codex_rule",
-            "title": "The Codex / O Códice [codex]",
+            "title": "O Códice",
             "type": "rule_reminder",
-            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, alguns efeitos de cartas podem instruir que um jogador leia uma entrada específica de um códice. Enquanto estiver jogando, tenha o Guia de Campanha em mãos para referência.\nCertos locais, personagens ou inimigos em <i>O Banquete de Hemlock Vale</i> têm entradas de códices, marcadas com ([codex] X). Para ler a entrada do códice de um personagem ou local, você deve pagar todos os custos dessa habilidade primeiro, então ir até o Códice do cenário ou prelúdio atual neste Guia de Campanha e resolver todo o texto.\n• Cada entrada de códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que especificado de outra forma.\n• Ao resolver uma entrada de códice, o jogador que desencadeou essa entrada resolve todos os efeitos (resolver um teste, causar dano, pagar recursos etc.). Caso não esteja claro quem desencadeou a entrada do códice, o investigador líder resolve a entrada.\n• Se uma entrada de códice instruir os jogadores a colocar em jogo um residente nomeado previamente separado, coloque esse personagem em jogo com seu lado de ativo de história virado para cima, a menos que seja indicado o contrário.\n• Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários. Se o nome de um residente estiver riscado, todas as entradas nas Anotações desse residente também estarão.\n• Enquanto estiver resolvendo uma entrada do códice de um personagem específico, você só pode ler uma única seção para a qual você atenda aos requisitos. Se você não atender aos requisitos da primeira seção da entrada de um códice, pule para a próxima seção. Consulte apenas as Anotações e Nível de Relacionamento desse personagem no Registro da Campanha, a menos que seja indicado o contrário.\n• Após resolver uma entrada de um códice e fazer quaisquer mudanças no Registro da Campanha, retome o jogo.",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, os investigadores consultarão o Códice para ler passagens de história, resolver encontros com os residentes da Ilha Hemlock e descobrir os mistérios sombrios que cercam a ilha.\nO Códice funciona como um guia narrativo interativo com entradas numeradas que expandem a história conforme as escolhas dos jogadores:",
             "bullets": [
               {
-                "text": "Cada entrada do códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que seja indicado o contrário."
+                "text": "Quando instruído a ler uma entrada do Códice, localize o número indicado no livro do Códice (ou selecione-o diretamente no aplicativo) e leia apenas a passagem especificada.",
+                "bullet_type": "small"
               },
               {
-                "text": "When resolving a codex entry, the player who triggered that entry resolves all effects <i>(resolving a test, dealing damage, paying resources, etc.)</i>. If it is unclear who triggered the codex entry, the lead investigator resolves the entry."
+                "text": "Não leia nenhuma outra entrada além daquela explicitamente indicada pelo efeito de jogo ou instrução de cenário.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a codex entry instructs players to put a named set-aside resident into play, put that character into play with their story asset side faceup unless otherwise stated."
+                "text": "Algumas entradas do Códice instruirão os investigadores a registrar informações no Registro da Campanha ou alterar o estado do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "<b>A resident whose name is crossed out in your Campaign Log cannot enter play during preludes or scenarios.</b> If a resident’s name is crossed out, so are all entries in that resident’s Notes."
+                "text": "O Códice contém informações sobre os residentes locais, suas motivações e segredos ocultos que podem ajudar nas investigações.",
+                "bullet_type": "small"
               },
               {
-                "text": "While resolving a codex entry for a specific character, you may only read a single section for which you meet the requirements. If you do not meet the requirements for the first section of a codex entry, skip to the folowing section. Only refer to that character’s Notes and Relationship Level in your Campaign Log unless otherwise stated. <i>(e.g. </i>“In River Hawthorne’s Notes, record <i>River is a dreamboat” directs players to change the “Notes” section in River’s Campaign Log entry.)</i>"
+                "text": "Se uma instrução do Códice entrar em conflito com o Guia de Campanha, siga a instrução do Códice.",
+                "bullet_type": "small"
               },
               {
-                "text": "After resolving a codex entry and making any changes in your Campaign Log, resume play."
+                "text": "No aplicativo, as passagens do Códice são apresentadas automaticamente nos momentos oportunos da narrativa.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$three_days_rule",
-            "title": "Three Days, Three Nights",
+            "title": "Três Dias, Três Noites",
             "type": "rule_reminder",
-            "text": "Na campanha de <i>O Banquete de Hemlock Vale</i>, os jogadores têm apenas três dias durante o jogo para desenrolar a história. Esta campanha também contém prelúdios jogáveis, em que os investigadores podem interagir com os residentes de Hemlock Vale, descobrir os segredos da Ilha Hemlock e preparar-se para o próximo cenário.\nPrelúdios são segmentos em que não há confrontos, compostos de locais e uma referência de cenário, um ato e uma agenda. O fim de cada prelúdio apresenta diversas possibilidades de cenários que podem ser jogados a seguir. Dependendo do dia e do período, alguns cenários podem proporcionar novas opções de história ou desafios. Os jogadores não terão tempo de jogar todos os cenários ou de se aproximar de cada residente em uma única campanha jogada.\n• Os jogadores podem ganhar experiência jogando prelúdios e interlúdios. Registre essa experiência em “Experiência Não Gasta”, mas não a gaste até que seja instruído a fazê-lo pelo Guia de Campanha.\n• Para controlar o dia/período atual, use a seção “Dia/Período” do Registro da Campanha.",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> dá aos jogadores apenas três dias no jogo para desenrolar sua história. Esta campanha também contém prelúdios jogáveis nos quais os investigadores podem interagir com os residentes de Hemlock Vale, aprender os segredos da Ilha Hemlock e fazer preparativos para o próximo cenário.\nPrelúdios são segmentos sem confronto montados com locais, uma referência de cenário, ato e agenda. O final de cada prelúdio oferece várias opções de qual cenário jogar a seguir. Dependendo do dia e do período, alguns cenários podem oferecer novas opções de história ou desafios. Os jogadores não terão tempo para jogar todos os cenários ou fazer amizade com todos os residentes em uma única jogatina desta campanha.",
             "bullets": [
               {
-                "text": "Players may earn experience when playing preludes and interludes. Record this experience under “Unspent Experience,” but do not spend it until instructed to by the campaign guide."
+                "text": "Os jogadores podem ganhar experiência ao jogar prelúdios e interlúdios. Registre essa experiência sob “Experiência Não Gasta”, mas não a gaste até ser instruído pelo guia de campanha.",
+                "bullet_type": "small"
               },
               {
-                "text": "To keep track of the current day/time, you may refer to and update the “Day/Time” section in the Campaign Log."
+                "text": "Para acompanhar o dia/período atual, você pode consultar e atualizar a seção “Dia/Período” no Registro da Campanha.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$residents_rule",
             "type": "rule_reminder",
-            "title": "Residents & Relationship Levels",
-            "text": "Às vezes, o texto da história pode instruir os investigadores a aumentar seu Nível de Relacionamento com um residente específico. Caso seja instruído a fazer isso, verifique o Registro da Campanha e encontre a entrada do residente especificado.\n• Ao fazer referência ao Nível de Relacionamento de um residente, o número de caixas assinaladas em sua entrada é o Nível de Relacionamento desse residente.\n• Para aumentar o Nível de Relacionamento de um residente, assinale a caixa vazia mais à esquerda na entrada desse residente.\n• Para reduzir o Nível de Relacionamento de um residente, apague a caixa assinalada mais à direita na entrada desse residente.\n• A menos que seja indicado o contrário, você deve aumentar ou reduzir o Nível de Relacionamento de um residente em 1 caixa por vez.\n• Caso seja instruído a definir o Nível de Relacionamento de um residente como 0, apague todas as caixas assinaladas na entrada desse residente.\n• Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários.",
+            "title": "Residentes de Hemlock Vale",
+            "text": "Às vezes, o texto da história pode instruir os investigadores a aumentar o Nível de Relacionamento de um residente ou fazer anotações sob o perfil de um residente no Registro da Campanha:",
             "bullets": [
               {
-                "text": "When referring to a resident’s Relationship Level, the number of checked boxes in their entry is that resident’s Relationship Level."
+                "text": "Cada residente possui um Nível de Relacionamento que reflete o quanto eles confiam nos investigadores.",
+                "bullet_type": "small"
               },
               {
-                "text": "To increase a resident’s Relationship Level, check the leftmost unchecked box in that resident’s entry."
+                "text": "Para aumentar o Nível de Relacionamento de um residente, preencha o próximo círculo vazio em seu perfil no Registro da Campanha.",
+                "bullet_type": "small"
               },
               {
-                "text": "To decrease a resident’s Relationship Level, erase the rightmost checked box in that resident’s entry."
+                "text": "Um residente com Nível de Relacionamento mais alto pode conceder ajuda adicional, bônus especiais ou cartas de história úteis durante os cenários.",
+                "bullet_type": "small"
               },
               {
-                "text": "Unless otherwise stated, you should increase or decrease a resident’s Relationship Level by 1 box at a time."
+                "text": "Alguns eventos trágicos ou escolhas erradas podem fazer com que um residente se torne hostil ou se perca nos perigos da ilha.",
+                "bullet_type": "small"
               },
               {
-                "text": "If instructed to set a resident’s Relationship Level to 0, erase all checked boxes in that resident’s entry."
+                "text": "Os perfis dos residentes contêm detalhes sobre sua personalidade, ocupação e conexões com a trama da ilha.",
+                "bullet_type": "small"
               },
               {
-                "text": "<b>A resident whose name is crossed out in your Campaign Log cannot enter play during preludes or scenarios.</b>"
+                "text": "No aplicativo, os relacionamentos são monitorados e atualizados diretamente na tela da campanha.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$location_adjacency_rule",
             "type": "rule_reminder",
-            "title": "Location Adjacency in this Campaign",
-            "text": "A maioria dos cenários desta campanha são organizados em um padrão em grade. <b>Durante esses cenários, cada local está conectado a cada local adjacente a ele, além de eventuais ícones de conexão.</b>\n• Locais adjacentes compartilham um lado (esquerda, direita, acima ou abaixo). Locais que compartilham apenas um canto não são considerados adjacentes.\n• Quando você for instruído a colocar um local em jogo, coloque-o em um espaço vazio adjacente acima, abaixo, à esquerda ou à direita de seu local.\n• Você não pode colocar um local em jogo onde já houver um local. Ao escolher onde colocar um novo local, você deve selecionar um lugar que não esteja ocupado por um local, se possível. Se você não puder, nenhum local novo será colocado em jogo.\n• Observe que durante prelúdios e cenários que utilizam o conjunto de encontros O Vale, os locais se conectam apenas por seus ícones.",
+            "title": "Adjacência de Locais",
+            "text": "A maioria dos cenários desta campanha é organizada em um padrão de grade. <b>Durante esses cenários, os locais conectam-se apenas ortogonalmente (esquerda, direita, cima e baixo). Os locais não se conectam na diagonal, a menos que uma carta afirme expressamente o contrário.</b>",
             "bullets": [
               {
-                "text": "Adjacent locations share a side (left, right, above, or below). Locations that share only a corner are not considered adjacent."
+                "text": "Locais que compartilham uma borda comum na grade são considerados conectados entre si.",
+                "bullet_type": "small"
               },
               {
-                "text": "When instructed to put a location into play, place it in an adjacent empty space above, below, or to the left or right of your location."
+                "text": "Mover-se entre locais adjacentes na grade segue as regras normais de movimento.",
+                "bullet_type": "small"
               },
               {
-                "text": "You cannot put a location into play where an existing location already is. When choosing where to put a new location, you must choose a spot unoccupied by a location, if able. If you cannot, no new locations are put into play."
+                "text": "Algumas habilidades de carta ou efeitos de cenário podem bloquear passagens ou abrir rotas secretas entre locais não conectados.",
+                "bullet_type": "small"
               },
               {
-                "text": "Note that during preludes and scenarios that utilize <i>The Vale</i> encounter set, locations are only connected via their icons."
+                "text": "Inimigos patrulham ou caçam movendo-se pelas conexões ortogonais válidas mais curtas na grade.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -74954,20 +74979,22 @@
           {
             "id": "$elusive_rule",
             "type": "rule_reminder",
-            "title": "Elusive / Elusivo",
-            "text": "Alguns inimigos nesta campanha têm a palavra-chave elusivo. Os inimigos elusivos representam inimigos que desejam evitar os investigadores para sua própria sobrevivência ou para atingir seus próprios objetivos.\nSe um inimigo preparado com a palavra-chave elusivo atacar ou for atacado, após a resolução desse ataque, esse inimigo desengaja imediatamente de todos os investigadores, move-se para um local conectado (sem nenhum investigador, se possível) e fica esgotado. Este efeito ocorre independentemente de o inimigo estar engajado ou não com o investigador atacante."
+            "title": "Elusivo",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave elusivo. Inimigos elusivos representam inimigos que querem evitar os investigadores para sua própria sobrevivência ou para cumprir seus próprios objetivos.\nSe um inimigo preparado com a palavra-chave elusivo atacar ou for atacado, após a resolução desse ataque, esse inimigo se desengaja imediatamente de todos os investigadores, move-se para um local conectado (sem investigadores, se possível) e se esgota. Este efeito ocorre independentemente de o inimigo estar engajado com o investigador atacante ou não."
           },
           {
             "id": "$patrol_rule",
             "type": "rule_reminder",
-            "title": "Patrol",
-            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).\n• Se houver diversos locais que se qualificam como o local designado, o investigador líder pode escolher o local para onde o inimigo se moverá.\n• Se um inimigo com patrulha for obrigado a se mover para um local por um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se moverá.",
+            "title": "Patrulha",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location via a path that is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           }
@@ -75853,18 +75880,21 @@
           },
           {
             "id": "$patrol_rule",
-            "title": "Patrol",
+            "title": "Patrulha",
             "type": "rule_reminder",
-            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).\n• Se houver diversos locais que se qualificam como o local designado, o investigador líder pode escolher o local para onde o inimigo se moverá.\n• Se um inimigo com patrulha for obrigado a se mover para um local por um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se moverá.",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location which is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "During this scenario, locations are arranged into two main \"hubs\" consisting of either [[Public]] or [[Restricted]] locations. If an enemy's patrol location is \"clockwise\" or \"counterclockwise\" that means they will move to the connecting location in the clockwise or counterclockwise direction for the hub they are in."
+                "text": "Se não houver locais válidos para onde o inimigo possa se mover, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -131700,45 +131730,54 @@
         "steps": [
           {
             "id": "$keys_rule",
-            "title": "Chaves",
+            "title": "Fichas de Chave",
             "type": "rule_reminder",
-            "text": "A campanha <i>As Chaves Escarlates</i> apresenta um novo tipo de carta: chaves. Chaves são poderosos artefatos que podem ser “mudados” para ajudar ou atrapalhar os investigadores, dependendo daquele a quem elas estão anexadas e se o lado [[Estável]] ou [[Instável]] está virado para cima.",
+            "text": "Esta expansão introduz fichas de chave que representam objetos importantes ou informações cruciais que podem ser reivindicadas e usadas durante os cenários.\nAs fichas de chave têm dois lados. Quando viradas para baixo, todas as sete chaves compartilham o mesmo símbolo universal de chave, podendo ser sorteadas aleatoriamente sem que os investigadores saibam qual é qual. Quando viradas para cima, cada chave possui uma cor única identificadora.\nSe um cenário utilizar uma ou mais chaves, a preparação desse cenário indicará quantas são separadas e se devem ficar viradas para cima ou viradas para baixo aleatoriamente. As chaves podem entrar em jogo através de diversos efeitos de carta, sendo geralmente colocadas sobre um inimigo, local ou ativo de história. As chaves podem ser adquiridas de qualquer uma das três maneiras a seguir:",
             "bullets": [
               {
-                "text": "If a location with a key on it has no clues, an investigator may take control of each of that location's keys as a [fast] ability."
+                "text": "Se um local com uma chave em cima não tiver pistas, um investigador pode assumir o controle de cada uma das chaves daquele local como uma habilidade [fast].",
+                "bullet_type": "small"
               },
               {
-                "text": "If an investigator causes an enemy with a key on it to leave play, that investigator must take control of each of the keys that were on that enemy. (If it leaves play through some other means, place its keys on its location.)"
+                "text": "Se um investigador fizer com que um inimigo com uma chave em cima saia de jogo, esse investigador deve assumir o controle de cada uma das chaves que estavam naquele inimigo. <i>(Se ele sair de jogo por qualquer outro meio, coloque suas chaves em seu local.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Some card effects may allow an investigator to take control of keys in other ways."
+                "text": "Alguns efeitos de carta podem permitir que um investigador assuma o controle de chaves de outras maneiras.",
+                "bullet_type": "small"
               }
             ],
             "example": "When an investigator takes control of a key, they flip it faceup (if it is facedown) and place it on their investigator card. If an investigator who controls one or more keys is eliminated, place each of their keys on their locations. As an [action] ability, an investigator may give any number of their keys to another investigator at the same location.\n<b>Keys have no inherent game effect.</b> However, some card effects may change depending on which keys an investigator controls. Additionally, keys may sometimes be required in order to progress during a scenario."
           },
           {
             "id": "$flood_token_rule",
-            "title": "Flood Tokens",
+            "title": "Fichas de Inundação",
             "type": "rule_reminder",
-            "text": "Ao longo desta campanha, os efeitos de cartas de cenário podem inundar locais. Cada local pode estar em um de três níveis de inundação diferentes: não inundado, parcialmente inundado ou totalmente inundado. O nível de inundação de um local pode ser monitorado usando as fichas de inundação dupla face incluídas na caixa desta campanha. <b>O nível de inundação de um local não tem efeito inerente no jogo.</b> No entanto, alguns efeitos de cartas podem mudar ou ficar mais fortes enquanto você estiver em um local inundado, principalmente se esse local estiver totalmente inundado.",
+            "text": "Alguns cenários nesta expansão utilizam fichas de inundação de dois lados, que podem representar um local que está parcial ou totalmente inundado.\nLocais inundados possuem um de três níveis de inundação: <b>não inundado</b> (sem ficha de inundação), <b>parcialmente inundado</b> (lado parcialmente inundado virado para cima) ou <b>totalmente inundado</b> (lado totalmente inundado virado para cima).\nO nível de inundação de um local não possui efeitos inerentes por si só, mas pode alterar o funcionamento de certas cartas de encontro e habilidades naquele local. Além disso, as seguintes regras se aplicam às fichas de inundação e locais inundados:",
             "bullets": [
               {
-                "text": "A location with no flood tokens is unflooded."
+                "text": "Se uma ficha de inundação for colocada em um local que já está parcialmente inundado, em vez disso, vire a ficha de inundação para o lado totalmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes partially flooded, place a flood token on it with the partially flooded side faceup to designate this."
+                "text": "Se uma ficha de inundação for colocada em um local que já está totalmente inundado, nada acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes fully flooded, place a flood token on it with the fully flooded side faceup (or if it is already partially flooded, flip its flood token over) to designate this."
+                "text": "Se um efeito aumentar o nível de inundação de um local, vire sua ficha de inundação de parcialmente inundado para totalmente inundado, ou coloque uma ficha de inundação nele (lado parcialmente inundado virado para cima) se ele não possuir uma.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"increased\", it changes from unflooded to partially flooded, or from partially flooded to fully flooded. A fully flooded location cannot have its flood level increased."
+                "text": "Se um efeito diminuir o nível de inundação de um local, vire sua ficha de inundação de totalmente inundado para parcialmente inundado, ou remova sua ficha de inundação se ele estiver parcialmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"decreased\", it changes from fully flooded to partially flooded, or from partially flooded to unflooded. If a location becomes unflooded, remove its flood token."
+                "text": "Se um local com uma ficha de inundação sair de jogo, remova essa ficha de inundação do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the purposes of card effects, both partially flooded locations and fully flooded locations are considered to be \"flooded.\""
+                "text": "Se um investigador em um local totalmente inundado terminar seu turno sem ter realizado com sucesso pelo menos uma ação de [action] durante seu turno, ele sofre 1 de dano direto lutando contra o avanço das águas.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -169883,44 +169922,53 @@
           },
           {
             "id": "$artifacts_rule",
-            "title": "Artifacts",
+            "title": "Artefatos",
             "type": "rule_reminder",
-            "text": "Os investigadores podem adquirir certos ativos de história de [[Artefato]] (também chamados simplesmente de “artefatos”) durante a campanha de <i>A Cidade Submersa</i>. Os artefatos funcionam como qualquer outro ativo, exceto pelos seguintes pontos:\n• Os artefatos nunca são adicionados aos baralhos de investigador. Após a resolução de um cenário, devolva todos os artefatos em jogo para a caixa.\n• Durante a preparação de um cenário, os investigadores podem ser instruídos a começar o jogo com um ativo de história de [[Artefato]] adquirido. Somente os artefatos que foram marcados na seção “Artefatos Adquiridos” do Registro da Campanha poderão ser escolhidos durante esse processo.\n• Os artefatos têm um verso de carta único, não têm custo, não podem sair de jogo e não podem ser escolhidos para serem descartados por meio de efeitos de cenário.\n• Alguns artefatos contêm glifos alienígenas (consulte Glifos Alienígenas a seguir). Qualquer texto abaixo desses glifos é considerado em branco, a menos que os investigadores tenham traduzido cada glifo alienígena no artefato.\n• Se qualquer investigador que controla um artefato for derrotado, dê o controle do artefato ao investigador sobrevivente mais próximo, em vez de removê-lo do jogo.",
+            "text": "Os investigadores podem adquirir certos ativos de história de [[Artefato]] (também chamados simplesmente de “artefatos”) ao longo desta campanha. Ativos de artefato obedecem às seguintes regras adicionais:",
             "bullets": [
               {
-                "text": "Artifacts are never added to investigator decks. After resolution of a scenario, return any artifacts in play to the box."
+                "text": "Artefatos não pertencem ao baralho de nenhum jogador e não entram na mão ou na área de jogo de nenhum jogador até serem descobertos.",
+                "bullet_type": "small"
               },
               {
-                "text": "When setting up a scenario, investigators may be instructed to begin play with an earned [[Artifact]] story asset. Only artifacts that have been checked off in the \"Artifacts Earned\" section of the Campaign Log may be chosen during this process."
+                "text": "Quando um investigador assumir o controle de um artefato, ele é colocado na área de jogo desse investigador e fica sob seu controle.",
+                "bullet_type": "small"
               },
               {
-                "text": "Artifacts have a unique card back, have no cost, cannot leave play, and cannot be chosen to be discarded via scenario effects."
+                "text": "Artefatos não contam para o limite de espaços de cartas de um investigador, a menos que especificado de outra forma.",
+                "bullet_type": "small"
               },
               {
-                "text": "Some artifacts contain alien glyphs <i>(see</i> <b>Alien Glyphs</b> <i>below)</i>. Any text below these glyphs is considered to be blank unless investigators have translated each alien glyph on the artifact."
+                "text": "Artefatos concedem poderes únicos e misteriosos que podem ser cruciais para desvendar os segredos das profundezas da cidade submersa.",
+                "bullet_type": "small"
               },
               {
-                "text": "If any investigator in control of an artifact is defeated, <b>give control of it to the nearest surviving investigator</b> instead of removing it from the game."
+                "text": "Se um investigador que controla um artefato for derrotado ou eliminado, o artefato é derrubado em seu local como se fosse uma chave.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$alien_glyphs",
-            "title": "Alien Glyphs",
+            "title": "Glifos Alienígenas",
             "type": "rule_reminder",
-            "text": "Ao longo da campanha, os investigadores podem ser instruídos a traduzir um glifo na segunda página do Registro da Campanha. Para fazer isso, escreva o texto traduzido no espaço logo abaixo desse glifo, conforme indicado pelo jogo.\n• O significado de um glifo não tem efeito inerente no jogo.\n• Alguns artefatos contêm glifos alienígenas (consulte Artefatos acima). Qualquer texto abaixo desses glifos é considerado em branco, a menos que os investigadores tenham traduzido cada glifo alienígena no artefato.\n• A maioria dos cenários na campanha de A Cidade Submersa instruirá os jogadores a separarem cartas de Glifo, fora de jogo. A maioria das cartas de Glifo são cartas de história dupla face com outro tipo de carta de encontro na frente. Para uma melhor experiência, não leia os lados de cartas de história, a menos que seja instruído pelo jogo!\n• Para o bem de sua sanidade, não olhe fixamente para nenhum glifo alienígena por mais de 5 minutos por vez.",
+            "text": "Ao longo da campanha, os investigadores podem ser instruídos a traduzir um glifo na segunda página do Registro da Campanha. Ao traduzir um glifo, os investigadores obedecem às seguintes regras adicionais:",
             "bullets": [
               {
-                "text": "A glyph's meaning has no inherent game effect."
+                "text": "Localize o glifo correspondente no Registro da Campanha e registre a tradução fornecida pelo efeito de jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "Some artifacts contain alien glyphs <i>(see</i> <b>Artifacts</b> <i>above)</i>. Any text below these glyphs is considered to be blank unless investigators have translated each alien glyph on the artifact."
+                "text": "Glifos traduzidos desbloqueiam conhecimentos antigos essenciais para sobreviver aos horrores da cidade submersa.",
+                "bullet_type": "small"
               },
               {
-                "text": "Most scenarios in <i>The Drowned City</i> campaign will instruct players to set [[Glyph]] cards aside, out of play. Most [[Glyph]] cards are double-sided story cards with another encounter cardtype on their front. For the best experience, do not read their story card sides unless prompted by the game!"
+                "text": "Não leia as passagens ou traduções de glifos que você ainda não foi instruído a traduzir.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the sake of your sanity, do not stare at any alien glyph for longer than 5 minutes at a time."
+                "text": "No aplicativo, as traduções de glifos são salvas e exibidas conforme são conquistadas.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -169933,40 +169981,48 @@
           {
             "id": "$patrol_rule",
             "type": "rule_reminder",
-            "title": "Patrol",
-            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).\n• Se houver diversos locais que se qualificam como o local designado, o investigador líder pode escolher o local para onde o inimigo se moverá.\n• Se um inimigo com patrulha for obrigado a se mover para um local por um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se moverá.",
+            "title": "Patrulha",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location via a path that is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$flood_token_rule",
-            "title": "Flood Tokens",
+            "title": "Fichas de Inundação",
             "type": "rule_reminder",
-            "text": "Ao longo desta campanha, os efeitos de cartas de cenário podem inundar locais. Cada local pode estar em um de três níveis de inundação diferentes: não inundado, parcialmente inundado ou totalmente inundado. O nível de inundação de um local pode ser monitorado usando as fichas de inundação dupla face incluídas na caixa desta campanha. <b>O nível de inundação de um local não tem efeito inerente no jogo.</b> No entanto, alguns efeitos de cartas podem mudar ou ficar mais fortes enquanto você estiver em um local inundado, principalmente se esse local estiver totalmente inundado.",
+            "text": "Alguns cenários nesta expansão utilizam fichas de inundação de dois lados, que podem representar um local que está parcial ou totalmente inundado.\nLocais inundados possuem um de três níveis de inundação: <b>não inundado</b> (sem ficha de inundação), <b>parcialmente inundado</b> (lado parcialmente inundado virado para cima) ou <b>totalmente inundado</b> (lado totalmente inundado virado para cima).\nO nível de inundação de um local não possui efeitos inerentes por si só, mas pode alterar o funcionamento de certas cartas de encontro e habilidades naquele local. Além disso, as seguintes regras se aplicam às fichas de inundação e locais inundados:",
             "bullets": [
               {
-                "text": "A location with no flood tokens is unflooded."
+                "text": "Se uma ficha de inundação for colocada em um local que já está parcialmente inundado, em vez disso, vire a ficha de inundação para o lado totalmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes partially flooded, place a flood token on it with the partially flooded side faceup to designate this."
+                "text": "Se uma ficha de inundação for colocada em um local que já está totalmente inundado, nada acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes fully flooded, place a flood token on it with the fully flooded side faceup (or if it is already partially flooded, flip its flood token over) to designate this."
+                "text": "Se um efeito aumentar o nível de inundação de um local, vire sua ficha de inundação de parcialmente inundado para totalmente inundado, ou coloque uma ficha de inundação nele (lado parcialmente inundado virado para cima) se ele não possuir uma.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"increased\", it changes from unflooded to partially flooded, or from partially flooded to fully flooded. A fully flooded location cannot have its flood level increased."
+                "text": "Se um efeito diminuir o nível de inundação de um local, vire sua ficha de inundação de totalmente inundado para parcialmente inundado, ou remova sua ficha de inundação se ele estiver parcialmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"decreased\", it changes from fully flooded to partially flooded, or from partially flooded to unflooded. If a location becomes unflooded, remove its flood token."
+                "text": "Se um local com uma ficha de inundação sair de jogo, remova essa ficha de inundação do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the purposes of card effects, both partially flooded locations and fully flooded locations are considered to be \"flooded.\""
+                "text": "Se um investigador em um local totalmente inundado terminar seu turno sem ter realizado com sucesso pelo menos uma ação de [action] durante seu turno, ele sofre 1 de dano direto lutando contra o avanço das águas.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -174517,26 +174573,32 @@
           {
             "id": "$swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um grupo de inimigos operando como uma única entidade.\nQuando um inimigo com a palavra-chave enxame X entrar em jogo, o jogador que gerou esse inimigo deve colocar as X cartas do topo do seu próprio baralho de jogador viradas para baixo embaixo do inimigo como \"cartas de enxame\", sem olhar para elas.\n• Cada carta de enxame embaixo de um inimigo hospedeiro funciona como uma cópia adicional daquele inimigo.\n• O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e atacam juntos como uma única unidade.\n• Cada carta de enxame ataca separadamente durante a fase dos inimigos.\n• Qualquer ataque bem-sucedido contra o inimigo derrota uma carta de enxame para cada ponto de dano causado (o dano excedente passa para as outras cartas de enxame ou para o inimigo hospedeiro).\n• O inimigo hospedeiro não pode sofrer dano enquanto houver cartas de enxame embaixo dele. Quando a última carta de enxame for derrotada, o inimigo hospedeiro pode sofrer dano normalmente.\n• Quando uma carta de enxame for derrotada ou sair de jogo, coloque-a na pilha de descarte do seu respectivo dono.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
@@ -180503,26 +180565,32 @@
           {
             "id": "$swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um grupo de inimigos operando como uma única entidade.\nQuando um inimigo com a palavra-chave enxame X entrar em jogo, o jogador que gerou esse inimigo deve colocar as X cartas do topo do seu próprio baralho de jogador viradas para baixo embaixo do inimigo como \"cartas de enxame\", sem olhar para elas.\n• Cada carta de enxame embaixo de um inimigo hospedeiro funciona como uma cópia adicional daquele inimigo.\n• O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e atacam juntos como uma única unidade.\n• Cada carta de enxame ataca separadamente durante a fase dos inimigos.\n• Qualquer ataque bem-sucedido contra o inimigo derrota uma carta de enxame para cada ponto de dano causado (o dano excedente passa para as outras cartas de enxame ou para o inimigo hospedeiro).\n• O inimigo hospedeiro não pode sofrer dano enquanto houver cartas de enxame embaixo dele. Quando a última carta de enxame for derrotada, o inimigo hospedeiro pode sofrer dano normalmente.\n• Quando uma carta de enxame for derrotada ou sair de jogo, coloque-a na pilha de descarte do seu respectivo dono.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
@@ -195947,45 +196015,54 @@
         "steps": [
           {
             "id": "$keys_rule",
-            "title": "Chaves",
+            "title": "Fichas de Chave",
             "type": "rule_reminder",
-            "text": "A campanha <i>As Chaves Escarlates</i> apresenta um novo tipo de carta: chaves. Chaves são poderosos artefatos que podem ser “mudados” para ajudar ou atrapalhar os investigadores, dependendo daquele a quem elas estão anexadas e se o lado [[Estável]] ou [[Instável]] está virado para cima.",
+            "text": "Esta expansão introduz fichas de chave que representam objetos importantes ou informações cruciais que podem ser reivindicadas e usadas durante os cenários.\nAs fichas de chave têm dois lados. Quando viradas para baixo, todas as sete chaves compartilham o mesmo símbolo universal de chave, podendo ser sorteadas aleatoriamente sem que os investigadores saibam qual é qual. Quando viradas para cima, cada chave possui uma cor única identificadora.\nSe um cenário utilizar uma ou mais chaves, a preparação desse cenário indicará quantas são separadas e se devem ficar viradas para cima ou viradas para baixo aleatoriamente. As chaves podem entrar em jogo através de diversos efeitos de carta, sendo geralmente colocadas sobre um inimigo, local ou ativo de história. As chaves podem ser adquiridas de qualquer uma das três maneiras a seguir:",
             "bullets": [
               {
-                "text": "If a location with a key on it has no clues, an investigator may take control of each of that location's keys as a [fast] ability."
+                "text": "Se um local com uma chave em cima não tiver pistas, um investigador pode assumir o controle de cada uma das chaves daquele local como uma habilidade [fast].",
+                "bullet_type": "small"
               },
               {
-                "text": "If an investigator causes an enemy with a key on it to leave play, that investigator must take control of each of the keys that were on that enemy. (If it leaves play through some other means, place its keys on its location.)"
+                "text": "Se um investigador fizer com que um inimigo com uma chave em cima saia de jogo, esse investigador deve assumir o controle de cada uma das chaves que estavam naquele inimigo. <i>(Se ele sair de jogo por qualquer outro meio, coloque suas chaves em seu local.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Some card effects may allow an investigator to take control of keys in other ways."
+                "text": "Alguns efeitos de carta podem permitir que um investigador assuma o controle de chaves de outras maneiras.",
+                "bullet_type": "small"
               }
             ],
             "example": "When an investigator takes control of a key, they flip it faceup (if it is facedown) and place it on their investigator card. If an investigator who controls one or more keys is eliminated, place each of their keys on their locations. As an [action] ability, an investigator may give any number of their keys to another investigator at the same location.\n<b>Keys have no inherent game effect.</b> However, some card effects may change depending on which keys an investigator controls. Additionally, keys may sometimes be required in order to progress during a scenario."
           },
           {
             "id": "$flood_token_rule",
-            "title": "Flood Tokens",
+            "title": "Fichas de Inundação",
             "type": "rule_reminder",
-            "text": "Ao longo desta campanha, os efeitos de cartas de cenário podem inundar locais. Cada local pode estar em um de três níveis de inundação diferentes: não inundado, parcialmente inundado ou totalmente inundado. O nível de inundação de um local pode ser monitorado usando as fichas de inundação dupla face incluídas na caixa desta campanha. <b>O nível de inundação de um local não tem efeito inerente no jogo.</b> No entanto, alguns efeitos de cartas podem mudar ou ficar mais fortes enquanto você estiver em um local inundado, principalmente se esse local estiver totalmente inundado.",
+            "text": "Alguns cenários nesta expansão utilizam fichas de inundação de dois lados, que podem representar um local que está parcial ou totalmente inundado.\nLocais inundados possuem um de três níveis de inundação: <b>não inundado</b> (sem ficha de inundação), <b>parcialmente inundado</b> (lado parcialmente inundado virado para cima) ou <b>totalmente inundado</b> (lado totalmente inundado virado para cima).\nO nível de inundação de um local não possui efeitos inerentes por si só, mas pode alterar o funcionamento de certas cartas de encontro e habilidades naquele local. Além disso, as seguintes regras se aplicam às fichas de inundação e locais inundados:",
             "bullets": [
               {
-                "text": "A location with no flood tokens is unflooded."
+                "text": "Se uma ficha de inundação for colocada em um local que já está parcialmente inundado, em vez disso, vire a ficha de inundação para o lado totalmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes partially flooded, place a flood token on it with the partially flooded side faceup to designate this."
+                "text": "Se uma ficha de inundação for colocada em um local que já está totalmente inundado, nada acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes fully flooded, place a flood token on it with the fully flooded side faceup (or if it is already partially flooded, flip its flood token over) to designate this."
+                "text": "Se um efeito aumentar o nível de inundação de um local, vire sua ficha de inundação de parcialmente inundado para totalmente inundado, ou coloque uma ficha de inundação nele (lado parcialmente inundado virado para cima) se ele não possuir uma.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"increased\", it changes from unflooded to partially flooded, or from partially flooded to fully flooded. A fully flooded location cannot have its flood level increased."
+                "text": "Se um efeito diminuir o nível de inundação de um local, vire sua ficha de inundação de totalmente inundado para parcialmente inundado, ou remova sua ficha de inundação se ele estiver parcialmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"decreased\", it changes from fully flooded to partially flooded, or from partially flooded to unflooded. If a location becomes unflooded, remove its flood token."
+                "text": "Se um local com uma ficha de inundação sair de jogo, remova essa ficha de inundação do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the purposes of card effects, both partially flooded locations and fully flooded locations are considered to be \"flooded.\""
+                "text": "Se um investigador em um local totalmente inundado terminar seu turno sem ter realizado com sucesso pelo menos uma ação de [action] durante seu turno, ele sofre 1 de dano direto lutando contra o avanço das águas.",
+                "bullet_type": "small"
               }
             ]
           }
@@ -228990,12 +229067,13 @@
           },
           {
             "id": "$location_adjacency_rule",
-            "title": "Location Adjacency in the Grand Bazaar",
+            "title": "Adjacência de Locais",
             "type": "rule_reminder",
-            "text": "A maioria dos cenários desta campanha são organizados em um padrão em grade. <b>Durante esses cenários, cada local está conectado a cada local adjacente a ele, além de eventuais ícones de conexão.</b>\n• Locais adjacentes compartilham um lado (esquerda, direita, acima ou abaixo). Locais que compartilham apenas um canto não são considerados adjacentes.\n• Quando você for instruído a colocar um local em jogo, coloque-o em um espaço vazio adjacente acima, abaixo, à esquerda ou à direita de seu local.\n• Você não pode colocar um local em jogo onde já houver um local. Ao escolher onde colocar um novo local, você deve selecionar um lugar que não esteja ocupado por um local, se possível. Se você não puder, nenhum local novo será colocado em jogo.\n• Observe que durante prelúdios e cenários que utilizam o conjunto de encontros O Vale, os locais se conectam apenas por seus ícones.",
+            "text": "A maioria dos cenários desta campanha é organizada em um padrão de grade. <b>Durante esses cenários, os locais conectam-se apenas ortogonalmente (esquerda, direita, cima e baixo). Os locais não se conectam na diagonal, a menos que uma carta afirme expressamente o contrário.</b>",
             "bullets": [
               {
-                "text": "Locais adjacentes compartilham um lado (esquerda, direita, acima ou abaixo). Locais que compartilham apenas um canto não são adjacentes."
+                "text": "Além disso, mover-se entre dois locais adjacentes durante esses cenários é sempre considerado como sendo pelo caminho mais curto entre eles.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -229028,26 +229106,30 @@
           },
           {
             "id": "$keys_rule",
-            "title": "New Cardtype: Keys",
+            "title": "Novo Tipo de Carta: Chaves",
             "type": "rule_reminder",
-            "text": "A campanha <i>As Chaves Escarlates</i> apresenta um novo tipo de carta: chaves. Chaves são poderosos artefatos que podem ser “mudados” para ajudar ou atrapalhar os investigadores, dependendo daquele a quem elas estão anexadas e se o lado [[Estável]] ou [[Instável]] está virado para cima.",
+            "text": "A campanha <i>As Chaves Escarlates</i> apresenta um novo tipo de carta: chaves. Chaves são poderosos artefatos que podem ser “mudados” para ajudar ou atrapalhar os investigadores, dependendo de quem elas estão anexadas e se o lado [[Estável]] ou [[Instável]] está virado para cima.",
             "bullets": [
               {
-                "text": "During the resolution of a scenario, a key may become bound to a single bearer, whose name is marked in the Campaign Log. A key may be bound to an investigator, a story asset, or an enemy."
+                "text": "Durante a resolução de um cenário, uma chave pode ficar vinculada a um único portador, cujo nome é marcado no Registro da Campanha. Uma chave pode ser vinculada a um investigador, um ativo de história ou um inimigo.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$keys_1",
-            "text": "Uma chave sempre entra em jogo anexada a seu portador (conforme marcado no Registro da Campanha). No início de cada cenário, cada investigador que for o portador de 1 ou mais chaves anexa essas chaves à própria carta de investigador. Sempre que um ativo de história ou um inimigo entrar em jogo, se ele for o portador de 1 ou mais chaves, essas chaves também entram em jogo anexadas ao portador.",
+            "text": "Chaves não pertencem a baralhos de jogador e não entram na mão ou na área de jogo de nenhum jogador. Em vez disso, se uma chave estiver sob o controle de um investigador, coloque-a ao lado da minicarta ou da carta de investigador dele para indicar que ela está anexada a ele. Da mesma forma, se uma chave estiver sob o controle de um ativo de história ou de um inimigo, coloque-a embaixo dessa carta para indicar que ela está anexada a ela.",
             "bullets": [
               {
-                "text": "If a key’s bearer is an investigator or a story asset, it enters play [[Stable]] side faceup."
+                "text": "Uma chave anexada a um investigador não conta para o limite de espaços de cartas desse investigador.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a key’s bearer is an enemy, it enters play [[Unstable]] side faceup."
+                "text": "Se uma chave entrar em jogo sem controle ou desanexada, ela é colocada no local indicado ou no local do investigador líder.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Portadores de Chaves"
           },
           {
             "id": "$keys_2",
@@ -229055,27 +229137,33 @@
           },
           {
             "id": "$keys_3",
-            "text": "Enquanto uma chave estiver anexada a um investigador, ele pode ativar a habilidade de mudar de chave durante qualquer janela de jogador, como uma habilidade de [fast]. Isso se chama “mudar” a chave. Como parte da resolução da habilidade, há a instrução de virar a chave para o outro lado, de modo que a outra habilidade de mudar fique ativa. O investigador então precisará ativar a habilidade de mudar do lado [[Instável]] de modo a virá-la de novo.",
+            "text": "Enquanto uma chave estiver anexada a um investigador, ele pode ativar a habilidade de mudar dessa chave durante qualquer janela de jogador como uma habilidade [fast]. Isso é chamado de “mudar” a chave. Como parte da resolução dessa habilidade, o investigador será instruído a virar a chave para o outro lado, ativando sua outra habilidade de mudar. O investigador precisará então realizar a habilidade de mudar do lado [[Instável]] para virá-la de volta.",
             "bullets": [
               {
-                "text": "While a key is attached to a story asset, it may be shifted by any investigator who controls that asset in the same way."
+                "text": "Enquanto uma chave estiver anexada a um ativo de história, ela pode ser mudada por qualquer investigador que controle esse ativo da mesma forma.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each key (by title) attached to an investigator or story asset can only be shifted once per round."
+                "text": "Cada chave (por título) anexada a um investigador ou ativo de história só pode ser mudada uma vez por rodada.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Mudar uma Chave"
           },
           {
             "id": "$keys_4",
-            "text": "Enquanto uma chave estiver sob o controle de um inimigo, a habilidade de mudar dela só é resolvida quando uma carta ou um efeito de jogo instruir um investigador a mudar essa chave; depois disso, ela continua com o lado [[Instável]] para cima.",
+            "text": "Enquanto uma chave estiver anexada a um inimigo, ela não pode ser mudada, a menos que uma habilidade de carta instrua expressamente os jogadores a fazê-lo.",
             "bullets": [
               {
-                "text": "A key attached to an enemy cannot be flipped to its [[Stable]] side."
+                "text": "O lado estável de cada chave possui uma habilidade constante que altera ou aprimora as capacidades do portador. Essa habilidade está ativa enquanto a chave estiver com o lado estável virado para cima.",
+                "bullet_type": "small"
               },
               {
-                "text": "There is no limit to the number of times a key attached to an enemy can be shifted."
+                "text": "O lado instável de cada chave possui uma habilidade de revelação que é resolvida assim que a chave é virada para o lado instável.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Efeitos Estáveis e Instáveis"
           },
           {
             "id": "$keys_5",
@@ -229140,18 +229228,22 @@
           {
             "id": "$concealed_x_3",
             "type": "rule_reminder",
-            "text": "Os inimigos nas sombras obedecem às seguintes regras adicionais:\n• Considera-se que os inimigos nas sombras estão em jogo, mas não em algum local específico. Eles não podem se mover até que deixem as sombras.\n• Os inimigos nas sombras podem se qualificar como o inimigo “mais próximo”, mas apenas se não houver outros inimigos em jogo em algum local.\n• Os inimigos nas sombras não podem sofrer dano nem sair de jogo por meio de efeitos de cartas de jogadores.",
+            "text": "Inimigos nas sombras obedecem às seguintes regras adicionais:",
             "bullets": [
               {
-                "text": "Enemies in the shadows are considered to be in play, but not at any particular location. They cannot move until they leave the shadows."
+                "text": "Considera-se que inimigos nas sombras não estão em nenhum local específico, não estão engajados com nenhum investigador e não podem engajar investigadores a menos que sejam expostos.",
+                "bullet_type": "small"
               },
               {
-                "text": "Enemies in the shadows can qualify as the “nearest” enemy, but only if there are no other enemies in play at any location."
+                "text": "Inimigos nas sombras não atacam durante a fase dos inimigos.",
+                "bullet_type": "small"
               },
               {
-                "text": "Enemies in the shadows cannot be damaged or leave play via player card effects."
+                "text": "Inimigos nas sombras não podem sofrer dano, ser movidos ou ter cartas anexadas a eles, a menos que um efeito mencione expressamente inimigos nas sombras.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Inimigos nas Sombras"
           },
           {
             "id": "$concealed_mini_cards",
@@ -229161,12 +229253,14 @@
           },
           {
             "id": "$concealed_mini_cards_1",
-            "text": "Minicartas encobertas não são inimigos, não é possível engajar com elas como com um inimigo. No entanto, qualquer investigador no mesmo local que uma minicarta encoberta pode tentar expô-la, sendo bem-sucedido ao atacá-la ou evadi-la (como se fosse um inimigo engajado), ou ao investigar o local dela. A dificuldade para ser bem-sucedido ao atacar ou evadir uma minicarta encoberta é igual ao valor de véu do local dela.",
+            "text": "Um investigador pode expor uma minicarta encoberta em seu local realizando uma ação de [action] e sendo bem-sucedido em um teste de perícia de [intellect] ou [agility] com dificuldade igual ao valor de cobertura do inimigo nas sombras.",
             "bullets": [
               {
-                "text": "An investigator may also use a card effect that automatically evades an enemy, deals damage to an enemy, or discovers a clue at a location in order to instead expose a concealed mini-card."
+                "text": "Um investigador também pode usar um efeito de carta que evada automaticamente um inimigo, cause dano a um inimigo ou descubra uma pista em um local para, em vez disso, expor uma minicarta encoberta.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Expor Minicartas Encobertas"
           },
           {
             "id": "$concealed_mini_cards_2",
@@ -229174,15 +229268,18 @@
           },
           {
             "id": "$concealed_mini_cards_3",
-            "text": "Se uma minicarta encoberta for exposta <i>(por qualquer um dos métodos acima)</i>, vire-a para o lado revelado.\n• Se for uma isca, separe-a, fora de jogo, sem efeito.\n• Se for a minicarta de um inimigo, esse inimigo agora está exposto. Coloque o inimigo nas sombras correspondente no local da minicarta, então separe essa minicarta, fora de jogo. (Esse inimigo não está mais nas sombras, ele agora está no local onde a minicarta dele estava). Então, se não houver mais inimigos nas sombras, separe todas as minicartas encobertas restantes, fora de jogo.",
+            "text": "Se uma minicarta encoberta for exposta <i>(por qualquer um dos métodos acima)</i>, vire-a para o lado revelado.",
             "bullets": [
               {
-                "text": "If it is a decoy, set it aside, out of play, with no effect."
+                "text": "Se a minicarta exposta for uma carta de [[Isca]], descarte-a e nada mais acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If it is an enemy’s mini-card, that enemy is now exposed. Place the matching enemy in the shadows at that mini-card’s location, then set that mini-card aside, out of play. <i>(That enemy is no longer in the shadows, and is now at the location where its mini-card was located).</i> Then, if there are no other enemies in the shadows, set all remaining concealed mini-cards in play aside, out of play."
+                "text": "Se a minicarta exposta corresponder a um inimigo nas sombras, coloque esse inimigo em jogo no local onde a minicarta foi exposta, descarte a minicarta e o inimigo engaja um investigador naquele local normalmente.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Revelando Minicartas Encobertas"
           },
           {
             "id": "$concealed_mini_cards_4",
@@ -229227,15 +229324,17 @@
           },
           {
             "id": "$patrol_rule",
-            "title": "Patrol",
+            "title": "Patrulha",
             "type": "rule_reminder",
-            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).\n• Se houver diversos locais que se qualificam como o local designado, o investigador líder pode escolher o local para onde o inimigo se moverá.\n• Se um inimigo com patrulha for obrigado a se mover para um local por um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se moverá.",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location which is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -229249,22 +229348,25 @@
           {
             "id": "$embark_rule",
             "type": "rule_reminder",
-            "title": "Embarking and Travel",
-            "text": "Sempre que você <b>embarcar</b>, você pode viajar para onde quiser usando o mapa incluído na expansão de campanha <i>As Chaves Escarlates</i>. Cada espaço no mapa está conectado a um ou mais outros espaços por caminhos. Quando vocês estiverem prontos para embarcar, viajem pelos caminhos para chegar a qualquer destino que quiserem (como um grupo). Para cada caminho que você usar para chegar ao seu destino, você deve marcar 1 <b>tempo</b> no Registro da Campanha (mínimo de 1).\nEm cada espaço do mapa, há uma combinação de letra e número que vai guiar você para uma página específica neste Guia de Campanha. Você não precisa parar em cada espaço pelo qual você viaja; no entanto, se você quiser parar de viajar e ver o que há nesse espaço, vire para a página do Guia de Campanha correspondente ao número indicado e siga o texto narrativo nela. Isso pode levá-lo a um interlúdio ou a um cenário. Não há um caminho perfeito a seguir, então siga seu instinto… só cuidado com a quantidade de tempo que você gasta (veja “Marcação de Tempo” na página 6).\n<i>Por exemplo: Shelley quer viajar de Alexandria para Marraquexe. Ela primeiro marca 1 <b>tempo</b> para usar o caminho para Roma, mas decide não parar ali, e depois marca mais 1 <b>tempo</b> para viajar para Marraquexe, onde ela para. Marraquexe está marcada como “11–B”, então ela abre o Guia de Campanha na página 11 e lê o Arquivo #11–B: Calor Mortal.</i>",
+            "title": "Embarcar",
+            "text": "A ação de <b>embarcar</b> permite que os investigadores viajem pelo mundo investigando a conspiração da Coterie e desvendando mistérios.\nDurante a ação de embarcar, os investigadores consultam o mapa do mundo e escolhem um destino válido. O tempo necessário para viajar até o destino é medido em tempo de viagem (marcado no Registro de Tempo da Campanha).\nAlgumas rotas exigem meios específicos de transporte (ferrovia, navio a vapor ou dirigível), enquanto outras permitem viagem livre. Ao chegar ao destino, os investigadores lêem a seção correspondente do Guia de Campanha para iniciar o próximo cenário ou interlúdio.",
             "bullets": [
               {
-                "text": "Some locations are marked by a red border and the lack of a letter. You can only travel to such a location once you are permitted to do so by a Campaign Log entry."
+                "text": "Nota: O aplicativo gerencia automaticamente as rotas, o cálculo de tempo de viagem e o desbloqueio de novos destinos conforme os investigadores progridem na campanha.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$embark_rule_1",
-            "text": "Alguns locais, marcados com uma borda verde, representam lugares de possíveis histórias secundárias <i>(encontradas em outros produtos independentes da linha Arkham Horror: Card Game)</i>. Se você quiser incorporar uma história secundária nesta campanha, simplesmente viaje para o local adequado no mapa e gaste uma quantidade de tempo adicional igual ao custo normal de experiência para jogar essa história secundária (em vez de pagar o custo em experiência).",
+            "text": "Cada destino no mapa possui um número de identificação e indica as rotas conectadas a ele. Os investigadores não podem viajar para um destino a menos que haja uma rota válida conectando seu local atual a ele.",
             "bullets": [
               {
-                "text": "If you are not stopping at one of these locations to embark on a side-story, you may skip it and continue traveling along the path. If so, count it as one contiguous path, not as two separate paths."
+                "text": "Se uma rota exigir um bilhete ou passe de trânsito, os investigadores só podem usar essa rota se possuírem o item correspondente registrado no Registro da Campanha.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Rotas e Destinos"
           },
           {
             "id": "$embark_rule_2",
@@ -229277,11 +229379,12 @@
           {
             "id": "$dossiers_rule",
             "type": "rule_reminder",
-            "title": "The Foundation Dossiers",
+            "title": "Os Dossiês da Fundação",
             "text": "Ao longo deste Guia de Campanha, há várias colunas laterais de Dossiês da Fundação. Os investigadores podem olhar a coluna de Dossiê da Fundação de qualquer espaço no mapa, a qualquer momento. Use essas colunas para ajudar a guiar suas ações e planejar sua rota. Ao ler um dossiê, os investigadores não podem olhar nenhum outro texto nessa página até que viajem para esse local.",
             "bullets": [
               {
-                "text": "Note: These Foundation Dossiers, along with any information or leads your investigators may have learned in their travels, are accessible in the app when browsing the map. This can be accessed while you are taking an <b>embark</b> action, or on the main campaign screen at any time."
+                "text": "Nota: Esses Dossiês da Fundação, juntamente com quaisquer pistas ou informações que seus investigadores tenham descoberto em suas viagens, ficam acessíveis no aplicativo ao navegar pelo mapa. Isso pode ser acessado durante uma ação de <b>embarcar</b> ou na tela principal da campanha a qualquer momento.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -268186,26 +268289,32 @@
           {
             "id": "swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um grupo de inimigos operando como uma única entidade.\nQuando um inimigo com a palavra-chave enxame X entrar em jogo, o jogador que gerou esse inimigo deve colocar as X cartas do topo do seu próprio baralho de jogador viradas para baixo embaixo do inimigo como \"cartas de enxame\", sem olhar para elas.\n• Cada carta de enxame embaixo de um inimigo hospedeiro funciona como uma cópia adicional daquele inimigo.\n• O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e atacam juntos como uma única unidade.\n• Cada carta de enxame ataca separadamente durante a fase dos inimigos.\n• Qualquer ataque bem-sucedido contra o inimigo derrota uma carta de enxame para cada ponto de dano causado (o dano excedente passa para as outras cartas de enxame ou para o inimigo hospedeiro).\n• O inimigo hospedeiro não pode sofrer dano enquanto houver cartas de enxame embaixo dele. Quando a última carta de enxame for derrotada, o inimigo hospedeiro pode sofrer dano normalmente.\n• Quando uma carta de enxame for derrotada ou sair de jogo, coloque-a na pilha de descarte do seu respectivo dono.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
@@ -274948,26 +275057,32 @@
           {
             "id": "$swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um grupo de inimigos operando como uma única entidade.\nQuando um inimigo com a palavra-chave enxame X entrar em jogo, o jogador que gerou esse inimigo deve colocar as X cartas do topo do seu próprio baralho de jogador viradas para baixo embaixo do inimigo como \"cartas de enxame\", sem olhar para elas.\n• Cada carta de enxame embaixo de um inimigo hospedeiro funciona como uma cópia adicional daquele inimigo.\n• O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e atacam juntos como uma única unidade.\n• Cada carta de enxame ataca separadamente durante a fase dos inimigos.\n• Qualquer ataque bem-sucedido contra o inimigo derrota uma carta de enxame para cada ponto de dano causado (o dano excedente passa para as outras cartas de enxame ou para o inimigo hospedeiro).\n• O inimigo hospedeiro não pode sofrer dano enquanto houver cartas de enxame embaixo dele. Quando a última carta de enxame for derrotada, o inimigo hospedeiro pode sofrer dano normalmente.\n• Quando uma carta de enxame for derrotada ou sair de jogo, coloque-a na pilha de descarte do seu respectivo dono.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
