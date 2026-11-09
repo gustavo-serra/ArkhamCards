@@ -7,11 +7,11 @@ import Constants from 'expo-constants';
  */
 export function getEnvVar(key: string): string {
   const fromConfig = Config[key];
-  if (fromConfig) {
-    return fromConfig;
+  const rawValue = fromConfig || Constants.expoConfig?.extra?.[key] || process.env[key] || '';
+  if (key === 'OAUTH_SITE' && (!rawValue || rawValue.includes('127.0.0.1'))) {
+    return 'https://arkhamdb.com/';
   }
-  // Fallback to expo-constants extra
-  return Constants.expoConfig?.extra?.[key] || process.env[key] || '';
+  return rawValue;
 }
 
 export const USE_PATREON_AUDIO = true;

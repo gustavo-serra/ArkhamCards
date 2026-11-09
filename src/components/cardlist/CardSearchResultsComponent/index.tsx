@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { find, forEach, sumBy } from 'lodash';
 import { Brackets } from 'typeorm/browser';
 import RegexEscape from 'regex-escape';
@@ -34,6 +35,7 @@ import useDebouncedEffect from 'use-debounced-effect-hook';
 import { useSettingValue } from '@components/core/hooks';
 import { useParsedDeck } from '@components/deck/hooks';
 import { ParsedDeckContextProvider } from '@components/deck/DeckEditContext';
+import { getPhysicalCollectionMode } from '@reducers';
 import { usePhysicalCollectionAllocations } from '@components/deck/usePhysicalCollectionTracker';
 import SimpleFab from '@components/core/SimpleFab';
 import { useNavigation } from '@react-navigation/native';
@@ -282,8 +284,12 @@ export default function({
   const [searchBack, setSearchBack] = useState(false);
   const [showDuplicates, setShowDuplicates] = useState(!!includeDuplicates);
   const [hideOccupiedPhysical, setHideOccupiedPhysical] = useState(false);
-  const { mode: physicalMode, allocationsByCanonicalCode } = usePhysicalCollectionAllocations();
+  const physicalMode = useSelector(getPhysicalCollectionMode);
   const showPhysicalToggle = physicalMode !== 'disabled';
+  const { allocationsByCanonicalCode } = usePhysicalCollectionAllocations(
+    undefined,
+    showPhysicalToggle && hideOccupiedPhysical
+  );
   const customContent = useSettingValue('custom_content');
   const searchEnglish = useSettingValue('search_english');
   const showCustomContent = customContent && (!deckId || deckId.local);
