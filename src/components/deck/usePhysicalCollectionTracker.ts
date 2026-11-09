@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { filter, flatMap, forEach, isEqual, keys, map, sortBy, sumBy, uniq, values } from 'lodash';
+import { filter, find, flatMap, forEach, isEqual, keys, map, sortBy, sumBy, uniq, values } from 'lodash';
 
 import {
   AssembledDeckState,
@@ -32,6 +32,9 @@ import { PlayerCardContext } from '@data/sqlite/PlayerCardContext';
 import Card, { CardsMap } from '@data/types/Card';
 import { calculateCardCollectionQuantity, getCanonicalCardCode } from '@data/types/cardHelpers';
 import { RANDOM_BASIC_WEAKNESS } from '@app_constants';
+import ArkhamCardsAuthContext from '@lib/ArkhamCardsAuthContext';
+import { useGetMyCampaignsQuery, useGetMyDecksQuery } from '@generated/graphql/apollo-schema';
+import { LatestDeckRemote } from '@data/remote/types';
 
 export interface TrackedPhysicalDeck {
   deckKey: string;
@@ -103,6 +106,51 @@ export interface DeckPhysicalChecklistPlan {
   missingFromCollection: ChecklistCardQuantity[];
 }
 
+export function getSafeDeckUuid(deckId: DeckId | undefined): string {
+  if (!deckId) {
+    return '';
+  }
+  if (deckId.uuid && deckId.uuid !== 'undefined') {
+    return deckId.uuid;
+  }
+  if (deckId.id !== undefined) {
+    return `${deckId.id}`;
+  }
+  if (deckId.serverId !== undefined) {
+    return `server_${deckId.serverId}`;
+  }
+  return '';
+}
+
+function findMatchingAssembledState(
+  deckId: DeckId | undefined,
+  assembledDecks?: { [deckKey: string]: AssembledDeckState | undefined }
+): AssembledDeckState | undefined {
+  if (!deckId || !assembledDecks) {
+    return undefined;
+  }
+  const safeUuid = getSafeDeckUuid(deckId);
+  if (safeUuid && assembledDecks[safeUuid]) {
+    return assembledDecks[safeUuid];
+  }
+  return find(values(assembledDecks), entry => {
+    if (!entry) {
+      return false;
+    }
+    const entryUuid = getSafeDeckUuid(entry.deckId);
+    if (safeUuid && (entry.deckKey === safeUuid || entryUuid === safeUuid)) {
+      return true;
+    }
+    if (deckId.serverId !== undefined && entry.deckId?.serverId === deckId.serverId) {
+      return true;
+    }
+    if (deckId.id !== undefined && entry.deckId?.id === deckId.id) {
+      return true;
+    }
+    return false;
+  });
+}
+
 /**
  * Walks backwards through `previousDeckId` to find a stable root deck UUID across XP upgrades,
  * or returns any ancestor UUID that has an explicit entry in `assembledDecks`.
@@ -112,28 +160,43 @@ export function resolveCanonicalDeckKey(
   allDecks: DecksMap,
   assembledDecks?: { [deckKey: string]: AssembledDeckState | undefined }
 ): string {
-  const currentUuid = getDeckId(deck).uuid;
+  const deckId = getDeckId(deck);
+  const currentUuid = getSafeDeckUuid(deckId);
+  if (!currentUuid) {
+    return '';
+  }
   if (assembledDecks && assembledDecks[currentUuid]) {
     return currentUuid;
+  }
+  const directMatch = findMatchingAssembledState(deckId, assembledDecks);
+  if (directMatch?.deckKey) {
+    return directMatch.deckKey;
   }
   const visited = new Set<string>([currentUuid]);
   let curr: Deck | undefined = deck;
   let rootUuid = currentUuid;
   while (curr && curr.previousDeckId) {
-    const prevUuid = curr.previousDeckId.uuid;
-    if (visited.has(prevUuid)) {
+    const prevUuid = getSafeDeckUuid(curr.previousDeckId);
+    if (!prevUuid || visited.has(prevUuid)) {
       break;
     }
     visited.add(prevUuid);
     if (assembledDecks && assembledDecks[prevUuid]) {
       return prevUuid;
     }
+    const prevMatch = findMatchingAssembledState(curr.previousDeckId, assembledDecks);
+    if (prevMatch?.deckKey) {
+      return prevMatch.deckKey;
+    }
     const prevDeck = getDeck(allDecks, curr.previousDeckId);
     if (!prevDeck) {
       rootUuid = prevUuid;
       break;
     }
-    rootUuid = getDeckId(prevDeck).uuid;
+    const nextRoot = getSafeDeckUuid(getDeckId(prevDeck));
+    if (nextRoot) {
+      rootUuid = nextRoot;
+    }
     curr = prevDeck;
   }
   return rootUuid;
@@ -144,22 +207,25 @@ export function resolveDeckByKeyOrId(
   allDecks: DecksMap,
   assembledDecks: { [deckKey: string]: AssembledDeckState | undefined }
 ): { deck?: Deck; deckKey: string; state?: AssembledDeckState } {
-  if (!deckId) {
+  const safeUuid = getSafeDeckUuid(deckId);
+  if (!deckId || !safeUuid) {
     return { deckKey: '' };
   }
+  const matchedState = findMatchingAssembledState(deckId, assembledDecks);
   const deck = getDeck(allDecks, deckId);
   if (!deck) {
+    const key = matchedState?.deckKey || safeUuid;
     return {
-      deckKey: deckId.uuid,
-      state: assembledDecks[deckId.uuid],
+      deckKey: key,
+      state: assembledDecks[key] || matchedState,
     };
   }
   // Walk forward to latest version if needed
   let latest: Deck = deck;
-  const visited = new Set<string>([getDeckId(latest).uuid]);
+  const visited = new Set<string>([getSafeDeckUuid(getDeckId(latest))]);
   while (latest.nextDeckId) {
-    const nextUuid = latest.nextDeckId.uuid;
-    if (visited.has(nextUuid)) {
+    const nextUuid = getSafeDeckUuid(latest.nextDeckId);
+    if (!nextUuid || visited.has(nextUuid)) {
       break;
     }
     visited.add(nextUuid);
@@ -169,11 +235,11 @@ export function resolveDeckByKeyOrId(
     }
     latest = nextDeck;
   }
-  const deckKey = resolveCanonicalDeckKey(latest, allDecks, assembledDecks);
+  const deckKey = resolveCanonicalDeckKey(latest, allDecks, assembledDecks) || safeUuid;
   return {
     deck: latest,
     deckKey,
-    state: assembledDecks[deckKey] || assembledDecks[deckId.uuid],
+    state: assembledDecks[deckKey] || assembledDecks[safeUuid] || matchedState,
   };
 }
 
@@ -194,12 +260,23 @@ function areSlotsEqual(a: Slots | undefined, b: Slots | undefined): boolean {
   return isEqual(normalizeSlots(a), normalizeSlots(b));
 }
 
-function getFallbackTimestamp(deck: Deck, campaign?: Campaign): string {
+interface CampaignStatusLike {
+  uuid: string;
+  serverId?: number;
+  name?: string;
+  archived?: boolean;
+  updatedAtIso?: string;
+}
+
+function getFallbackTimestamp(deck: Deck, campaign?: Campaign, campaignStatus?: CampaignStatusLike): string {
   if (campaign) {
     const lastUpdated = getCampaignLastUpdated(campaign);
     if (lastUpdated.getTime() > 0) {
       return lastUpdated.toISOString();
     }
+  }
+  if (campaignStatus?.updatedAtIso) {
+    return campaignStatus.updatedAtIso;
   }
   return deck.date_update || deck.date_creation || new Date(0).toISOString();
 }
@@ -207,7 +284,7 @@ function getFallbackTimestamp(deck: Deck, campaign?: Campaign): string {
 export function isDeckTrackedAndAssembled(
   mode: PhysicalCollectionMode,
   state: AssembledDeckState | undefined,
-  campaign: Campaign | undefined
+  campaign: { archived?: boolean } | undefined
 ): { tracked: boolean; assembled: boolean } {
   if (mode === 'disabled') {
     return { tracked: false, assembled: false };
@@ -246,7 +323,8 @@ export function isDeckTrackedAndAssembled(
 }
 
 /**
- * Returns all latest decks in the app with their physical assembly status and slots.
+ * Returns all latest decks in the app (Redux local/ArkhamDB decks, Remote Arkham Cards Cloud decks,
+ * and any explicitly assembled decks) with their physical assembly status and slots.
  */
 export function useTrackedPhysicalDecks(): {
   mode: PhysicalCollectionMode;
@@ -259,42 +337,240 @@ export function useTrackedPhysicalDecks(): {
   const deckToCampaign = useSelector(getDeckToCampaignMap);
   const allCampaigns = useSelector((state: AppState) => state.campaigns_2.all);
 
+  const { userId } = useContext(ArkhamCardsAuthContext);
+  const { data: remoteDecksData } = useGetMyDecksQuery({
+    variables: { userId: userId || '' },
+    skip: !userId,
+    fetchPolicy: 'cache-first',
+  });
+  const { data: remoteCampaignsData } = useGetMyCampaignsQuery({
+    variables: { userId: userId || '' },
+    skip: !userId,
+    fetchPolicy: 'cache-first',
+  });
+
   return useMemo(() => {
+    const remoteCampaignMap: { [uuid: string]: CampaignStatusLike | undefined } = {};
+    forEach(remoteCampaignsData?.users_by_pk?.campaigns || [], entry => {
+      const c = entry.campaign;
+      if (c && c.uuid) {
+        remoteCampaignMap[c.uuid] = {
+          uuid: c.uuid,
+          serverId: c.id,
+          name: c.name || undefined,
+          archived: !!c.archived,
+          updatedAtIso: c.updated_at ? new Date(Date.parse(c.updated_at)).toISOString() : undefined,
+        };
+      }
+    });
+
     const latestDecks = filter(values(allDecks), (d): d is Deck => !!d && !d.nextDeckId);
     const allTrackedDecks: TrackedPhysicalDeck[] = [];
+    const seenDeckKeys = new Set<string>();
+    const seenDeckUuids = new Set<string>();
 
+    // 1. Process all Redux decks (local + ArkhamDB synced decks)
     forEach(latestDecks, deck => {
       const deckId = getDeckId(deck);
-      const campaign = deckToCampaign[deckId.uuid];
+      const safeUuid = getSafeDeckUuid(deckId);
+      if (!safeUuid) {
+        return;
+      }
+      const campaign = deckToCampaign[safeUuid];
       if (campaign && campaign.uuid === FIXED_CHAOS_BAG_CAMPAIGN_ID.campaignId) {
         return;
       }
-      const deckKey = resolveCanonicalDeckKey(deck, allDecks, assembledDecks);
-      const state = assembledDecks[deckKey] || assembledDecks[deckId.uuid];
-      const resolvedCampaign = campaign || (state?.campaignId ? allCampaigns[state.campaignId.campaignId] : undefined);
-      const { tracked, assembled } = isDeckTrackedAndAssembled(mode, state, resolvedCampaign);
+      const deckKey = resolveCanonicalDeckKey(deck, allDecks, assembledDecks) || safeUuid;
+      const state = assembledDecks[deckKey] || assembledDecks[safeUuid] || findMatchingAssembledState(deckId, assembledDecks);
+      const resolvedLocalCampaign = campaign || (state?.campaignId ? allCampaigns[state.campaignId.campaignId] : undefined);
+      const resolvedRemoteCampaign = state?.campaignId ? remoteCampaignMap[state.campaignId.campaignId] : undefined;
+      const campaignStatus: CampaignStatusLike | undefined = resolvedLocalCampaign
+        ? {
+            uuid: resolvedLocalCampaign.uuid,
+            serverId: resolvedLocalCampaign.serverId,
+            name: resolvedLocalCampaign.name,
+            archived: !!resolvedLocalCampaign.archived,
+          }
+        : resolvedRemoteCampaign || (state?.campaignId ? {
+            uuid: state.campaignId.campaignId,
+            serverId: state.campaignId.serverId,
+            name: state.campaignName,
+            archived: false,
+          } : undefined);
+
+      const { tracked, assembled } = isDeckTrackedAndAssembled(mode, state, campaignStatus);
       const targetSlots = normalizeSlots(deck.slots);
-      const physicalSlots = (assembled && state?.physicalSlots)
+      const physicalSlots = (assembled && state?.physicalSlots && keys(state.physicalSlots).length > 0)
         ? normalizeSlots(state.physicalSlots)
         : targetSlots;
       const hasPendingUpgrade = assembled && !areSlotsEqual(physicalSlots, targetSlots);
-      const assembledAt = state?.assembledAt || getFallbackTimestamp(deck, resolvedCampaign);
+      const assembledAt = state?.assembledAt || getFallbackTimestamp(deck, resolvedLocalCampaign, campaignStatus);
+
+      seenDeckKeys.add(deckKey);
+      seenDeckUuids.add(safeUuid);
 
       allTrackedDecks.push({
         deckKey,
-        deckId,
+        deckId: state?.deckId || deckId,
         deck,
         investigatorCode: deck.investigator_code,
-        campaignId: resolvedCampaign ? { campaignId: resolvedCampaign.uuid, serverId: resolvedCampaign.serverId } : undefined,
-        campaignUuid: resolvedCampaign?.uuid,
-        campaignName: resolvedCampaign?.name,
-        isArchivedCampaign: !!resolvedCampaign?.archived,
+        campaignId: campaignStatus ? { campaignId: campaignStatus.uuid, serverId: campaignStatus.serverId } : state?.campaignId,
+        campaignUuid: campaignStatus?.uuid || state?.campaignId?.campaignId,
+        campaignName: campaignStatus?.name || state?.campaignName,
+        isArchivedCampaign: !!campaignStatus?.archived,
         tracked,
         assembled,
         assembledAt,
         physicalSlots,
         targetSlots,
         hasPendingUpgrade,
+      });
+    });
+
+    // 2. Process Remote Arkham Cards Cloud decks from Apollo cache
+    forEach(remoteDecksData?.users_by_pk?.decks || [], entry => {
+      if (!entry.deck) {
+        return;
+      }
+      const remoteDeck = new LatestDeckRemote(entry.deck);
+      const deckId = remoteDeck.id;
+      const safeUuid = getSafeDeckUuid(deckId);
+      if (!safeUuid) {
+        return;
+      }
+      const deckKey = resolveCanonicalDeckKey(remoteDeck.deck, allDecks, assembledDecks) || safeUuid;
+      if (seenDeckKeys.has(deckKey) || seenDeckUuids.has(safeUuid)) {
+        return;
+      }
+      const state = assembledDecks[deckKey] || assembledDecks[safeUuid] || findMatchingAssembledState(deckId, assembledDecks);
+      const campaignUuid = remoteDeck.campaign?.id.campaignId || state?.campaignId?.campaignId;
+      if (campaignUuid === FIXED_CHAOS_BAG_CAMPAIGN_ID.campaignId) {
+        return;
+      }
+      const localCampaign = campaignUuid ? allCampaigns[campaignUuid] : undefined;
+      const remoteCampaign = campaignUuid ? remoteCampaignMap[campaignUuid] : undefined;
+      const campaignStatus: CampaignStatusLike | undefined = localCampaign
+        ? {
+            uuid: localCampaign.uuid,
+            serverId: localCampaign.serverId,
+            name: localCampaign.name,
+            archived: !!localCampaign.archived,
+          }
+        : remoteCampaign || (remoteDeck.campaign ? {
+            uuid: remoteDeck.campaign.id.campaignId,
+            serverId: remoteDeck.campaign.id.serverId,
+            name: remoteDeck.campaign.name,
+            archived: false,
+          } : (state?.campaignId ? {
+            uuid: state.campaignId.campaignId,
+            serverId: state.campaignId.serverId,
+            name: state.campaignName,
+            archived: false,
+          } : undefined));
+
+      const { tracked, assembled } = isDeckTrackedAndAssembled(mode, state, campaignStatus);
+      const targetSlots = normalizeSlots(remoteDeck.deck.slots);
+      const physicalSlots = (assembled && state?.physicalSlots && keys(state.physicalSlots).length > 0)
+        ? normalizeSlots(state.physicalSlots)
+        : targetSlots;
+      const hasPendingUpgrade = assembled && !areSlotsEqual(physicalSlots, targetSlots);
+      const assembledAt = state?.assembledAt || getFallbackTimestamp(remoteDeck.deck, localCampaign, campaignStatus);
+
+      seenDeckKeys.add(deckKey);
+      seenDeckUuids.add(safeUuid);
+
+      allTrackedDecks.push({
+        deckKey,
+        deckId,
+        deck: remoteDeck.deck,
+        investigatorCode: remoteDeck.investigator || remoteDeck.deck.investigator_code,
+        campaignId: campaignStatus ? { campaignId: campaignStatus.uuid, serverId: campaignStatus.serverId } : (remoteDeck.campaign?.id || state?.campaignId),
+        campaignUuid: campaignStatus?.uuid || campaignUuid,
+        campaignName: campaignStatus?.name || remoteDeck.campaign?.name || state?.campaignName,
+        isArchivedCampaign: !!campaignStatus?.archived,
+        tracked,
+        assembled,
+        assembledAt,
+        physicalSlots,
+        targetSlots,
+        hasPendingUpgrade,
+      });
+    });
+
+    // 3. Synthesize any remaining entries in `assembledDecks` that weren't in `allDecks` or `remoteDecksData`
+    forEach(assembledDecks, (state, key) => {
+      if (!state || !state.deckId) {
+        return;
+      }
+      const safeUuid = getSafeDeckUuid(state.deckId);
+      const deckKey = state.deckKey || key || safeUuid;
+      if (!deckKey || seenDeckKeys.has(deckKey) || (safeUuid && seenDeckUuids.has(safeUuid))) {
+        return;
+      }
+      const campaignUuid = state.campaignId?.campaignId;
+      if (campaignUuid === FIXED_CHAOS_BAG_CAMPAIGN_ID.campaignId) {
+        return;
+      }
+      const localCampaign = campaignUuid ? allCampaigns[campaignUuid] : undefined;
+      const remoteCampaign = campaignUuid ? remoteCampaignMap[campaignUuid] : undefined;
+      const campaignStatus: CampaignStatusLike | undefined = localCampaign
+        ? {
+            uuid: localCampaign.uuid,
+            serverId: localCampaign.serverId,
+            name: localCampaign.name,
+            archived: !!localCampaign.archived,
+          }
+        : remoteCampaign || (state.campaignId ? {
+            uuid: state.campaignId.campaignId,
+            serverId: state.campaignId.serverId,
+            name: state.campaignName,
+            archived: false,
+          } : undefined);
+
+      const { tracked, assembled } = isDeckTrackedAndAssembled(mode, state, campaignStatus);
+      const normalizedPhysical = normalizeSlots(state.physicalSlots);
+      const synthesizedDeck: Deck = state.deckId.local ? {
+        local: true,
+        uuid: safeUuid || deckKey,
+        name: state.deckName || state.investigatorCode,
+        investigator_code: state.investigatorCode,
+        slots: normalizedPhysical,
+        ignoreDeckLimitSlots: {},
+        date_creation: state.assembledAt,
+        date_update: state.assembledAt,
+      } : {
+        local: undefined,
+        uuid: undefined,
+        id: state.deckId.id || 0,
+        user_id: state.deckId.arkhamdb_user || 0,
+        name: state.deckName || state.investigatorCode,
+        investigator_code: state.investigatorCode,
+        slots: normalizedPhysical,
+        ignoreDeckLimitSlots: {},
+        date_creation: state.assembledAt,
+        date_update: state.assembledAt,
+      };
+
+      seenDeckKeys.add(deckKey);
+      if (safeUuid) {
+        seenDeckUuids.add(safeUuid);
+      }
+
+      allTrackedDecks.push({
+        deckKey,
+        deckId: state.deckId,
+        deck: synthesizedDeck,
+        investigatorCode: state.investigatorCode,
+        campaignId: state.campaignId,
+        campaignUuid,
+        campaignName: state.campaignName || campaignStatus?.name,
+        isArchivedCampaign: !!campaignStatus?.archived,
+        tracked,
+        assembled,
+        assembledAt: state.assembledAt,
+        physicalSlots: normalizedPhysical,
+        targetSlots: normalizedPhysical,
+        hasPendingUpgrade: false,
       });
     });
 
@@ -307,7 +583,7 @@ export function useTrackedPhysicalDecks(): {
       allTrackedDecks: sorted,
       assembledDecksList,
     };
-  }, [mode, assembledDecks, allDecks, deckToCampaign, allCampaigns]);
+  }, [mode, assembledDecks, allDecks, deckToCampaign, allCampaigns, remoteDecksData, remoteCampaignsData]);
 }
 
 function getCardOwnedCount(
@@ -568,16 +844,32 @@ export function useDeckPhysicalChecklistPlan(
   const printingOverrides = useSelector(getCardPrintingOverrides);
   const ignoreCollection = useSettingValue('ignore_collection');
 
-  const { deck, deckKey, state } = useMemo(
-    () => resolveDeckByKeyOrId(deckId, allDecks, assembledDecks),
-    [deckId, allDecks, assembledDecks]
+  const { mode, allTrackedDecks, allocationsByCanonicalCode, cardsMap: baseCardsMap, loading: baseLoading } = usePhysicalCollectionAllocations(extraCards);
+
+  const { deck, deckKey, state, trackedDeck } = useMemo(() => {
+    const resolved = resolveDeckByKeyOrId(deckId, allDecks, assembledDecks);
+    const safeUuid = getSafeDeckUuid(deckId);
+    const matchedTracked = find(allTrackedDecks, d =>
+      (resolved.deckKey && d.deckKey === resolved.deckKey) ||
+      (safeUuid && (d.deckKey === safeUuid || getSafeDeckUuid(d.deckId) === safeUuid)) ||
+      (deckId?.serverId !== undefined && d.deckId.serverId === deckId.serverId)
+    );
+    const effectiveKey = matchedTracked?.deckKey || resolved.deckKey || safeUuid;
+    const effectiveState = resolved.state || (effectiveKey ? assembledDecks[effectiveKey] : undefined);
+    return {
+      deck: resolved.deck || matchedTracked?.deck,
+      deckKey: effectiveKey,
+      state: effectiveState,
+      trackedDeck: matchedTracked,
+    };
+  }, [deckId, allDecks, assembledDecks, allTrackedDecks]);
+
+  const targetSlots = useMemo(
+    () => normalizeSlots(currentSlots ?? deck?.slots ?? trackedDeck?.targetSlots ?? state?.physicalSlots),
+    [currentSlots, deck?.slots, trackedDeck?.targetSlots, state?.physicalSlots]
   );
-
-  const { mode, allocationsByCanonicalCode, cardsMap: baseCardsMap, loading: baseLoading } = usePhysicalCollectionAllocations(extraCards);
-
-  const targetSlots = useMemo(() => normalizeSlots(currentSlots ?? deck?.slots), [currentSlots, deck?.slots]);
   const physicalSlots = useMemo(() => {
-    if (state?.assembled && state?.physicalSlots) {
+    if (state?.assembled && state?.physicalSlots && keys(state.physicalSlots).length > 0) {
       return normalizeSlots(state.physicalSlots);
     }
     return targetSlots;
@@ -597,8 +889,14 @@ export function useDeckPhysicalChecklistPlan(
   }), [baseCardsMap, deckCards, extraCards]);
 
   const plan = useMemo((): DeckPhysicalChecklistPlan => {
-    const campaign = deckId ? deckToCampaign[deckId.uuid] : undefined;
-    const { tracked, assembled } = isDeckTrackedAndAssembled(mode, state, campaign);
+    const safeUuid = getSafeDeckUuid(deckId);
+    const campaign = safeUuid ? deckToCampaign[safeUuid] : undefined;
+    const campaignStatus = campaign
+      ? { archived: !!campaign.archived }
+      : (trackedDeck?.campaignId ? { archived: trackedDeck.isArchivedCampaign } : undefined);
+    const { tracked, assembled } = trackedDeck
+      ? { tracked: trackedDeck.tracked, assembled: trackedDeck.assembled }
+      : isDeckTrackedAndAssembled(mode, state, campaignStatus);
     const hasPendingUpgrade = assembled && !areSlotsEqual(physicalSlots, targetSlots);
 
     const toReturnToBinder: ChecklistCardQuantity[] = [];
@@ -717,7 +1015,7 @@ export function useDeckPhysicalChecklistPlan(
       deckKey,
       tracked,
       assembled,
-      assembledAt: state?.assembledAt,
+      assembledAt: state?.assembledAt || trackedDeck?.assembledAt,
       hasPendingUpgrade,
       toReturnToBinder,
       toRetrieveFromOtherDecks,
@@ -729,6 +1027,7 @@ export function useDeckPhysicalChecklistPlan(
     deckId,
     deckKey,
     state,
+    trackedDeck,
     mode,
     deckToCampaign,
     physicalSlots,

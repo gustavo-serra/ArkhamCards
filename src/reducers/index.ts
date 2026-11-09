@@ -53,6 +53,7 @@ import {
   FIXED_CHAOS_BAG_CAMPAIGN_ID,
   ChecklistSlots,
   CardPoolMode,
+  AssembledDeckState,
 } from '@actions/types';
 import Card, { CardsMap } from '@data/types/Card';
 import { chapterCardPool, ChaosBag, POOL_CORE_CH2_CYCLE, POOL_CURRENT_PACKS, POOL_INVESTIGATOR_CH2_CYCLE, reprintPackToPack, SPECIAL_PACKS } from '@app_constants';
@@ -479,13 +480,23 @@ export const getCardPrintingOverrides = createSelector(
 );
 
 export const getPhysicalCollectionMode = createSelector(
+  (state: AppState) => state.packs.physical_collection_mode,
   (state: AppState) => state.physicalCollection?.mode,
-  (mode) => mode || 'manual'
+  (packsMode, pcMode) => packsMode || pcMode || 'manual'
 );
 
 export const getAssembledDecks = createSelector(
+  (state: AppState) => state.packs.assembled_decks,
   (state: AppState) => state.physicalCollection?.assembledDecks,
-  (assembledDecks) => assembledDecks || DEFAULT_OBJECT
+  (packsDecks, pcDecks): { [deckKey: string]: AssembledDeckState | undefined } => {
+    if (!packsDecks && !pcDecks) {
+      return DEFAULT_OBJECT;
+    }
+    return {
+      ...(pcDecks || {}),
+      ...(packsDecks || {}),
+    };
+  }
 );
 
 export const getDraftPacks = createSelector(

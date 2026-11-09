@@ -36,13 +36,16 @@ import SingleCampaignT from '@data/interfaces/SingleCampaignT';
 import { CampaignInvestigator } from '@data/scenario/GuidedCampaignLog';
 import { useNavigation } from '@react-navigation/native';
 import {
+  getSafeDeckUuid,
   resolveCanonicalDeckKey,
   resolveDeckByKeyOrId,
   usePhysicalCollectionAllocations,
 } from '@components/deck/usePhysicalCollectionTracker';
+import { DeckId } from '@actions/types';
 
 interface Props {
   parsedDeck?: ParsedDeck;
+  deckId?: DeckId;
   campaignId: CampaignId;
   live: boolean;
   cards: CardsMap;
@@ -99,8 +102,9 @@ function OverlapSectionComponent({
   );
 }
 
-export default function DeckOverlapComponent({ parsedDeck, cards, campaignInvestigators, latestDecks, campaign }: {
+export default function DeckOverlapComponent({ parsedDeck, deckId, cards, campaignInvestigators, latestDecks, campaign }: {
   parsedDeck?: ParsedDeck;
+  deckId?: DeckId;
   cards: CardsMap;
   campaign: SingleCampaignT;
   latestDecks: LatestDeckT[];
@@ -120,21 +124,65 @@ export default function DeckOverlapComponent({ parsedDeck, cards, campaignInvest
   const ignore_collection = useSettingValue('ignore_collection');
   const currentInvestigator = parsedDeck?.investigator.front.code;
 
-  const { deckKey: currentDeckKey, state: currentDeckState } = useMemo(
-    () => resolveDeckByKeyOrId(parsedDeck?.id, allDecks, assembledDecks),
-    [parsedDeck?.id, allDecks, assembledDecks]
+  const effectiveDeckId = useMemo((): DeckId | undefined => {
+    if (deckId && getSafeDeckUuid(deckId)) {
+      return deckId;
+    }
+    if (parsedDeck?.id && getSafeDeckUuid(parsedDeck.id)) {
+      return parsedDeck.id;
+    }
+    const matchingLatest = find(latestDecks, d => d.investigator === currentInvestigator);
+    return matchingLatest?.id || deckId || parsedDeck?.id;
+  }, [deckId, parsedDeck?.id, latestDecks, currentInvestigator]);
+
+  const { deckKey: resolvedDeckKey, state: currentDeckState } = useMemo(
+    () => resolveDeckByKeyOrId(effectiveDeckId, allDecks, assembledDecks),
+    [effectiveDeckId, allDecks, assembledDecks]
   );
+
+  const currentDeckKey = useMemo(() => {
+    if (resolvedDeckKey) {
+      return resolvedDeckKey;
+    }
+    const safeUuid = getSafeDeckUuid(effectiveDeckId);
+    if (safeUuid) {
+      return safeUuid;
+    }
+    if (currentInvestigator) {
+      return `${campaign.uuid}_${currentInvestigator}`;
+    }
+    return '';
+  }, [resolvedDeckKey, effectiveDeckId, campaign.uuid, currentInvestigator]);
+
+  const fallbackDeckId = useMemo((): DeckId => {
+    if (effectiveDeckId && getSafeDeckUuid(effectiveDeckId)) {
+      return effectiveDeckId;
+    }
+    return {
+      id: undefined,
+      arkhamdb_user: undefined,
+      local: true,
+      uuid: currentDeckKey || `${campaign.uuid}_${currentInvestigator || 'deck'}`,
+    };
+  }, [effectiveDeckId, currentDeckKey, campaign.uuid, currentInvestigator]);
 
   const isCurrentDeckExcluded = currentDeckState?.tracked === false;
   const isCurrentDeckAssembled = useMemo(() => {
     if (!currentDeckKey) {
       return false;
     }
-    return !!find(assembledDecksList, d => d.deckKey === currentDeckKey);
-  }, [assembledDecksList, currentDeckKey]);
+    if (currentDeckState?.assembled) {
+      return true;
+    }
+    const safeUuid = getSafeDeckUuid(effectiveDeckId);
+    return !!find(
+      assembledDecksList,
+      d => d.deckKey === currentDeckKey || (!!safeUuid && getSafeDeckUuid(d.deckId) === safeUuid)
+    );
+  }, [assembledDecksList, currentDeckKey, currentDeckState?.assembled, effectiveDeckId]);
 
   const handleTogglePhysicalAssembly = useCallback(() => {
-    if (!parsedDeck?.id || !currentDeckKey) {
+    if (!currentDeckKey) {
       return;
     }
     if (isCurrentDeckAssembled) {
@@ -144,7 +192,7 @@ export default function DeckOverlapComponent({ parsedDeck, cards, campaignInvest
           tracked: true,
           campaignId: campaign.id,
           investigatorCode: currentInvestigator || '',
-          deckId: parsedDeck.id,
+          deckId: fallbackDeckId,
         })
       );
       dispatch(disassemblePhysicalDeck(currentDeckKey));
@@ -155,15 +203,16 @@ export default function DeckOverlapComponent({ parsedDeck, cards, campaignInvest
           campaignId: campaign.id,
           campaignName: campaign.name,
           investigatorCode: currentInvestigator || '',
-          deckId: parsedDeck.id,
-          deckName: parsedDeck.deck?.name,
-          physicalSlots: parsedDeck.slots,
+          deckId: fallbackDeckId,
+          deckName: parsedDeck?.deck?.name,
+          physicalSlots: parsedDeck?.slots || {},
           assembledAt: new Date().toISOString(),
         })
       );
     }
   }, [
     parsedDeck,
+    fallbackDeckId,
     currentDeckKey,
     isCurrentDeckAssembled,
     dispatch,
@@ -173,7 +222,7 @@ export default function DeckOverlapComponent({ parsedDeck, cards, campaignInvest
   ]);
 
   const handleToggleFriendDeck = useCallback(() => {
-    if (!parsedDeck?.id || !currentDeckKey) {
+    if (!currentDeckKey) {
       return;
     }
     dispatch(
@@ -182,11 +231,11 @@ export default function DeckOverlapComponent({ parsedDeck, cards, campaignInvest
         tracked: isCurrentDeckExcluded,
         campaignId: campaign.id,
         investigatorCode: currentInvestigator || '',
-        deckId: parsedDeck.id,
+        deckId: fallbackDeckId,
       })
     );
   }, [
-    parsedDeck?.id,
+    fallbackDeckId,
     currentDeckKey,
     isCurrentDeckExcluded,
     dispatch,
@@ -568,6 +617,7 @@ export default function DeckOverlapComponent({ parsedDeck, cards, campaignInvest
 
 export function DeckOverlapComponentForCampaign({
   parsedDeck,
+  deckId,
   campaignId,
   live,
   cards,
@@ -579,6 +629,7 @@ export function DeckOverlapComponentForCampaign({
   return (
     <DeckOverlapComponent
       parsedDeck={parsedDeck}
+      deckId={deckId}
       cards={cards}
       campaign={campaignGuideContext.campaign}
       latestDecks={campaignGuideContext.campaign.latestDecks()}

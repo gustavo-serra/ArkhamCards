@@ -1,6 +1,9 @@
 import React, { RefObject, ReactNode, useCallback, useContext, useMemo } from 'react';
 import { Text, ScrollView, StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { sumBy } from 'lodash';
 import { t } from 'ttag';
+import { useNavigation } from '@react-navigation/native';
 
 import {
   CampaignId,
@@ -12,16 +15,25 @@ import {
   EditDeckState,
   ParsedDeck,
 } from '@actions/types';
+import {
+  confirmPhysicalDeckAssembly,
+  disassemblePhysicalDeck,
+  setDeckPhysicalTracking,
+} from '@actions';
+import { getAllDecks, getAssembledDecks, getPhysicalCollectionMode } from '@reducers';
 import COLORS from '@styles/colors';
 import DeckProgressComponent from '../DeckProgressComponent';
 import { BODY_OF_A_YITHIAN } from '@app_constants';
 import Card, { CardsMap, InvestigatorChoice } from '@data/types/Card';
 import TabooSet from '@data/types/TabooSet';
-import space, { isBig, s } from '@styles/space';
+import space, { isBig, s, xs } from '@styles/space';
 import StyleContext from '@styles/StyleContext';
 import { setDeckTabooSet, updateDeckMeta } from '@components/deck/actions';
 import DeckMetadataComponent from './DeckMetadataComponent';
 import DeckPickerStyleButton from '../controls/DeckPickerStyleButton';
+import DeckButton from '../controls/DeckButton';
+import RoundedFactionBlock from '@components/core/RoundedFactionBlock';
+import DeckSectionHeader from '../section/DeckSectionHeader';
 import { useDeckXpStrings } from '../hooks';
 import DeckMetadataControls from '../controls/DeckMetadataControls';
 import { FOOTER_HEIGHT } from '@components/deck/DeckNavFooter';
@@ -33,6 +45,11 @@ import { useAppDispatch } from '@app/store';
 import { MANDY_CODE } from '@data/deck/specialMetaSlots';
 import { ListCard } from '@data/types/ListCard';
 import { useParallelInvestigator } from '@components/core/hooks';
+import {
+  getSafeDeckUuid,
+  resolveDeckByKeyOrId,
+  useDeckPhysicalChecklistPlan,
+} from '../usePhysicalCollectionTracker';
 
 interface Props {
   suggestArkhamDbLogin: boolean;
@@ -77,6 +94,222 @@ interface Props {
   deckEdits?: EditDeckState;
   deckEditsRef: RefObject<EditDeckState | undefined>;
   mode: 'view' | 'edit' | 'upgrade';
+}
+
+function DeckPhysicalBoxSection({
+  deckId,
+  deck,
+  parsedDeck,
+  campaignId,
+  cards,
+}: {
+  deckId: DeckId;
+  deck: Deck;
+  parsedDeck: ParsedDeck;
+  campaignId?: CampaignId;
+  cards: CardsMap;
+}) {
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+  const { colors, typography } = useContext(StyleContext);
+  const mode = useSelector(getPhysicalCollectionMode);
+  const allDecks = useSelector(getAllDecks);
+  const assembledDecks = useSelector(getAssembledDecks);
+
+  const effectiveDeckId = useMemo((): DeckId => {
+    if (getSafeDeckUuid(deckId)) {
+      return deckId;
+    }
+    if (parsedDeck.id && getSafeDeckUuid(parsedDeck.id)) {
+      return parsedDeck.id;
+    }
+    return deckId;
+  }, [deckId, parsedDeck.id]);
+
+  const { deckKey: resolvedKey, state: currentDeckState } = useMemo(
+    () => resolveDeckByKeyOrId(effectiveDeckId, allDecks, assembledDecks),
+    [effectiveDeckId, allDecks, assembledDecks]
+  );
+
+  const { plan } = useDeckPhysicalChecklistPlan(effectiveDeckId, parsedDeck.slots, cards);
+  const effectiveDeckKey = plan.deckKey || resolvedKey || getSafeDeckUuid(effectiveDeckId);
+  const isFriendDeck = currentDeckState?.tracked === false;
+  const isAssembled = !isFriendDeck && (plan.assembled || !!currentDeckState?.assembled);
+  const investigatorCode = parsedDeck.investigator.front.code || deck.investigator_code;
+
+  const handleConfirmOrUpdateAssembly = useCallback(() => {
+    if (!effectiveDeckKey) {
+      return;
+    }
+    dispatch(
+      confirmPhysicalDeckAssembly({
+        deckKey: effectiveDeckKey,
+        campaignId,
+        investigatorCode,
+        deckId: effectiveDeckId,
+        deckName: parsedDeck.deck?.name || deck.name,
+        physicalSlots: parsedDeck.slots || {},
+        assembledAt: new Date().toISOString(),
+      })
+    );
+  }, [
+    dispatch,
+    effectiveDeckKey,
+    campaignId,
+    investigatorCode,
+    effectiveDeckId,
+    parsedDeck.deck?.name,
+    deck.name,
+    parsedDeck.slots,
+  ]);
+
+  const handleDisassemble = useCallback(() => {
+    if (!effectiveDeckKey) {
+      return;
+    }
+    dispatch(
+      setDeckPhysicalTracking({
+        deckKey: effectiveDeckKey,
+        tracked: true,
+        campaignId,
+        investigatorCode,
+        deckId: effectiveDeckId,
+      })
+    );
+    dispatch(disassemblePhysicalDeck(effectiveDeckKey));
+  }, [dispatch, effectiveDeckKey, campaignId, investigatorCode, effectiveDeckId]);
+
+  const handleToggleFriendDeck = useCallback(() => {
+    if (!effectiveDeckKey) {
+      return;
+    }
+    dispatch(
+      setDeckPhysicalTracking({
+        deckKey: effectiveDeckKey,
+        tracked: isFriendDeck,
+        campaignId,
+        investigatorCode,
+        deckId: effectiveDeckId,
+      })
+    );
+  }, [dispatch, effectiveDeckKey, isFriendDeck, campaignId, investigatorCode, effectiveDeckId]);
+
+  const handleOpenChecklist = useCallback(() => {
+    navigation.navigate('Deck.Checklist', {
+      id: effectiveDeckId,
+      slots: parsedDeck.slots,
+      campaignId,
+    });
+  }, [navigation, effectiveDeckId, parsedDeck.slots, campaignId]);
+
+  if (mode === 'disabled') {
+    return null;
+  }
+
+  const retrieveCount = sumBy(plan.toRetrieveFromOtherDecks, item => item.count);
+  const binderCount = sumBy(plan.toTakeFromBinder, item => item.count);
+  const returnCount = sumBy(plan.toReturnToBinder, item => item.count);
+  const missingCount = sumBy(plan.missingFromCollection, item => item.count);
+
+  const statusLabel = isFriendDeck
+    ? t`🤝 Deck de Amigo (Ignorado na sua Coleção Física)`
+    : isAssembled
+      ? (plan.hasPendingUpgrade
+          ? t`🔄 Upgrade Físico Pendente (Deckbox precisa ser atualizada)`
+          : t`✅ Montado Fisicamente na Deckbox`)
+      : t`📦 Ainda não montado fisicamente`;
+
+  return (
+    <View style={space.marginBottomM}>
+      <RoundedFactionBlock
+        faction={parsedDeck.faction}
+        header={
+          <DeckSectionHeader
+            faction={parsedDeck.faction}
+            title={t`Coleção Física (Deckbox)`}
+          />
+        }
+      >
+        <View style={space.paddingS}>
+          <Text style={[typography.text, typography.bold, { color: colors.darkText }]}>
+            { statusLabel }
+          </Text>
+          { !isFriendDeck && (
+            <Text style={[typography.small, { color: colors.M, marginTop: 2 }]}>
+              { isAssembled
+                ? (retrieveCount > 0
+                    ? t`⚠️ ${retrieveCount} carta(s) deste deck estão emprestadas para outro deck montado mais recente.`
+                    : (returnCount > 0 || binderCount > 0)
+                      ? t`Para atualizar a deckbox: devolver ${returnCount} ao fichário e pegar ${binderCount}.`
+                      : t`Todas as cartas físicas deste deck estão alocadas nesta deckbox.`)
+                : t`Para montar agora: ${binderCount} do fichário${retrieveCount > 0 ? `, ${retrieveCount} de outros decks montados` : ''}${missingCount > 0 ? ` (${missingCount} em falta na coleção)` : ''}.` }
+            </Text>
+          ) }
+          <View style={space.marginTopS}>
+            { !isAssembled && (
+              <DeckButton
+                icon="check-thin"
+                color="default"
+                title={t`Marcar Deck como Montado`}
+                onPress={handleConfirmOrUpdateAssembly}
+                bottomMargin={xs}
+                thin
+              />
+            ) }
+            { isAssembled && plan.hasPendingUpgrade && (
+              <DeckButton
+                icon="upgrade"
+                color="gold"
+                title={t`Confirmar Troca Física (Atualizar Deckbox)`}
+                onPress={handleConfirmOrUpdateAssembly}
+                bottomMargin={xs}
+                thin
+              />
+            ) }
+            { isAssembled && retrieveCount > 0 && !plan.hasPendingUpgrade && (
+              <DeckButton
+                icon="check-thin"
+                color="default"
+                title={t`Resgatar Cartas Emprestadas para este Deck`}
+                onPress={handleConfirmOrUpdateAssembly}
+                bottomMargin={xs}
+                thin
+              />
+            ) }
+            { isAssembled && (
+              <DeckButton
+                icon="dismiss"
+                color="red_outline"
+                title={t`Desmontar Deck (Devolver ao Fichário)`}
+                onPress={handleDisassemble}
+                bottomMargin={xs}
+                thin
+              />
+            ) }
+            <DeckButton
+              icon="log"
+              color="light_gray"
+              title={t`Abrir Checklist & Guia de Montagem Física`}
+              onPress={handleOpenChecklist}
+              bottomMargin={xs}
+              thin
+            />
+            <DeckButton
+              icon={isFriendDeck ? 'check-thin' : 'per_investigator'}
+              color="light_gray_outline"
+              title={
+                isFriendDeck
+                  ? t`Voltar a Rastrear na Minha Coleção Física`
+                  : t`Marcar como Deck de Amigo (Não usa minha coleção)`
+              }
+              onPress={handleToggleFriendDeck}
+              thin
+            />
+          </View>
+        </View>
+      </RoundedFactionBlock>
+    </View>
+  );
 }
 
 export default function DeckViewTab(props: Props) {
@@ -283,6 +516,15 @@ export default function DeckViewTab(props: Props) {
       ) }
       { header }
       <View style={space.marginSideS}>
+        { !parsedDeck.deck?.nextDeckId && (
+          <DeckPhysicalBoxSection
+            deckId={deckId}
+            deck={deck}
+            parsedDeck={parsedDeck}
+            campaignId={campaignId}
+            cards={cards}
+          />
+        ) }
         { parsedDeckComponent }
         <DeckProgressComponent
           cards={cards}
@@ -298,6 +540,7 @@ export default function DeckViewTab(props: Props) {
         { !!campaignId && !parsedDeck.deck?.nextDeckId && (
           <DeckOverlapComponentForCampaign
             campaignId={campaignId}
+            deckId={deckId}
             parsedDeck={parsedDeck}
             live={!fromCampaign}
             cards={cards}

@@ -367,7 +367,7 @@ export function fragmentToDeckId(deck: LatestDeckFragment): DeckId {
     id: undefined,
     arkhamdb_user: undefined,
     local: true,
-    uuid: deck.local_uuid || '',
+    uuid: deck.local_uuid || `${deck.id}`,
   };
 }
 
@@ -414,7 +414,30 @@ export class LatestDeckRemote extends MiniDeckRemote implements LatestDeckT {
       handle: deck.owner.handle || undefined,
       id: deck.owner.id,
     } : undefined;
-    this.deck = deck.content || {};
+    const rawContent: Deck = deck.content || ({} as Deck);
+    if (this.id.local) {
+      this.deck = {
+        ...rawContent,
+        local: true,
+        uuid: (rawContent.local ? rawContent.uuid : undefined) || this.id.uuid,
+        name: rawContent.name || this.name,
+        investigator_code: rawContent.investigator_code || this.investigator,
+        slots: rawContent.slots || {},
+        ignoreDeckLimitSlots: rawContent.ignoreDeckLimitSlots || {},
+      };
+    } else {
+      this.deck = {
+        ...rawContent,
+        local: undefined,
+        uuid: undefined,
+        id: (!rawContent.local ? rawContent.id : undefined) || this.id.id || 0,
+        user_id: (!rawContent.local ? rawContent.user_id : undefined) || this.id.arkhamdb_user || 0,
+        name: rawContent.name || this.name,
+        investigator_code: rawContent.investigator_code || this.investigator,
+        slots: rawContent.slots || {},
+        ignoreDeckLimitSlots: rawContent.ignoreDeckLimitSlots || {},
+      };
+    }
     this.previousDeck = deck.previous_deck?.content;
     this.campaign = deck.campaign?.name ? {
       id: {

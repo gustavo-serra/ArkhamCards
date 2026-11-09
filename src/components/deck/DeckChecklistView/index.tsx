@@ -30,8 +30,10 @@ import { ListCard } from '@data/types/ListCard';
 import {
   ChecklistCardQuantity,
   ChecklistRetrieveItem,
+  getSafeDeckUuid,
   useDeckPhysicalChecklistPlan,
 } from '@components/deck/usePhysicalCollectionTracker';
+import LatestDeckT from '@data/interfaces/LatestDeckT';
 
 export interface DeckChecklistProps {
   id: DeckId;
@@ -159,11 +161,15 @@ function DeckChecklistView({
   id,
   campaignId,
   parsedDeck,
+  campaignDeck,
+  routeSlots,
   investigator,
 }: {
   id: DeckId;
   campaignId?: CampaignId;
   parsedDeck: ParsedDeckResults;
+  campaignDeck: LatestDeckT | undefined;
+  routeSlots: Slots | undefined;
   investigator: InvestigatorChoice | undefined;
 }) {
   const navigation = useNavigation();
@@ -172,57 +178,77 @@ function DeckChecklistView({
   const [guideExpanded, setGuideExpanded] = useState(false);
 
   const dispatch = useDispatch();
-  const currentSlots = parsedDeck.deckEdits?.slots ?? parsedDeck.deck?.slots;
-  const { plan, cardsMap } = useDeckPhysicalChecklistPlan(id, currentSlots, parsedDeck.cards);
+  const effectiveDeckId = campaignDeck?.id || id;
+  const currentSlots =
+    parsedDeck.deckEdits?.slots ??
+    parsedDeck.deck?.slots ??
+    campaignDeck?.deck.slots ??
+    routeSlots;
+  const { plan, cardsMap } = useDeckPhysicalChecklistPlan(effectiveDeckId, currentSlots, parsedDeck.cards);
+  const effectiveDeckKey = plan.deckKey || getSafeDeckUuid(effectiveDeckId);
 
   const handleConfirmAssembly = useCallback(() => {
-    if (!plan.deckKey) {
+    if (!effectiveDeckKey) {
       return;
     }
     dispatch(
       confirmPhysicalDeckAssembly({
-        deckKey: plan.deckKey,
-        campaignId,
-        investigatorCode: parsedDeck.deck?.investigator_code || investigator?.front.code || '',
-        deckId: id,
-        deckName: parsedDeck.deckEdits?.nameChange || parsedDeck.deck?.name,
+        deckKey: effectiveDeckKey,
+        campaignId: campaignId || campaignDeck?.campaign?.id,
+        campaignName: campaignDeck?.campaign?.name,
+        investigatorCode:
+          parsedDeck.deck?.investigator_code ||
+          campaignDeck?.investigator ||
+          investigator?.front.code ||
+          '',
+        deckId: effectiveDeckId,
+        deckName:
+          parsedDeck.deckEdits?.nameChange ||
+          parsedDeck.deck?.name ||
+          campaignDeck?.name,
         physicalSlots: currentSlots ?? {},
         assembledAt: new Date().toISOString(),
       })
     );
   }, [
     dispatch,
-    plan.deckKey,
+    effectiveDeckKey,
     campaignId,
+    campaignDeck,
     parsedDeck.deck?.investigator_code,
     parsedDeck.deck?.name,
     parsedDeck.deckEdits?.nameChange,
     investigator?.front.code,
-    id,
+    effectiveDeckId,
     currentSlots,
   ]);
 
   const handleDisassemble = useCallback(() => {
-    if (!plan.deckKey) {
+    if (!effectiveDeckKey) {
       return;
     }
     dispatch(
       setDeckPhysicalTracking({
-        deckKey: plan.deckKey,
+        deckKey: effectiveDeckKey,
         tracked: true,
-        campaignId,
-        investigatorCode: parsedDeck.deck?.investigator_code || investigator?.front.code || '',
-        deckId: id,
+        campaignId: campaignId || campaignDeck?.campaign?.id,
+        investigatorCode:
+          parsedDeck.deck?.investigator_code ||
+          campaignDeck?.investigator ||
+          investigator?.front.code ||
+          '',
+        deckId: effectiveDeckId,
       })
     );
-    dispatch(disassemblePhysicalDeck(plan.deckKey));
+    dispatch(disassemblePhysicalDeck(effectiveDeckKey));
   }, [
     dispatch,
-    plan.deckKey,
+    effectiveDeckKey,
     campaignId,
+    campaignDeck,
     parsedDeck.deck?.investigator_code,
     investigator?.front.code,
-    id,
+    effectiveDeckId,
   ]);
 
   const toggleGuide = useCallback(() => {
@@ -264,8 +290,8 @@ function DeckChecklistView({
   }, []);
 
   const clearChecklist = useCallback(() => {
-    dispatch(resetDeckChecklist(id));
-  }, [dispatch, id]);
+    dispatch(resetDeckChecklist(effectiveDeckId));
+  }, [dispatch, effectiveDeckId]);
 
   const [headerItems, headerHeight] = useMemo(() => {
     return [
@@ -397,8 +423,8 @@ function DeckChecklistView({
         ) }
       </View>
       <DbCardResultList
-        deck={parsedDeck.deckT}
-        filterId={id.uuid}
+        deck={parsedDeck.deckT || campaignDeck}
+        filterId={effectiveDeckId.uuid}
         investigator={investigator}
         sorts={sorts}
         headerItems={headerItems}
@@ -416,7 +442,7 @@ function DeckChecklistView({
 
 function DeckChecklistViewWrapper() {
   const route = useRoute<RouteProp<RootStackParamList, 'Deck.Checklist'>>();
-  const { campaignId, id } = route.params;
+  const { campaignId, id, slots } = route.params;
 
   const deck = useCampaignDeck(id, campaignId);
   const parsedDeck = useParsedDeck(id);
@@ -425,7 +451,14 @@ function DeckChecklistViewWrapper() {
 
   return (
     <ParsedDeckContextProvider parsedDeckObj={parsedDeck}>
-      <DeckChecklistView id={id} campaignId={campaignId} parsedDeck={parsedDeck} investigator={investigator} />
+      <DeckChecklistView
+        id={id}
+        campaignId={campaignId}
+        parsedDeck={parsedDeck}
+        campaignDeck={deck}
+        routeSlots={slots}
+        investigator={investigator}
+      />
     </ParsedDeckContextProvider>
   );
 }

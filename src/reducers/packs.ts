@@ -15,6 +15,14 @@ import {
   SET_PACK_QUANTITY,
   SET_CARD_PRINTING_OVERRIDE,
   CardPrintingOverrides,
+  AssembledDeckState,
+  CONFIRM_PHYSICAL_DECK_ASSEMBLY,
+  DISASSEMBLE_CAMPAIGN_DECKS,
+  DISASSEMBLE_PHYSICAL_DECK,
+  PhysicalCollectionActions,
+  PhysicalCollectionMode,
+  SET_DECK_PHYSICAL_TRACKING,
+  SET_PHYSICAL_COLLECTION_MODE,
 } from '@actions/types';
 
 interface PacksState {
@@ -29,6 +37,10 @@ interface PacksState {
     [code: string]: number;
   };
   card_printing_overrides?: CardPrintingOverrides;
+  physical_collection_mode?: PhysicalCollectionMode;
+  assembled_decks?: {
+    [deckKey: string]: AssembledDeckState | undefined;
+  };
   show_spoilers: {
     [code: string]: boolean;
   };
@@ -49,6 +61,8 @@ const DEFAULT_PACKS_STATE: PacksState = {
   in_collection: { core: true },
   pack_quantities: {},
   card_printing_overrides: {},
+  physical_collection_mode: 'manual',
+  assembled_decks: {},
   show_spoilers: {},
   loading: false,
   error: null,
@@ -58,7 +72,7 @@ const DEFAULT_PACKS_STATE: PacksState = {
 
 export default function(
   state: PacksState = DEFAULT_PACKS_STATE,
-  action: PacksActions
+  action: PacksActions | PhysicalCollectionActions
 ): PacksState {
   if (action.type === UPDATE_PROMPT_DISMISSED) {
     return {
@@ -230,6 +244,94 @@ export default function(
     return {
       ...state,
       draft: new_draft,
+    };
+  }
+
+  if (action.type === SET_PHYSICAL_COLLECTION_MODE) {
+    return {
+      ...state,
+      physical_collection_mode: action.mode,
+    };
+  }
+
+  if (action.type === CONFIRM_PHYSICAL_DECK_ASSEMBLY) {
+    const nextDecks = { ...(state.assembled_decks || {}) };
+    nextDecks[action.deckKey] = {
+      deckKey: action.deckKey,
+      campaignId: action.campaignId,
+      campaignName: action.campaignName,
+      investigatorCode: action.investigatorCode,
+      deckId: action.deckId,
+      deckName: action.deckName,
+      tracked: true,
+      assembled: true,
+      physicalSlots: { ...action.physicalSlots },
+      assembledAt: action.assembledAt,
+    };
+    return {
+      ...state,
+      assembled_decks: nextDecks,
+    };
+  }
+
+  if (action.type === DISASSEMBLE_PHYSICAL_DECK) {
+    const nextDecks = { ...(state.assembled_decks || {}) };
+    const existing = nextDecks[action.deckKey];
+    if (existing) {
+      nextDecks[action.deckKey] = {
+        ...existing,
+        assembled: false,
+        physicalSlots: {},
+      };
+    }
+    return {
+      ...state,
+      assembled_decks: nextDecks,
+    };
+  }
+
+  if (action.type === SET_DECK_PHYSICAL_TRACKING) {
+    const nextDecks = { ...(state.assembled_decks || {}) };
+    const existing = nextDecks[action.deckKey];
+    if (existing) {
+      nextDecks[action.deckKey] = {
+        ...existing,
+        tracked: action.tracked,
+        assembled: action.tracked ? existing.assembled : false,
+        physicalSlots: action.tracked ? existing.physicalSlots : {},
+      };
+    } else if (action.deckId && action.investigatorCode) {
+      nextDecks[action.deckKey] = {
+        deckKey: action.deckKey,
+        campaignId: action.campaignId,
+        investigatorCode: action.investigatorCode,
+        deckId: action.deckId,
+        tracked: action.tracked,
+        assembled: false,
+        physicalSlots: {},
+        assembledAt: new Date(0).toISOString(),
+      };
+    }
+    return {
+      ...state,
+      assembled_decks: nextDecks,
+    };
+  }
+
+  if (action.type === DISASSEMBLE_CAMPAIGN_DECKS) {
+    const nextDecks = { ...(state.assembled_decks || {}) };
+    forEach(nextDecks, (deckState, key) => {
+      if (deckState && deckState.campaignId?.campaignId === action.campaignId.campaignId) {
+        nextDecks[key] = {
+          ...deckState,
+          assembled: false,
+          physicalSlots: {},
+        };
+      }
+    });
+    return {
+      ...state,
+      assembled_decks: nextDecks,
     };
   }
 

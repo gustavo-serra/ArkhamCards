@@ -55,6 +55,7 @@ function configureStore(initialState: AppState) {
     // These all have some transient fields and are handled separately.
     blacklist: [
       'cards', 'signedIn', 'filters', 'deckEdits', 'packs', 'dissonantVoices',
+      'patreon', 'physicalCollection',
       // These are replacement fields.
       'guides_2', 'campaigns_2', 'decks_2',
       // These are the legacy fields (campaigns as well, but it didn't have its own persistor)
