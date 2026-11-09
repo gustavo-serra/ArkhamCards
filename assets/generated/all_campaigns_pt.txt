@@ -353,7 +353,7 @@
             ]
           },
           {
-            "title": "Peril / Perigo",
+            "title": "Perigo",
             "steps": [
               "$peril_rule"
             ]
@@ -365,7 +365,7 @@
             ]
           },
           {
-            "title": "Surge / Ímpeto",
+            "title": "Ímpeto",
             "steps": [
               "$surge_rule"
             ]
@@ -686,7 +686,7 @@
             ]
           },
           {
-            "title": "Elusive / Elusivo",
+            "title": "Elusivo",
             "steps": [
               "$elusive_rule"
             ]
@@ -3555,7 +3555,7 @@
           {
             "id": "$peril_rule",
             "type": "rule_reminder",
-            "title": "Peril / Perigo",
+            "title": "Perigo",
             "text": "Peril / Perigo é uma habilidade de palavra-chave.\nEnquanto um investigador estiver resolvendo uma carta de encontro com a palavra-chave “Perigo”, ele não pode consultar os outros jogadores. Os outros jogadores não podem jogar cartas, ativar habilidades ou comprometer cartas para os testes de perícia desse investigador enquanto a carta de encontro “Perigo” estiver sendo resolvida."
           },
           {
@@ -3583,7 +3583,7 @@
           {
             "id": "$surge_rule",
             "type": "rule_reminder",
-            "title": "Surge / Ímpeto",
+            "title": "Ímpeto",
             "text": "Surge / Ímpeto é uma habilidade de palavra-chave.\nDepois que um investigador compra e resolve uma carta de encontro que possui a palavra-chave surge / ímpeto, esse investigador deve comprar e resolver outra carta.",
             "bullets": [
               {
@@ -3593,27 +3593,33 @@
           },
           {
             "id": "$codex_rule",
-            "title": "The Codex / O Códice [codex]",
+            "title": "O Códice [codex]",
             "type": "rule_reminder",
-            "text": "Algumas cartas têm o símbolo do códice ([codex]). Durante um cenário, alguns efeitos e habilidades de cartas podem direcionar os jogadores a ler uma entrada específica do códice. Ao jogar, mantenha o guia de campanha à mão para facilitar a consulta.\nCertos locais, personagens e inimigos têm entradas no códice, marcadas com ([codex] X). Para ler uma entrada do códice, pague todos os custos e/ou resolva todos os efeitos associados à sua habilidade de ativação e, em seguida, leia a entrada correspondente ao cenário atual no guia de campanha e resolva seu texto.",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, alguns efeitos de cartas podem instruir que um jogador leia uma entrada específica de um códice. Enquanto estiver jogando, tenha o Guia de Campanha em mãos para referência.\nCertos locais, personagens ou inimigos em <i>O Banquete de Hemlock Vale</i> têm entradas de códices, marcadas com ([codex] X). Para ler a entrada do códice de um personagem ou local, você deve pagar todos os custos dessa habilidade primeiro, então ir até o Códice do cenário ou prelúdio atual neste Guia de Campanha e resolver todo o texto.",
             "bullets": [
               {
-                "text": "Cada entrada do códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que seja indicado o contrário."
+                "text": "Cada entrada de códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que especificado de outra forma.",
+                "bullet_type": "small"
               },
               {
-                "text": "Ao resolver uma entrada do códice, o jogador que a ativou resolve todos os efeitos (resolver um teste, causar dano, pagar recursos, etc.). Se não estiver claro quem ativou a entrada do códice, o investigador principal a resolve."
+                "text": "Ao resolver uma entrada de códice, o jogador que desencadeou essa entrada resolve todos os efeitos <i>(resolver um teste, causar dano, pagar recursos etc.)</i>. Caso não esteja claro quem desencadeou a entrada do códice, o investigador líder resolve a entrada.",
+                "bullet_type": "small"
               },
               {
-                "text": "As entradas do códice que são acionadas por um tipo de ação específico (como <b>Fight / Lute</b>, <b>Evade / Evadir</b>, <b>Parley / Negociata</b>, etc.) são consideradas como sendo desse tipo de ação durante toda a resolução daquela entrada do códice."
+                "text": "Se uma entrada de códice instruir os jogadores a colocar em jogo um residente nomeado previamente separado, coloque esse personagem em jogo com seu lado de ativo de história virado para cima, a menos que seja indicado o contrário.",
+                "bullet_type": "small"
               },
               {
-                "text": "Ao resolver uma entrada do códice, o jogador lê apenas a seção para a qual preenche os requisitos. Caso não preencha os requisitos para resolver a primeira seção de uma entrada do códice, deve passar para a seção seguinte."
+                "text": "<b>Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários.</b> Se o nome de um residente estiver riscado, todas as entradas nas Anotações desse residente também estarão.",
+                "bullet_type": "small"
               },
               {
-                "text": "Se um efeito de carta instruir os jogadores a resolver uma entrada do códice que não existe para o cenário em questão, esse efeito falha."
+                "text": "Enquanto estiver resolvendo uma entrada do códice de um personagem específico, você só pode ler uma única seção para a qual você atenda aos requisitos. Se você não atender aos requisitos da primeira seção da entrada de um códice, pule para a próxima seção. Consulte apenas as Anotações e Nível de Relacionamento desse personagem no Registro da Campanha, a menos que seja indicado o contrário. <i>(por exemplo, “Nas Anotações de River Hawthorne, o registro</i> River é um arraso<i>” instrui os jogadores a alterar a seção “Anotações” na entrada de River no Registro da Campanha.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Após resolver uma entrada do códice e fazer quaisquer alterações no jogo e/ou no registro da campanha, retome o jogo."
+                "text": "Após resolver uma entrada de um códice e fazer quaisquer mudanças no Registro da Campanha, retome o jogo.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -3647,12 +3653,13 @@
           },
           {
             "id": "$elusive_rule",
-            "title": "Elusive / Elusivo",
+            "title": "Elusivo",
             "type": "rule_reminder",
-            "text": "Elusive / Elusivo é uma habilidade de palavra-chave.\nInimigos elusivos representam inimigos que desejam evitar os investigadores para sua própria sobrevivência ou para alcançar seus próprios objetivos. Se um inimigo preparado com a palavra-chave elusive / elusivo atacar ou for atacado, após a resolução desse ataque, esse inimigo se desengaja imediatamente de todos os investigadores, move-se para um local adjacente (sem investigadores, se possível) e esgota.",
+            "text": "Elusivo é uma habilidade de palavra-chave.\nInimigos elusivos representam inimigos que querem evitar os investigadores para sua própria sobrevivência ou para cumprir seus próprios objetivos. Se um inimigo preparado com a palavra-chave elusivo atacar ou for atacado, após a resolução desse ataque, esse inimigo se desengaja imediatamente de todos os investigadores, move-se para um local conectado (sem investigadores, se possível) e se esgota.",
             "bullets": [
               {
-                "text": "Esse efeito ocorre independentemente de o inimigo estar ou não engajado com o investigador atacante."
+                "text": "Este efeito ocorre quer o inimigo estivesse ou não engajado com o investigador atacante.",
+                "bullet_type": "small"
               }
             ]
           }
@@ -13182,7 +13189,7 @@
     "scenarios": [
       {
         "id": "city_of_the_elder_things",
-        "scenario_name": "Cidade das Criaturas Ancestrais",
+        "scenario_name": "Cidade dos Seres Ancestrais",
         "header": "Cenário III",
         "full_name": "Cenário III: Cidade dos Seres Ancestrais",
         "chaos_bag_card": "08621",
@@ -42774,25 +42781,25 @@
       ],
       "rules": [
         {
-          "title": "The Codex / O Códice [codex]",
+          "title": "O Códice [codex]",
           "steps": [
             "$codex_rule"
           ]
         },
         {
-          "title": "Three Days, Three Nights",
+          "title": "Três Dias, Três Noites",
           "steps": [
             "$three_days_rule"
           ]
         },
         {
-          "title": "Residents & Relationship Levels",
+          "title": "Residentes & Níveis de Relacionamento",
           "steps": [
             "$residents_rule"
           ]
         },
         {
-          "title": "Location Adjacency in this Campaign",
+          "title": "Adjacência dos Locais nesta Campanha",
           "steps": [
             "$location_adjacency_rule"
           ]
@@ -42804,19 +42811,19 @@
           ]
         },
         {
-          "title": "Day [day] and Night [night]",
+          "title": "Dia [day] e Noite [night]",
           "steps": [
             "$day_and_night_rule"
           ]
         },
         {
-          "title": "Elusive / Elusivo",
+          "title": "Elusivo",
           "steps": [
             "$elusive_rule"
           ]
         },
         {
-          "title": "Patrol",
+          "title": "Patrulha",
           "steps": [
             "$patrol_rule"
           ]
@@ -74856,94 +74863,112 @@
           },
           {
             "id": "$codex_rule",
-            "title": "The Codex / O Códice [codex]",
+            "title": "O Códice [codex]",
             "type": "rule_reminder",
-            "text": "<i>The Feast of Hemlock Vale</i> campaign features a new gameplay concept: The Codex. During this campaign, some card effects may direct players to read a specific codex entry. While playing, keep the Campaign Guide on hand for easy reference.\nCertain locations, characters, or enemies in <i>The Feast of Hemlock Vale</i> have codex entries, marked with ([codex] X). To read a character or location’s codex entry, you must pay all costs on that ability first, then turn to the current scenario or prelude’s Codex in this Campaign Guide and resolve all text.",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, alguns efeitos de cartas podem instruir que um jogador leia uma entrada específica de um códice. Enquanto estiver jogando, tenha o Guia de Campanha em mãos para referência.\nCertos locais, personagens ou inimigos em <i>O Banquete de Hemlock Vale</i> têm entradas de códices, marcadas com ([codex] X). Para ler a entrada do códice de um personagem ou local, você deve pagar todos os custos dessa habilidade primeiro, então ir até o Códice do cenário ou prelúdio atual neste Guia de Campanha e resolver todo o texto.",
             "bullets": [
               {
-                "text": "Cada entrada do códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que seja indicado o contrário."
+                "text": "Cada entrada de códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que especificado de outra forma.",
+                "bullet_type": "small"
               },
               {
-                "text": "When resolving a codex entry, the player who triggered that entry resolves all effects <i>(resolving a test, dealing damage, paying resources, etc.)</i>. If it is unclear who triggered the codex entry, the lead investigator resolves the entry."
+                "text": "Ao resolver uma entrada de códice, o jogador que desencadeou essa entrada resolve todos os efeitos <i>(resolver um teste, causar dano, pagar recursos etc.)</i>. Caso não esteja claro quem desencadeou a entrada do códice, o investigador líder resolve a entrada.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a codex entry instructs players to put a named set-aside resident into play, put that character into play with their story asset side faceup unless otherwise stated."
+                "text": "Se uma entrada de códice instruir os jogadores a colocar em jogo um residente nomeado previamente separado, coloque esse personagem em jogo com seu lado de ativo de história virado para cima, a menos que seja indicado o contrário.",
+                "bullet_type": "small"
               },
               {
-                "text": "<b>A resident whose name is crossed out in your Campaign Log cannot enter play during preludes or scenarios.</b> If a resident’s name is crossed out, so are all entries in that resident’s Notes."
+                "text": "<b>Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários.</b> Se o nome de um residente estiver riscado, todas as entradas nas Anotações desse residente também estarão.",
+                "bullet_type": "small"
               },
               {
-                "text": "While resolving a codex entry for a specific character, you may only read a single section for which you meet the requirements. If you do not meet the requirements for the first section of a codex entry, skip to the folowing section. Only refer to that character’s Notes and Relationship Level in your Campaign Log unless otherwise stated. <i>(e.g. </i>“In River Hawthorne’s Notes, record <i>River is a dreamboat” directs players to change the “Notes” section in River’s Campaign Log entry.)</i>"
+                "text": "Enquanto estiver resolvendo uma entrada do códice de um personagem específico, você só pode ler uma única seção para a qual você atenda aos requisitos. Se você não atender aos requisitos da primeira seção da entrada de um códice, pule para a próxima seção. Consulte apenas as Anotações e Nível de Relacionamento desse personagem no Registro da Campanha, a menos que seja indicado o contrário. <i>(por exemplo, “Nas Anotações de River Hawthorne, o registro</i> River é um arraso<i>” instrui os jogadores a alterar a seção “Anotações” na entrada de River no Registro da Campanha.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "After resolving a codex entry and making any changes in your Campaign Log, resume play."
+                "text": "Após resolver uma entrada de um códice e fazer quaisquer mudanças no Registro da Campanha, retome o jogo.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$three_days_rule",
-            "title": "Three Days, Three Nights",
+            "title": "Três Dias, Três Noites",
             "type": "rule_reminder",
-            "text": "<i>The Feast of Hemlock Vale</i> campaign gives players just three days in-game to play out its story. This campaign also contains playable preludes in which investigators may interact with the residents of Hemlock Vale, learn the secrets of Hemlock Isle, and make preparations for the next scenario.\nPreludes are non-confrontational segments that are set up with locations and a scenario reference, act, and agenda. The end of each prelude provides several choices on which scenario to play next. Depending on the day and time, some scenarios may provide new story options or challenges. Players will not have time to play every scenario or befriend each resident on a single playthrough of this campaign.",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> dá aos jogadores apenas três dias no jogo para desenrolar sua história. Esta campanha também contém prelúdios jogáveis nos quais os investigadores podem interagir com os residentes de Hemlock Vale, aprender os segredos da Ilha Hemlock e fazer preparativos para o próximo cenário.\nPrelúdios são segmentos sem confronto montados com locais, uma referência de cenário, ato e agenda. O final de cada prelúdio oferece várias opções de qual cenário jogar a seguir. Dependendo do dia e do período, alguns cenários podem oferecer novas opções de história ou desafios. Os jogadores não terão tempo para jogar todos os cenários ou fazer amizade com todos os residentes em uma única jogatina desta campanha.",
             "bullets": [
               {
-                "text": "Players may earn experience when playing preludes and interludes. Record this experience under “Unspent Experience,” but do not spend it until instructed to by the campaign guide."
+                "text": "Os jogadores podem ganhar experiência ao jogar prelúdios e interlúdios. Registre essa experiência sob “Experiência Não Gasta”, mas não a gaste até ser instruído pelo guia de campanha.",
+                "bullet_type": "small"
               },
               {
-                "text": "To keep track of the current day/time, you may refer to and update the “Day/Time” section in the Campaign Log."
+                "text": "Para acompanhar o dia/período atual, você pode consultar e atualizar a seção “Dia/Período” no Registro da Campanha.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$residents_rule",
             "type": "rule_reminder",
-            "title": "Residents & Relationship Levels",
-            "text": "At times, story text may instruct investigators to increase their Relationship Level with a particular resident. If instructed to do so, check the Campaign Log and find the specified resident’s entry.",
+            "title": "Residentes & Níveis de Relacionamento",
+            "text": "Às vezes, o texto da história pode instruir os investigadores a aumentar seu Nível de Relacionamento com um residente específico. Caso seja instruído a fazer isso, verifique o Registro da Campanha e encontre a entrada do residente especificado.",
             "bullets": [
               {
-                "text": "When referring to a resident’s Relationship Level, the number of checked boxes in their entry is that resident’s Relationship Level."
+                "text": "Ao fazer referência ao Nível de Relacionamento de um residente, o número de caixas assinaladas em sua entrada é o Nível de Relacionamento desse residente.",
+                "bullet_type": "small"
               },
               {
-                "text": "To increase a resident’s Relationship Level, check the leftmost unchecked box in that resident’s entry."
+                "text": "Para aumentar o Nível de Relacionamento de um residente, assinale a caixa vazia mais à esquerda na entrada desse residente.",
+                "bullet_type": "small"
               },
               {
-                "text": "To decrease a resident’s Relationship Level, erase the rightmost checked box in that resident’s entry."
+                "text": "Para reduzir o Nível de Relacionamento de um residente, apague a caixa assinalada mais à direita na entrada desse residente.",
+                "bullet_type": "small"
               },
               {
-                "text": "Unless otherwise stated, you should increase or decrease a resident’s Relationship Level by 1 box at a time."
+                "text": "A menos que seja indicado o contrário, você deve aumentar ou reduzir o Nível de Relacionamento de um residente em 1 caixa por vez.",
+                "bullet_type": "small"
               },
               {
-                "text": "If instructed to set a resident’s Relationship Level to 0, erase all checked boxes in that resident’s entry."
+                "text": "Caso seja instruído a definir o Nível de Relacionamento de um residente como 0, apague todas as caixas assinaladas na entrada desse residente.",
+                "bullet_type": "small"
               },
               {
-                "text": "<b>A resident whose name is crossed out in your Campaign Log cannot enter play during preludes or scenarios.</b>"
+                "text": "<b>Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários.</b>",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$location_adjacency_rule",
             "type": "rule_reminder",
-            "title": "Location Adjacency in this Campaign",
-            "text": "Most scenarios in this campaign are arranged in a set grid pattern. <b>During these scenarios, each location is connected to each location adjacent to it, in addition to any connection icons.</b>",
+            "title": "Adjacência dos Locais nesta Campanha",
+            "text": "A maioria dos cenários desta campanha são organizados em um padrão em grade. <b>Durante esses cenários, cada local está conectado a cada local adjacente a ele, além de eventuais ícones de conexão.</b>",
             "bullets": [
               {
-                "text": "Adjacent locations share a side (left, right, above, or below). Locations that share only a corner are not considered adjacent."
+                "text": "Locais adjacentes compartilham um lado (esquerda, direita, acima ou abaixo). Locais que compartilham apenas um canto não são considerados adjacentes.",
+                "bullet_type": "small"
               },
               {
-                "text": "When instructed to put a location into play, place it in an adjacent empty space above, below, or to the left or right of your location."
+                "text": "Quando você for instruído a colocar um local em jogo, coloque-o em um espaço vazio adjacente acima, abaixo, à esquerda ou à direita de seu local.",
+                "bullet_type": "small"
               },
               {
-                "text": "You cannot put a location into play where an existing location already is. When choosing where to put a new location, you must choose a spot unoccupied by a location, if able. If you cannot, no new locations are put into play."
+                "text": "Você não pode colocar um local em jogo onde já houver um local. Ao escolher onde colocar um novo local, você deve selecionar um lugar que não esteja ocupado por um local, se possível. Se você não puder, nenhum local novo será colocado em jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "Note that during preludes and scenarios that utilize <i>The Vale</i> encounter set, locations are only connected via their icons."
+                "text": "Observe que durante prelúdios e cenários que utilizam o conjunto de encontros <i>O Vale</i>, os locais se conectam apenas por seus ícones.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$day_and_night_rule",
-            "title": "Day [day] and Night [night]",
-            "text": "During setup during this campaign, players may be instructed to put the Time Marker card into play. To do so, find the Time Marker card in the <i>The First Day</i>, <i>The Second Day</i>, or <i>The Final Day</i> encounter sets that corresponds to the current day and place it next to the agenda deck. This is the current day and time.\nSome cards have different effects depending on whether the scenario takes place during the Day or Night. Text following a <b>(Day [day])</b> or <b>(Night [night])</b> keyword is only active if the scenario or prelude being played is during the Day or Night, respectively. Any other ability not preceded by these keywords is active regardless of the time period.\nSetup instructions may have specific instructions depending on the current day and time. <i>(e.g.</i> “If it is <b>Day 2</b>, put River Hawthorne into play at the Cranberry Bog” <i>only applies when playing that scenario as a</i> <b>Day 2</b> <i>scenario and not a</i> <b>Night 2</b> <i>scenario).</i>"
+            "title": "Dia [day] e Noite [night]",
+            "text": "Durante a preparação desta campanha, os jogadores poderão ser instruídos a colocar a carta de Marcador de Período em jogo. Para fazer isso, encontre a carta de Marcador de Período no conjunto de encontros <i>O Primeiro Dia</i>, <i>O Segundo Dia</i> ou <i>O Último Dia</i> correspondente ao dia atual e coloque-a ao lado do baralho de agendas. Esse será o dia e o período atuais.\nAlgumas cartas têm efeitos diferentes dependendo se o cenário se passa durante o Dia ou a Noite. O texto após uma palavra-chave <b>(Dia [day])</b> ou <b>(Noite [night])</b> só estará ativo se o cenário ou prelúdio que estiver sendo jogado se passar durante o Dia ou a Noite, respectivamente. Quaisquer outras habilidades que não sejam precedidas por essas palavras-chave estarão ativas independentemente do período.\nAs instruções de preparação podem conter informações específicas dependendo do dia e do período atuais. <i>(Por exemplo,</i> “Se for o <b>Dia 2</b>, coloque River Hawthorne em jogo no Brejo de Cranberries” <i>só se aplica quando esse cenário for jogado como um cenário de</i> <b>Dia 2</b> <i>e não como um cenário de</i> <b>Noite 2</b><i>).</i>"
           },
           {
             "id": "$alert_rule",
@@ -74954,20 +74979,22 @@
           {
             "id": "$elusive_rule",
             "type": "rule_reminder",
-            "title": "Elusive / Elusivo",
-            "text": "Some enemies in this campaign have the elusive keyword. Elusive enemies represent enemies who want to avoid the investigators for their own survival or to accomplish their own goals.\nIf a ready enemy with the elusive keyword attacks or is attacked, after that attack resolves, that enemy immediately disengages from all investigators, moves to a connecting location (with no investigators, if able), and exhausts. This effect occurs whether the enemy was engaged with the attacking investigator or not."
+            "title": "Elusivo",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave elusivo. Inimigos elusivos representam inimigos que querem evitar os investigadores para sua própria sobrevivência ou para cumprir seus próprios objetivos.\nSe um inimigo preparado com a palavra-chave elusivo atacar ou for atacado, após a resolução desse ataque, esse inimigo se desengaja imediatamente de todos os investigadores, move-se para um local conectado (sem investigadores, se possível) e se esgota. Este efeito ocorre independentemente de o inimigo estar engajado com o investigador atacante ou não."
           },
           {
             "id": "$patrol_rule",
             "type": "rule_reminder",
-            "title": "Patrol",
-            "text": "Some enemies in this campaign have the patrol keyword. During the enemy phase (in framework step 3.2), each ready, unengaged enemy with the patrol keyword moves to a connecting location along the shortest path toward the designated location (as described in parentheses next to the word patrol).",
+            "title": "Patrulha",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location via a path that is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           }
@@ -75032,7 +75059,7 @@
           ]
         },
         {
-          "title": "Patrol",
+          "title": "Patrulha",
           "steps": [
             "$patrol_rule"
           ]
@@ -75853,18 +75880,21 @@
           },
           {
             "id": "$patrol_rule",
-            "title": "Patrol",
+            "title": "Patrulha",
             "type": "rule_reminder",
-            "text": "Some enemies have the patrol keyword. During the enemy phase (in framework step 3.2), each ready, unengaged enemy with the patrol keyword moves to a connecting location along the shortest path toward the designated location (as described in parentheses next to the word patrol).",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location which is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "During this scenario, locations are arranged into two main \"hubs\" consisting of either [[Public]] or [[Restricted]] locations. If an enemy's patrol location is \"clockwise\" or \"counterclockwise\" that means they will move to the connecting location in the clockwise or counterclockwise direction for the hub they are in."
+                "text": "Se não houver locais válidos para onde o inimigo possa se mover, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -77678,13 +77708,13 @@
       ],
       "rules": [
         {
-          "title": "Explore",
+          "title": "Explorar",
           "steps": [
             "$explore_rule"
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story_cards"
           ]
@@ -77945,7 +77975,7 @@
         "steps": [
           {
             "id": "$explore_rule",
-            "title": "Explore",
+            "title": "Explorar",
             "type": "rule_reminder",
             "text": "Some abilities in <i>Guardians of the Abyss</i> are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action.\n<b>Explore</b> abilities instruct you to draw the top card of the “exploration deck,” which is a separate deck that will be constructed during this scenario. This deck consists of several single-sided locations and treachery cards.",
             "bullets": [
@@ -77969,9 +77999,9 @@
           },
           {
             "id": "$story_cards",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "type": "rule_reminder",
-            "text": "Story cards are a new cardtype in this scenario. These cards serve as an avenue for additional narrative and typically appear as the reverse side of another scenario card. When you are instructed to resolve a story card, simply read its story text and resolve its game text, if any.\n<i>(Note: When a location or enemy that is in play is flipped over to a story card on its other side, that location or enemy is still considered to be in play while that story card is being resolved.)</i>"
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "$strength_of_the_abyss",
@@ -80776,7 +80806,7 @@
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story_cards"
           ]
@@ -83169,8 +83199,8 @@
           {
             "id": "$story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "Cartas de história são um novo tipo de carta na campanha <i>O Caminho para Carcosa</i>. Essas cartas servem como meio para apresentar mais narrativa e geralmente aparecem no verso de outra carta de cenário. Quando você for instruído a resolver uma carta de história, basta ler seu texto de história e resolver seu texto de jogo, se houver."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
       },
@@ -95644,7 +95674,7 @@
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story_cards"
           ]
@@ -96229,8 +96259,8 @@
           {
             "id": "$story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "Cartas de história são um novo tipo de carta na campanha <i>O Caminho para Carcosa</i>. Essas cartas servem como meio para apresentar mais narrativa e geralmente aparecem no verso de outra carta de cenário. Quando você for instruído a resolver uma carta de história, basta ler seu texto de história e resolver seu texto de jogo, se houver."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
       },
@@ -104090,7 +104120,7 @@
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story_cards_rule"
           ]
@@ -104478,8 +104508,8 @@
           {
             "id": "$story_cards_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "Story cards are a cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. During setup, resolve the <b>Setup</b> text on each story card in play. Abilities on story cards in play can be triggered by any investigator."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
       },
@@ -116649,7 +116679,7 @@
       {
         "id": "the_inner_circle",
         "type": "interlude",
-        "scenario_name": "União e Desilusão",
+        "scenario_name": "O Círculo Interno",
         "full_name": "Interlúdio III: O Círculo Interno",
         "header": "Interlúdio III",
         "icon": "chilling_mists",
@@ -118591,7 +118621,7 @@
           ]
         },
         {
-          "title": "Explore",
+          "title": "Explorar",
           "steps": [
             "$explore"
           ]
@@ -119014,7 +119044,7 @@
           {
             "id": "$explore",
             "type": "rule_reminder",
-            "title": "Explore",
+            "title": "Explorar",
             "text": "Algumas habilidades nesta campanha são identificadas com um designador de ação de <b>Explorar</b>. Essas habilidades geralmente são usadas para encontrar novos locais para colocar em jogo e são iniciadas usando a ação de “ativar”.\nAs habilidades de <b>Explorar</b> orientam você a comprar a carta do topo do “baralho de exploração”, que é um baralho separado que é construído durante a preparação de alguns cenários. Esse baralho consiste em vários locais e cartas de traição de um único lado.",
             "bullets": [
               {
@@ -131700,45 +131730,54 @@
         "steps": [
           {
             "id": "$keys_rule",
-            "title": "Chaves",
+            "title": "Fichas de Chave",
             "type": "rule_reminder",
-            "text": "This expansion introduces key tokens that represent important objects or pieces of information that can be claimed and used during scenarios.\nKey tokens have two sides. When facedown, all seven keys have the same universal key symbol, so they can be randomized without the investigators knowing which is which. When faceup, each key is color coded with a unique color.\nIf a scenario uses one or more keys, the setup of that scenario indicates how many are set aside and whether they should be faceup or randomized facedown. Keys can enter play via several different card effects, and they are usually placed on enemy, location, or story asset. Keys can be acquired in any of three ways:",
+            "text": "Esta expansão introduz fichas de chave que representam objetos importantes ou informações cruciais que podem ser reivindicadas e usadas durante os cenários.\nAs fichas de chave têm dois lados. Quando viradas para baixo, todas as sete chaves compartilham o mesmo símbolo universal de chave, podendo ser sorteadas aleatoriamente sem que os investigadores saibam qual é qual. Quando viradas para cima, cada chave possui uma cor única identificadora.\nSe um cenário utilizar uma ou mais chaves, a preparação desse cenário indicará quantas são separadas e se devem ficar viradas para cima ou viradas para baixo aleatoriamente. As chaves podem entrar em jogo através de diversos efeitos de carta, sendo geralmente colocadas sobre um inimigo, local ou ativo de história. As chaves podem ser adquiridas de qualquer uma das três maneiras a seguir:",
             "bullets": [
               {
-                "text": "If a location with a key on it has no clues, an investigator may take control of each of that location's keys as a [fast] ability."
+                "text": "Se um local com uma chave em cima não tiver pistas, um investigador pode assumir o controle de cada uma das chaves daquele local como uma habilidade [fast].",
+                "bullet_type": "small"
               },
               {
-                "text": "If an investigator causes an enemy with a key on it to leave play, that investigator must take control of each of the keys that were on that enemy. (If it leaves play through some other means, place its keys on its location.)"
+                "text": "Se um investigador fizer com que um inimigo com uma chave em cima saia de jogo, esse investigador deve assumir o controle de cada uma das chaves que estavam naquele inimigo. <i>(Se ele sair de jogo por qualquer outro meio, coloque suas chaves em seu local.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Some card effects may allow an investigator to take control of keys in other ways."
+                "text": "Alguns efeitos de carta podem permitir que um investigador assuma o controle de chaves de outras maneiras.",
+                "bullet_type": "small"
               }
             ],
             "example": "When an investigator takes control of a key, they flip it faceup (if it is facedown) and place it on their investigator card. If an investigator who controls one or more keys is eliminated, place each of their keys on their locations. As an [action] ability, an investigator may give any number of their keys to another investigator at the same location.\n<b>Keys have no inherent game effect.</b> However, some card effects may change depending on which keys an investigator controls. Additionally, keys may sometimes be required in order to progress during a scenario."
           },
           {
             "id": "$flood_token_rule",
-            "title": "Flood Tokens",
+            "title": "Fichas de Inundação",
             "type": "rule_reminder",
-            "text": "Throughout the campaign, scenario card effects can flood locations. Each location has one of three different flood levels: it is either unflooded, partially flooded, or fully flooded. A location's flood level can be tracked using the double-sided flood tokens included in this deluxe box. <b>A location's flood level has no inherent game effect.</b> However, some card effects may change or become stronger while you are at a flooded location, particularly if that location is fully flooded.",
+            "text": "Alguns cenários nesta expansão utilizam fichas de inundação de dois lados, que podem representar um local que está parcial ou totalmente inundado.\nLocais inundados possuem um de três níveis de inundação: <b>não inundado</b> (sem ficha de inundação), <b>parcialmente inundado</b> (lado parcialmente inundado virado para cima) ou <b>totalmente inundado</b> (lado totalmente inundado virado para cima).\nO nível de inundação de um local não possui efeitos inerentes por si só, mas pode alterar o funcionamento de certas cartas de encontro e habilidades naquele local. Além disso, as seguintes regras se aplicam às fichas de inundação e locais inundados:",
             "bullets": [
               {
-                "text": "A location with no flood tokens is unflooded."
+                "text": "Se uma ficha de inundação for colocada em um local que já está parcialmente inundado, em vez disso, vire a ficha de inundação para o lado totalmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes partially flooded, place a flood token on it with the partially flooded side faceup to designate this."
+                "text": "Se uma ficha de inundação for colocada em um local que já está totalmente inundado, nada acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes fully flooded, place a flood token on it with the fully flooded side faceup (or if it is already partially flooded, flip its flood token over) to designate this."
+                "text": "Se um efeito aumentar o nível de inundação de um local, vire sua ficha de inundação de parcialmente inundado para totalmente inundado, ou coloque uma ficha de inundação nele (lado parcialmente inundado virado para cima) se ele não possuir uma.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"increased\", it changes from unflooded to partially flooded, or from partially flooded to fully flooded. A fully flooded location cannot have its flood level increased."
+                "text": "Se um efeito diminuir o nível de inundação de um local, vire sua ficha de inundação de totalmente inundado para parcialmente inundado, ou remova sua ficha de inundação se ele estiver parcialmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"decreased\", it changes from fully flooded to partially flooded, or from partially flooded to unflooded. If a location becomes unflooded, remove its flood token."
+                "text": "Se um local com uma ficha de inundação sair de jogo, remova essa ficha de inundação do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the purposes of card effects, both partially flooded locations and fully flooded locations are considered to be \"flooded.\""
+                "text": "Se um investigador em um local totalmente inundado terminar seu turno sem ter realizado com sucesso pelo menos uma ação de [action] durante seu turno, ele sofre 1 de dano direto lutando contra o avanço das águas.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -141722,7 +141761,7 @@
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story_cards_rule"
           ]
@@ -143387,14 +143426,14 @@
           {
             "id": "$story_cards_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "Story cards are a cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. During setup, resolve the <b>Setup</b> text on each story card in play. Abilities on story cards in play can be triggered by any investigator."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
       },
       {
         "id": "disappearance_at_the_twilight_estate",
-        "scenario_name": "Desaparecimento na Propriedade do Crepúsculo",
+        "scenario_name": "Desaparecimento na Mansão Crepuscular",
         "full_name": "Prólogo: Desaparecimento na Mansão Crepuscular",
         "header": "Prólogo",
         "type": "interlude",
@@ -149173,7 +149212,7 @@
       {
         "id": "the_inner_circle",
         "type": "interlude",
-        "scenario_name": "União e Desilusão",
+        "scenario_name": "O Círculo Interno",
         "full_name": "Interlúdio III: O Círculo Interno",
         "header": "Interlúdio III",
         "icon": "chilling_mists",
@@ -154735,31 +154774,31 @@
       ],
       "rules": [
         {
-          "title": "Flood Tokens",
+          "title": "Fichas de Inundação",
           "steps": [
             "$flood_token_rule"
           ]
         },
         {
-          "title": "Artifacts",
+          "title": "Artefatos",
           "steps": [
             "$artifacts_rule"
           ]
         },
         {
-          "title": "Alien Glyphs",
+          "title": "Glifos Alienígenas",
           "steps": [
             "$alien_glyphs"
           ]
         },
         {
-          "title": "Patrol",
+          "title": "Patrulha",
           "steps": [
             "$patrol_rule"
           ]
         },
         {
-          "title": "Relentless",
+          "title": "Implacável",
           "steps": [
             "$relentless_rule"
           ]
@@ -154771,7 +154810,7 @@
           ]
         },
         {
-          "title": "Selo",
+          "title": "Selar",
           "steps": [
             "$seal_rule"
           ]
@@ -169883,90 +169922,107 @@
           },
           {
             "id": "$artifacts_rule",
-            "title": "Artifacts",
+            "title": "Artefatos",
             "type": "rule_reminder",
-            "text": "Investigators may acquire certain [[Artifact]] story assets also referred to as simply \"artifacts\" through the course of <i>The Drowned City</i> campaign. Artifacts function like any other asset, except for the following:",
+            "text": "Os investigadores podem adquirir certos ativos de história de [[Artefato]] (também chamados simplesmente de “artefatos”) durante a campanha de <i>A Cidade Submersa</i>. Os artefatos funcionam como outros ativos de história, com as seguintes exceções:",
             "bullets": [
               {
-                "text": "Artifacts are never added to investigator decks. After resolution of a scenario, return any artifacts in play to the box."
+                "text": "Os artefatos nunca são adicionados aos baralhos de investigador. Após a resolução de um cenário, devolva todos os artefatos em jogo para o acervo de cartas.",
+                "bullet_type": "small"
               },
               {
-                "text": "When setting up a scenario, investigators may be instructed to begin play with an earned [[Artifact]] story asset. Only artifacts that have been checked off in the \"Artifacts Earned\" section of the Campaign Log may be chosen during this process."
+                "text": "Durante a preparação do cenário, os investigadores podem ser instruídos a começar o jogo com um ativo de história de Artefato adquirido. Somente os artefatos que foram marcados na seção “Artefatos Adquiridos” do Registro da Campanha poderão ser escolhidos desta forma.",
+                "bullet_type": "small"
               },
               {
-                "text": "Artifacts have a unique card back, have no cost, cannot leave play, and cannot be chosen to be discarded via scenario effects."
+                "text": "Os artefatos têm um verso de carta único, não têm custo, não ocupam espaços e não podem ser descartados por cartas de encontro.",
+                "bullet_type": "small"
               },
               {
-                "text": "Some artifacts contain alien glyphs <i>(see</i> <b>Alien Glyphs</b> <i>below)</i>. Any text below these glyphs is considered to be blank unless investigators have translated each alien glyph on the artifact."
+                "text": "Alguns artefatos contêm glifos alienígenas (consulte Glifos Alienígenas a seguir). Qualquer texto abaixo desses glifos é considerado em branco até que os investigadores tenham traduzido cada glifo alienígena no artefato.",
+                "bullet_type": "small"
               },
               {
-                "text": "If any investigator in control of an artifact is defeated, <b>give control of it to the nearest surviving investigator</b> instead of removing it from the game."
+                "text": "Se qualquer investigador que controla um artefato for derrotado, dê o controle do artefato ao investigador sobrevivente mais próximo. Se não houver investigadores sobreviventes, coloque o artefato no local desse investigador.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$alien_glyphs",
-            "title": "Alien Glyphs",
+            "title": "Glifos Alienígenas",
             "type": "rule_reminder",
-            "text": "Throughout the campaign, investigators may be directed to translate a glyph on the second page of the Campaign Log. In order to do so, write the translated text in the space directly beneath that glyph, as directed by the game.",
+            "text": "Ao longo da campanha, os investigadores podem ser instruídos a traduzir um glifo na segunda página do Registro da Campanha. Para fazer isso, escreva o texto traduzido no espaço logo abaixo desse glifo, usando a chave de decodificação fornecida pelo efeito do jogo:",
             "bullets": [
               {
-                "text": "A glyph's meaning has no inherent game effect."
+                "text": "O significado de um glifo não tem efeito inerente no jogo. No entanto, traduzir certos glifos pode permitir que os investigadores leiam o texto de história em certos locais ou ativem certas habilidades de artefatos.",
+                "bullet_type": "small"
               },
               {
-                "text": "Some artifacts contain alien glyphs <i>(see</i> <b>Artifacts</b> <i>above)</i>. Any text below these glyphs is considered to be blank unless investigators have translated each alien glyph on the artifact."
+                "text": "Alguns artefatos contêm glifos alienígenas (consulte Artefatos acima). Qualquer texto abaixo desses glifos é considerado em branco até que os investigadores tenham traduzido cada glifo alienígena no artefato.",
+                "bullet_type": "small"
               },
               {
-                "text": "Most scenarios in <i>The Drowned City</i> campaign will instruct players to set [[Glyph]] cards aside, out of play. Most [[Glyph]] cards are double-sided story cards with another encounter cardtype on their front. For the best experience, do not read their story card sides unless prompted by the game!"
+                "text": "Durante a preparação de certos cenários, o guia da campanha instruirá os jogadores a separarem cartas de Glifo, fora de jogo. A maioria das cartas de Glifo são cartas de história dupla face que contêm passagens de história em sua face.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the sake of your sanity, do not stare at any alien glyph for longer than 5 minutes at a time."
+                "text": "Não tente decodificar ou traduzir manualmente qualquer glifo alienígena por mais de 5 minutos por vez.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$relentless_rule",
-            "title": "Relentless",
+            "title": "Implacável",
             "type": "rule_reminder",
-            "text": "Some enemies in this campaign have the relentless keyword. During the enemy phase (after framework step 3.3), each enemy with the relentless keyword that has attacked this phase (even if that attack was canceled) readies and attacks the investigator(s) it is engaged with a second time."
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave implacável. Durante a fase dos inimigos (na etapa estrutural 3.3), cada inimigo preparado e engajado com a palavra-chave implacável que atacou nessa fase realiza um ataque adicional contra o investigador com quem está engajado."
           },
           {
             "id": "$patrol_rule",
             "type": "rule_reminder",
-            "title": "Patrol",
-            "text": "Some enemies in this campaign have the patrol keyword. During the enemy phase (in framework step 3.2), each ready, unengaged enemy with the patrol keyword moves to a connecting location along the shortest path toward the designated location (as described in parentheses next to the word patrol).",
+            "title": "Patrulha",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location via a path that is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$flood_token_rule",
-            "title": "Flood Tokens",
+            "title": "Fichas de Inundação",
             "type": "rule_reminder",
-            "text": "Throughout the campaign, scenario card effects can flood locations. Each location has one of three different flood levels: it is either unflooded, partially flooded, or fully flooded. A location's flood level can be tracked using the double-sided flood tokens included in this deluxe box. <b>A location's flood level has no inherent game effect.</b> However, some card effects may change or become stronger while you are at a flooded location, particularly if that location is fully flooded.",
+            "text": "Alguns cenários nesta expansão utilizam fichas de inundação de dois lados, que podem representar um local que está parcial ou totalmente inundado.\nLocais inundados possuem um de três níveis de inundação: <b>não inundado</b> (sem ficha de inundação), <b>parcialmente inundado</b> (lado parcialmente inundado virado para cima) ou <b>totalmente inundado</b> (lado totalmente inundado virado para cima).\nO nível de inundação de um local não possui efeitos inerentes por si só, mas pode alterar o funcionamento de certas cartas de encontro e habilidades naquele local. Além disso, as seguintes regras se aplicam às fichas de inundação e locais inundados:",
             "bullets": [
               {
-                "text": "A location with no flood tokens is unflooded."
+                "text": "Se uma ficha de inundação for colocada em um local que já está parcialmente inundado, em vez disso, vire a ficha de inundação para o lado totalmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes partially flooded, place a flood token on it with the partially flooded side faceup to designate this."
+                "text": "Se uma ficha de inundação for colocada em um local que já está totalmente inundado, nada acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes fully flooded, place a flood token on it with the fully flooded side faceup (or if it is already partially flooded, flip its flood token over) to designate this."
+                "text": "Se um efeito aumentar o nível de inundação de um local, vire sua ficha de inundação de parcialmente inundado para totalmente inundado, ou coloque uma ficha de inundação nele (lado parcialmente inundado virado para cima) se ele não possuir uma.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"increased\", it changes from unflooded to partially flooded, or from partially flooded to fully flooded. A fully flooded location cannot have its flood level increased."
+                "text": "Se um efeito diminuir o nível de inundação de um local, vire sua ficha de inundação de totalmente inundado para parcialmente inundado, ou remova sua ficha de inundação se ele estiver parcialmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"decreased\", it changes from fully flooded to partially flooded, or from partially flooded to unflooded. If a location becomes unflooded, remove its flood token."
+                "text": "Se um local com uma ficha de inundação sair de jogo, remova essa ficha de inundação do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the purposes of card effects, both partially flooded locations and fully flooded locations are considered to be \"flooded.\""
+                "text": "Se um investigador em um local totalmente inundado terminar seu turno sem ter realizado com sucesso pelo menos uma ação de [action] durante seu turno, ele sofre 1 de dano direto lutando contra o avanço das águas.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -169979,8 +170035,8 @@
           {
             "id": "$seal_rule",
             "type": "rule_reminder",
-            "title": "Selo",
-            "text": "As an additional cost for a card with the seal keyword to enter play, its controller must search the chaos bag for the specified chaos token and place it on top of the card, thereby sealing the token. If there is a choice of which token to seal, the card's controller chooses. If the specified token is not in the chaos bag, the card cannot enter play.\nA sealed chaos token is not considered to be in the chaos bag, and therefore cannot be revealed from the chaos bag as part of a skill test or ability.\nWhen a chaos token is \"released,\" it is returned to the chaos bag and is no longer considered sealed. <b>If a card with one or more chaos tokens sealed on it leaves play for any reason, any chaos tokens sealed on it are immediately released</b>.\nSome cards (with or without the seal keyword) may also have abilities that seal one or more chaos tokens as part of their effect. This is done following the same process as above: searching the chaos bag for the specified token, removing it from the chaos bag, and placing it on the card. If the specified token is not in the chaos bag, the effect fails."
+            "title": "Selar",
+            "text": "Como custo adicional para uma carta com a palavra-chave selar entrar em jogo, seu controlador deverá procurar a ficha de caos especificada na bolsa de caos e colocá-la sobre a carta, assim selando a ficha. Se houver uma escolha de qual ficha selar, o controlador da carta escolherá. Se a ficha especificada não estiver na bolsa de caos, a carta não poderá entrar em jogo.\nUma ficha de caos selada não é considerada como estando na bolsa de caos, e, portanto, não pode ser revelada da bolsa de caos como parte de um teste de perícia ou habilidade.\nQuando uma ficha de caos é “liberada”, ela retorna para a bolsa de caos e não é mais considerada selada. <b>Se uma carta com uma ou mais fichas de caos seladas sobre ela sair de jogo por qualquer motivo, as fichas de caos seladas nela serão imediatamente liberadas</b>.\nAlgumas cartas (com ou sem a palavra-chave “selar”) também podem ter habilidades que selem uma ou mais fichas de caos como parte de seu efeito. Isso é feito seguindo o mesmo processo acima: procurando a ficha especificada na bolsa de caos, removendo-a da bolsa de caos e colocando-a sobre a carta. Se a ficha especificada não estiver na bolsa de caos, o efeito falhará."
           },
           {
             "id": "$tasks_rule",
@@ -170094,7 +170150,7 @@
       "id": "tdea",
       "position": 5,
       "version": 3,
-      "name": "The Dream-Quest",
+      "name": "A Busca Onírica",
       "pack_codes": [
         "tde",
         "tdec"
@@ -170152,13 +170208,13 @@
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story"
           ]
         },
         {
-          "title": "Swarming X",
+          "title": "Enxame X",
           "steps": [
             "$swarming"
           ]
@@ -170622,7 +170678,7 @@
     "scenarios": [
       {
         "id": "the_black_cat",
-        "scenario_name": "The Black Cat",
+        "scenario_name": "O Gato Preto",
         "full_name": "Interlúdio I: O Gato Preto",
         "header": "Interlúdio I",
         "type": "interlude",
@@ -171751,7 +171807,7 @@
       },
       {
         "id": "the_great_ones",
-        "scenario_name": "The Great Ones",
+        "scenario_name": "Os Grandes Deuses",
         "full_name": "Interlúdio III: Os Grandes Deuses",
         "header": "Interlúdio III",
         "type": "interlude",
@@ -172625,7 +172681,7 @@
       },
       {
         "id": "the_oneironauts",
-        "scenario_name": "The Oneironauts",
+        "scenario_name": "Os Onironautas",
         "full_name": "Interlúdio II: Os Onironautas",
         "header": "Interlúdio II",
         "type": "interlude",
@@ -174491,8 +174547,8 @@
       },
       {
         "id": "core",
-        "scenario_name": "The Dream-Quest",
-        "full_name": "The Dream-Quest",
+        "scenario_name": "A Busca Onírica",
+        "full_name": "A Busca Onírica",
         "header": "",
         "type": "core",
         "setup": [
@@ -174511,32 +174567,38 @@
           {
             "id": "$story",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "As cartas de história servem como um meio de transmitir uma narrativa adicional e geralmente aparecem como o verso de outra carta de cenário. Quando você for instruído a resolver uma carta de história, simplesmente leia o texto de história dela e resolva o texto de jogo."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "$swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "An enemy with the swarming X keyword is actually a pack of enemies operating in unison. After you put an enemy with the swarming X keyword into play, place the top X cards of your deck facedown underneath the enemy as swarm cards, without looking at them. The enemy they are underneath is called the “host enemy.” Some scenario card effects may also instruct a player to add swarm cards to an enemy. This is done using the same process.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
@@ -174562,7 +174624,7 @@
       },
       {
         "id": "dark_side_of_the_moon",
-        "scenario_name": "Dark Side of the Moon",
+        "scenario_name": "Lado Escuro da Lua",
         "full_name": "Cenário III–A: Lado Escuro da Lua",
         "header": "Cenário III-A",
         "chaos_bag_card": "06206",
@@ -175037,7 +175099,7 @@
       },
       {
         "id": "the_search_for_kadath",
-        "scenario_name": "The Search for Kadath",
+        "scenario_name": "A Busca por Kadath",
         "full_name": "Cenário II–A: A Busca por Kadath",
         "header": "Cenário II-A",
         "chaos_bag_card": "06119",
@@ -176221,7 +176283,7 @@
       },
       {
         "id": "where_gods_dwell",
-        "scenario_name": "Where the Gods Dwell",
+        "scenario_name": "Onde Vivem os Deuses",
         "full_name": "Cenário IV–A: Onde Vivem os Deuses",
         "header": "Cenário IV-A",
         "chaos_bag_card": "06286",
@@ -177164,7 +177226,7 @@
       "id": "tdeb",
       "position": 6,
       "version": 3,
-      "name": "The Web of Dreams",
+      "name": "A Teia de Sonhos",
       "pack_codes": [
         "tde",
         "tdec"
@@ -177222,13 +177284,13 @@
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story"
           ]
         },
         {
-          "title": "Swarming X",
+          "title": "Enxame X",
           "steps": [
             "$swarming"
           ]
@@ -177705,7 +177767,7 @@
     "scenarios": [
       {
         "id": "a_thousand_shapes_of_horror",
-        "scenario_name": "A Thousand Shapes of Horror",
+        "scenario_name": "Mil Formas de Horror",
         "full_name": "Cenário II–B: Mil Formas de Horror",
         "header": "Cenário II-B",
         "chaos_bag_card": "06168",
@@ -178141,7 +178203,7 @@
       },
       {
         "id": "the_black_cat",
-        "scenario_name": "The Black Cat",
+        "scenario_name": "O Gato Preto",
         "full_name": "Interlúdio I: O Gato Preto",
         "header": "Interlúdio I",
         "type": "interlude",
@@ -179125,7 +179187,7 @@
       },
       {
         "id": "the_great_ones",
-        "scenario_name": "The Great Ones",
+        "scenario_name": "Os Grandes Deuses",
         "full_name": "Interlúdio III: Os Grandes Deuses",
         "header": "Interlúdio III",
         "type": "interlude",
@@ -179655,7 +179717,7 @@
       },
       {
         "id": "the_oneironauts",
-        "scenario_name": "The Oneironauts",
+        "scenario_name": "Os Onironautas",
         "full_name": "Interlúdio II: Os Onironautas",
         "header": "Interlúdio II",
         "type": "interlude",
@@ -180477,8 +180539,8 @@
       },
       {
         "id": "core",
-        "scenario_name": "The Web of Dreams",
-        "full_name": "The Web of Dreams",
+        "scenario_name": "A Teia de Sonhos",
+        "full_name": "A Teia de Sonhos",
         "header": "",
         "type": "core",
         "setup": [
@@ -180497,32 +180559,38 @@
           {
             "id": "$story",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "As cartas de história servem como um meio de transmitir uma narrativa adicional e geralmente aparecem como o verso de outra carta de cenário. Quando você for instruído a resolver uma carta de história, simplesmente leia o texto de história dela e resolva o texto de jogo."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "$swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "An enemy with the swarming X keyword is actually a pack of enemies operating in unison. After you put an enemy with the swarming X keyword into play, place the top X cards of your deck facedown underneath the enemy as swarm cards, without looking at them. The enemy they are underneath is called the “host enemy.” Some scenario card effects may also instruct a player to add swarm cards to an enemy. This is done using the same process.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
@@ -180548,7 +180616,7 @@
       },
       {
         "id": "point_of_no_return",
-        "scenario_name": "Point of No Return",
+        "scenario_name": "Caminho sem Volta",
         "full_name": "Cenário III–B: Caminho sem Volta",
         "header": "Cenário III-B",
         "chaos_bag_card": "06247",
@@ -181101,7 +181169,7 @@
       },
       {
         "id": "waking_nightmare",
-        "scenario_name": "Waking Nightmare",
+        "scenario_name": "Pesadelo Acordado",
         "full_name": "Cenário I–B: Pesadelo Acordado",
         "header": "Cenário I-B",
         "chaos_bag_card": "06063",
@@ -181712,7 +181780,7 @@
       },
       {
         "id": "weaver_of_the_cosmos",
-        "scenario_name": "Weaver of the Cosmos",
+        "scenario_name": "Tecelã do Cosmo",
         "full_name": "Cenário IV-B: Tecelã do Cosmo",
         "header": "Cenário IV-B",
         "chaos_bag_card": "06333",
@@ -182847,7 +182915,7 @@
           ]
         },
         {
-          "title": "Explore",
+          "title": "Explorar",
           "steps": [
             "$explore"
           ]
@@ -183171,7 +183239,7 @@
           {
             "id": "$explore",
             "type": "rule_reminder",
-            "title": "Explore",
+            "title": "Explorar",
             "text": "Algumas habilidades nesta campanha são identificadas com um designador de ação de <b>Explorar</b>. Essas habilidades geralmente são usadas para encontrar novos locais para colocar em jogo e são iniciadas usando a ação de “ativar”.\nAs habilidades de <b>Explorar</b> orientam você a comprar a carta do topo do “baralho de exploração”, que é um baralho separado que é construído durante a preparação de alguns cenários. Esse baralho consiste em vários locais e cartas de traição de um único lado.",
             "bullets": [
               {
@@ -192774,7 +192842,7 @@
       },
       {
         "id": "turn_back_time",
-        "scenario_name": "Voltar no tempo",
+        "scenario_name": "Reversão do Tempo",
         "full_name": "Cenário IX: Reversão do Tempo",
         "header": "Cenário IX",
         "chaos_bag_card": "04344",
@@ -193821,7 +193889,7 @@
           ]
         },
         {
-          "title": "Flood Tokens",
+          "title": "Fichas de Inundação",
           "steps": [
             "$flood_token_rule"
           ]
@@ -195947,45 +196015,54 @@
         "steps": [
           {
             "id": "$keys_rule",
-            "title": "Chaves",
+            "title": "Fichas de Chave",
             "type": "rule_reminder",
-            "text": "This expansion introduces key tokens that represent important objects or pieces of information that can be claimed and used during scenarios.\nKey tokens have two sides. When facedown, all seven keys have the same universal key symbol, so they can be randomized without the investigators knowing which is which. When faceup, each key is color coded with a unique color.\nIf a scenario uses one or more keys, the setup of that scenario indicates how many are set aside and whether they should be faceup or randomized facedown. Keys can enter play via several different card effects, and they are usually placed on enemy, location, or story asset. Keys can be acquired in any of three ways:",
+            "text": "Esta expansão introduz fichas de chave que representam objetos importantes ou informações cruciais que podem ser reivindicadas e usadas durante os cenários.\nAs fichas de chave têm dois lados. Quando viradas para baixo, todas as sete chaves compartilham o mesmo símbolo universal de chave, podendo ser sorteadas aleatoriamente sem que os investigadores saibam qual é qual. Quando viradas para cima, cada chave possui uma cor única identificadora.\nSe um cenário utilizar uma ou mais chaves, a preparação desse cenário indicará quantas são separadas e se devem ficar viradas para cima ou viradas para baixo aleatoriamente. As chaves podem entrar em jogo através de diversos efeitos de carta, sendo geralmente colocadas sobre um inimigo, local ou ativo de história. As chaves podem ser adquiridas de qualquer uma das três maneiras a seguir:",
             "bullets": [
               {
-                "text": "If a location with a key on it has no clues, an investigator may take control of each of that location's keys as a [fast] ability."
+                "text": "Se um local com uma chave em cima não tiver pistas, um investigador pode assumir o controle de cada uma das chaves daquele local como uma habilidade [fast].",
+                "bullet_type": "small"
               },
               {
-                "text": "If an investigator causes an enemy with a key on it to leave play, that investigator must take control of each of the keys that were on that enemy. (If it leaves play through some other means, place its keys on its location.)"
+                "text": "Se um investigador fizer com que um inimigo com uma chave em cima saia de jogo, esse investigador deve assumir o controle de cada uma das chaves que estavam naquele inimigo. <i>(Se ele sair de jogo por qualquer outro meio, coloque suas chaves em seu local.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Some card effects may allow an investigator to take control of keys in other ways."
+                "text": "Alguns efeitos de carta podem permitir que um investigador assuma o controle de chaves de outras maneiras.",
+                "bullet_type": "small"
               }
             ],
             "example": "When an investigator takes control of a key, they flip it faceup (if it is facedown) and place it on their investigator card. If an investigator who controls one or more keys is eliminated, place each of their keys on their locations. As an [action] ability, an investigator may give any number of their keys to another investigator at the same location.\n<b>Keys have no inherent game effect.</b> However, some card effects may change depending on which keys an investigator controls. Additionally, keys may sometimes be required in order to progress during a scenario."
           },
           {
             "id": "$flood_token_rule",
-            "title": "Flood Tokens",
+            "title": "Fichas de Inundação",
             "type": "rule_reminder",
-            "text": "Throughout the campaign, scenario card effects can flood locations. Each location has one of three different flood levels: it is either unflooded, partially flooded, or fully flooded. A location's flood level can be tracked using the double-sided flood tokens included in this deluxe box. <b>A location's flood level has no inherent game effect.</b> However, some card effects may change or become stronger while you are at a flooded location, particularly if that location is fully flooded.",
+            "text": "Alguns cenários nesta expansão utilizam fichas de inundação de dois lados, que podem representar um local que está parcial ou totalmente inundado.\nLocais inundados possuem um de três níveis de inundação: <b>não inundado</b> (sem ficha de inundação), <b>parcialmente inundado</b> (lado parcialmente inundado virado para cima) ou <b>totalmente inundado</b> (lado totalmente inundado virado para cima).\nO nível de inundação de um local não possui efeitos inerentes por si só, mas pode alterar o funcionamento de certas cartas de encontro e habilidades naquele local. Além disso, as seguintes regras se aplicam às fichas de inundação e locais inundados:",
             "bullets": [
               {
-                "text": "A location with no flood tokens is unflooded."
+                "text": "Se uma ficha de inundação for colocada em um local que já está parcialmente inundado, em vez disso, vire a ficha de inundação para o lado totalmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes partially flooded, place a flood token on it with the partially flooded side faceup to designate this."
+                "text": "Se uma ficha de inundação for colocada em um local que já está totalmente inundado, nada acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location becomes fully flooded, place a flood token on it with the fully flooded side faceup (or if it is already partially flooded, flip its flood token over) to designate this."
+                "text": "Se um efeito aumentar o nível de inundação de um local, vire sua ficha de inundação de parcialmente inundado para totalmente inundado, ou coloque uma ficha de inundação nele (lado parcialmente inundado virado para cima) se ele não possuir uma.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"increased\", it changes from unflooded to partially flooded, or from partially flooded to fully flooded. A fully flooded location cannot have its flood level increased."
+                "text": "Se um efeito diminuir o nível de inundação de um local, vire sua ficha de inundação de totalmente inundado para parcialmente inundado, ou remova sua ficha de inundação se ele estiver parcialmente inundado.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a location's flood level is \"decreased\", it changes from fully flooded to partially flooded, or from partially flooded to unflooded. If a location becomes unflooded, remove its flood token."
+                "text": "Se um local com uma ficha de inundação sair de jogo, remova essa ficha de inundação do jogo.",
+                "bullet_type": "small"
               },
               {
-                "text": "For the purposes of card effects, both partially flooded locations and fully flooded locations are considered to be \"flooded.\""
+                "text": "Se um investigador em um local totalmente inundado terminar seu turno sem ter realizado com sucesso pelo menos uma ação de [action] durante seu turno, ele sofre 1 de dano direto lutando contra o avanço das águas.",
+                "bullet_type": "small"
               }
             ]
           }
@@ -206459,7 +206536,7 @@
       ],
       "rules": [
         {
-          "title": "New Cardtype: Keys",
+          "title": "Novo Tipo de Carta: Chaves",
           "steps": [
             "$keys_rule",
             "$keys_1",
@@ -206470,13 +206547,13 @@
           ]
         },
         {
-          "title": "The Red-Gloved Man",
+          "title": "O Homem da Luva Vermelha",
           "steps": [
             "$red_gloved_man"
           ]
         },
         {
-          "title": "Concealed X",
+          "title": "Encoberto X",
           "steps": [
             "$concealed_x",
             "$concealed_x_2",
@@ -206484,7 +206561,7 @@
           ]
         },
         {
-          "title": "Concealed Mini-Cards",
+          "title": "Minicartas Encobertas",
           "steps": [
             "$concealed_mini_cards",
             "$concealed_mini_cards_1",
@@ -206495,7 +206572,7 @@
           ]
         },
         {
-          "title": "Tracking Time",
+          "title": "Marcação de Tempo",
           "steps": [
             "$tracking_time_rule"
           ],
@@ -206511,7 +206588,7 @@
           }
         },
         {
-          "title": "Embarking and Travel",
+          "title": "Embarcar e Viajar",
           "steps": [
             "$embark_rule",
             "$embark_rule_1",
@@ -206529,7 +206606,7 @@
           }
         },
         {
-          "title": "The Foundation Dossiers",
+          "title": "Os Dossiês da Fundação",
           "steps": [
             "$dossiers_rule"
           ],
@@ -207129,7 +207206,7 @@
         ],
         "rules": [
           {
-            "title": "Tracking Time",
+            "title": "Marcação de Tempo",
             "steps": [
               "$tracking_time_rule"
             ]
@@ -207678,7 +207755,7 @@
         ],
         "rules": [
           {
-            "title": "Embarking and Travel",
+            "title": "Embarcar e Viajar",
             "steps": [
               "$embark_rule",
               "$embark_rule_1",
@@ -207686,7 +207763,7 @@
             ]
           },
           {
-            "title": "The Foundation Dossiers",
+            "title": "Os Dossiês da Fundação",
             "steps": [
               "$dossiers_rule"
             ]
@@ -207926,7 +208003,7 @@
         ],
         "rules": [
           {
-            "title": "Civilians",
+            "title": "Civis",
             "steps": [
               "$civilians_rule"
             ]
@@ -223478,7 +223555,7 @@
             ]
           },
           {
-            "title": "Locations in the Shadows",
+            "title": "Locais nas Sombras",
             "steps": [
               "$locations_in_the_shadows_rule",
               "$locations_in_the_shadows_rule_2",
@@ -224080,7 +224157,7 @@
             ]
           },
           {
-            "title": "Locations in the Shadows",
+            "title": "Locais nas Sombras",
             "steps": [
               "$locations_in_the_shadows_rule",
               "$locations_in_the_shadows_rule_2",
@@ -228938,7 +229015,7 @@
           {
             "id": "$locations_in_the_shadows_rule",
             "type": "rule_reminder",
-            "title": "Locations in the Shadows",
+            "title": "Locais nas Sombras",
             "text": "During this scenario, investigators must traverse the deceptively labyrinthine and illusory home world of the Outsiders. To represent the difficulty of exploring this alien dimension, three City of Remnants locations are placed in the shadows at all times (taken from the top of the Otherworld deck) and concealed mini-cards are arranged adjacent to locations, rather than placed at them. Exposing these concealed mini-cards is the key to finding a route through this otherworldly place.",
             "bullets": [
               {
@@ -228990,12 +229067,13 @@
           },
           {
             "id": "$location_adjacency_rule",
-            "title": "Location Adjacency in the Grand Bazaar",
+            "title": "Adjacência de Locais",
             "type": "rule_reminder",
-            "text": "This scenario’s 4 starting locations are arranged as shown above, and are connected through their connection symbols. Later during the scenario, the investigators will be instructed to put Grand Bazaar locations into play. <b>Each Grand Bazaar location is connected to each Grand Bazaar location adjacent to it.</b>",
+            "text": "A maioria dos cenários desta campanha é organizada em um padrão de grade. <b>Durante esses cenários, os locais conectam-se apenas ortogonalmente (esquerda, direita, cima e baixo). Os locais não se conectam na diagonal, a menos que uma carta afirme expressamente o contrário.</b>",
             "bullets": [
               {
-                "text": "Locais adjacentes compartilham um lado (esquerda, direita, acima ou abaixo). Locais que compartilham apenas um canto não são adjacentes."
+                "text": "Além disso, mover-se entre dois locais adjacentes durante esses cenários é sempre considerado como sendo pelo caminho mais curto entre eles.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -229012,7 +229090,7 @@
           {
             "id": "$civilians_rule",
             "type": "rule_reminder",
-            "title": "Civilians",
+            "title": "Civis",
             "text": "In this scenario, resources on locations represent the innocent civilians of Marrakesh, who are in grave danger.",
             "bullets": [
               {
@@ -229028,70 +229106,80 @@
           },
           {
             "id": "$keys_rule",
-            "title": "New Cardtype: Keys",
+            "title": "Novo Tipo de Carta: Chaves",
             "type": "rule_reminder",
-            "text": "<i>The Scarlet Keys</i> campaign features a new cardtype: keys. Keys are powerful artifacts that may be “shifted” to either aid or hinder investigators, depending on whom they are attached to and whether their [[Stable]] or [[Unstable]] side is faceup.",
+            "text": "A campanha <i>As Chaves Escarlates</i> apresenta um novo tipo de carta: chaves. Chaves são poderosos artefatos que podem ser “mudados” para ajudar ou atrapalhar os investigadores, dependendo de quem elas estão anexadas e se o lado [[Estável]] ou [[Instável]] está virado para cima.",
             "bullets": [
               {
-                "text": "During the resolution of a scenario, a key may become bound to a single bearer, whose name is marked in the Campaign Log. A key may be bound to an investigator, a story asset, or an enemy."
+                "text": "Durante a resolução de um cenário, uma chave pode ficar vinculada a um único portador, cujo nome é marcado no Registro da Campanha. Uma chave pode ser vinculada a um investigador, um ativo de história ou um inimigo.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$keys_1",
-            "text": "A key always enters play attached to its bearer (as marked in the Campaign Log). At the start of each scenario, each investigator who is the bearer of 1 or more keys attaches those keys to their investigator card. Whenever a story asset or enemy enters play, if it is the bearer of 1 or more keys, those keys also enter play attached to their bearer.",
+            "text": "Chaves não pertencem a baralhos de jogador e não entram na mão ou na área de jogo de nenhum jogador. Em vez disso, se uma chave estiver sob o controle de um investigador, coloque-a ao lado da minicarta ou da carta de investigador dele para indicar que ela está anexada a ele. Da mesma forma, se uma chave estiver sob o controle de um ativo de história ou de um inimigo, coloque-a embaixo dessa carta para indicar que ela está anexada a ela.",
             "bullets": [
               {
-                "text": "If a key’s bearer is an investigator or a story asset, it enters play [[Stable]] side faceup."
+                "text": "Uma chave anexada a um investigador não conta para o limite de espaços de cartas desse investigador.",
+                "bullet_type": "small"
               },
               {
-                "text": "If a key’s bearer is an enemy, it enters play [[Unstable]] side faceup."
+                "text": "Se uma chave entrar em jogo sem controle ou desanexada, ela é colocada no local indicado ou no local do investigador líder.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Portadores de Chaves"
           },
           {
             "id": "$keys_2",
-            "text": "A key cannot leave play unless its bearer leaves play. If the bearer of 1 or more keys leaves play, each key they control is set aside, out of play. <i>(Those keys do, however, remain bound to their bearer for future scenarios unless explicitly noted otherwise.)</i>"
+            "text": "Uma chave não pode sair de jogo, a não ser que o portador dela saia de jogo. Se o portador de 1 ou mais chaves sair de jogo, cada chave que ele controla fica separada, fora de jogo. <i>(No entanto, as chaves continuam vinculadas ao portador para cenários posteriores, exceto quando especificado o contrário.)</i>"
           },
           {
             "id": "$keys_3",
-            "text": "While a key is attached to an investigator, that investigator may trigger its shift ability during any player window as a [fast] ability. This is called “shifting” the key. As part of this ability’s resolution, it will instruct the investigator to flip the key to its other side, so its other shift ability is active. The investigator will then have to perform the shift ability on its [[Unstable]] side in order to flip it back over again.",
+            "text": "Enquanto uma chave estiver anexada a um investigador, ele pode ativar a habilidade de mudar dessa chave durante qualquer janela de jogador como uma habilidade [fast]. Isso é chamado de “mudar” a chave. Como parte da resolução dessa habilidade, o investigador será instruído a virar a chave para o outro lado, ativando sua outra habilidade de mudar. O investigador precisará então realizar a habilidade de mudar do lado [[Instável]] para virá-la de volta.",
             "bullets": [
               {
-                "text": "While a key is attached to a story asset, it may be shifted by any investigator who controls that asset in the same way."
+                "text": "Enquanto uma chave estiver anexada a um ativo de história, ela pode ser mudada por qualquer investigador que controle esse ativo da mesma forma.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each key (by title) attached to an investigator or story asset can only be shifted once per round."
+                "text": "Cada chave (por título) anexada a um investigador ou ativo de história só pode ser mudada uma vez por rodada.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Mudar uma Chave"
           },
           {
             "id": "$keys_4",
-            "text": "While a key is under an enemy’s control, its shift ability only resolves when a card or game effect instructs an investigator to shift that key, after which it remains [[Unstable]] side faceup.",
+            "text": "Enquanto uma chave estiver anexada a um inimigo, ela não pode ser mudada, a menos que uma habilidade de carta instrua expressamente os jogadores a fazê-lo.",
             "bullets": [
               {
-                "text": "A key attached to an enemy cannot be flipped to its [[Stable]] side."
+                "text": "O lado estável de cada chave possui uma habilidade constante que altera ou aprimora as capacidades do portador. Essa habilidade está ativa enquanto a chave estiver com o lado estável virado para cima.",
+                "bullet_type": "small"
               },
               {
-                "text": "There is no limit to the number of times a key attached to an enemy can be shifted."
+                "text": "O lado instável de cada chave possui uma habilidade de revelação que é resolvida assim que a chave é virada para o lado instável.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Efeitos Estáveis e Instáveis"
           },
           {
             "id": "$keys_5",
-            "text": "Some card effects may directly flip a key attached to an investigator or story asset from its [[Stable]] side to its [[Unstable]] side, or vice versa. This is not the same as shifting a key, and does not resolve its shift ability."
+            "text": "Alguns efeitos de cartas podem virar diretamente uma chave anexada a um investigador ou a um ativo de história do lado [[Estável]] para o lado [[Instável]], ou vice-versa. Isso não é o mesmo que mudar uma chave, e não resolve a habilidade de mudar dela."
           },
           {
             "id": "$red_gloved_man",
             "type": "rule_reminder",
-            "title": "The Red-Gloved Man",
-            "text": "During <i>The Scarlet Keys</i> campaign, investigators will confront a number of dangerous and mysterious members of the secret society known as the Red Coterie. One such member is the iconic Red-Gloved Man. As a result, while playing <i>The Scarlet Keys</i> campaign, investigators cannot purchase or include The Red-Gloved Man asset <i>(The Dunwich Legacy card #310)</i> in their decks."
+            "title": "O Homem de Luvas Vermelhas",
+            "text": "Durante a campanha <i>As Chaves Escarlates</i>, os investigadores enfrentarão vários membros perigosos e misteriosos da sociedade secreta conhecida como Confraria Vermelha. Um desses membros é o icônico Homem da Luva Vermelha. Por isso, ao jogar a campanha <i>As Chaves Escarlates</i> os investigadores não podem adquirir ou incluir o ativo O Homem da Luva Vermelha <i>(O Legado de Dunwich, carta #310)</i> em seus baralhos."
           },
           {
             "id": "$concealed_x",
             "type": "rule_reminder",
-            "title": "Concealed X",
-            "text": "Concealed X is a keyword that appears on some enemy cards in <i>The Scarlet Keys</i> campaign. Concealed enemies represent hidden enemies whose true location is a mystery until the investigators work to expose where—and in some cases, who—they truly are.\nWhen a scenario includes one or more concealed enemies, investigators are instructed to set aside several concealed mini-cards. These mini-cards are double-sided. The facedown side represents the possible location of a concealed enemy. The revealed side reveals the mini-card’s true nature—an enemy’s true location, or simply a decoy.",
+            "title": "Encoberto X",
+            "text": "Encoberto X é uma palavra-chave que aparece em algumas cartas de inimigo na campanha <i>As Chaves Escarlates</i>. Inimigos encobertos representam inimigos escondidos, cuja verdadeira localização é um mistério até que os investigadores trabalhem para expor onde eles realmente estão e, em alguns casos, quem realmente são.\nQuando um cenário incluir um ou mais inimigos encobertos, os investigadores receberão instruções para separar várias minicartas encobertas. Essas minicartas são de dupla face. O lado para baixo representa a possível localização de um inimigo encoberto. O lado revelado mostra a verdadeira natureza da minicarta — a verdadeira localização de um inimigo ou uma mera isca.",
             "images": [
               {
                 "image": {
@@ -229125,7 +229213,7 @@
           {
             "id": "$concealed_x_2",
             "type": "rule_reminder",
-            "text": "When an investigator draws an enemy with the concealed X keyword (or is instructed to resolve an enemy’s concealed keyword), they spawn that enemy into a game area above the agenda deck, not at any location. This area is called “the shadows,” and represents enemies the investigators know exist somewhere on the map, but are unsure where. Then, that investigator takes the set-aside concealed mini-card that matches that enemy, along with X decoys (where X is defined by that enemy’s concealed X value), shuffles them facedown, and puts them into play distributed as evenly as possible among each location in play, starting with the locations nearest to them. Then, at each of those locations that already had 1 or more concealed mini-cards, they shuffle each of them facedown as well.\n<i>For example: Amina draws Coterie Agent (A), which has “concealed 2.” She first spawns the Coterie Agent into the shadows. Then, she takes the set-aside Coterie Agent (A) mini-card, along with 2 decoys, shuffles them facedown, and places one at each of the three locations nearest to her. Then, if any of those locations already had 1 or more concealed mini-cards, she would shuffle each concealed mini-card at those locations, as well.</i>",
+            "text": "Quando um investigador compra um inimigo com a palavra-chave encoberto X (ou é instruído a resolver a palavra-chave encoberto de um inimigo), ele faz esse inimigo surgir em uma área de jogo acima do baralho de agendas, não em qualquer local. Essa área é chamada de “as sombras” e representa os inimigos que os investigadores sabem que existem em algum lugar do mapa, mas não têm certeza de onde. Então, esse investigador pega a minicarta encoberta previamente separada que corresponde a esse inimigo, junto com X iscas (onde X é definido pelo valor de encoberto X do inimigo), embaralha-as viradas para baixo, e as coloca em jogo distribuídas da maneira mais uniforme possível entre cada local em jogo, começando pelos locais mais próximos de si. Então, em cada um desses locais nos quais já havia 1 ou mais minicartas encobertas, ela também embaralha cada minicarta encoberta nesses locais.\n<i>Por exemplo: Amina compra Agente da Confraria (A), que tem “encoberto 2”. Ela primeiro faz o Agente da Confraria surgir nas sombras. Então, ela pega a minicarta de Agente da Confraria (A) previamente separada, junto com 2 iscas, as embaralha viradas para baixo e coloca uma em cada um dos três locais mais próximos dela. Então, se algum desses locais já tivesse 1 ou mais minicartas encobertas, ela também embaralharia cada minicarta encoberta nesses locais.</i>",
             "images": [
               {
                 "image": {
@@ -229140,58 +229228,67 @@
           {
             "id": "$concealed_x_3",
             "type": "rule_reminder",
-            "text": "Enemies in the shadows observe the following additional rules:",
+            "text": "Inimigos nas sombras obedecem às seguintes regras adicionais:",
             "bullets": [
               {
-                "text": "Enemies in the shadows are considered to be in play, but not at any particular location. They cannot move until they leave the shadows."
+                "text": "Considera-se que inimigos nas sombras não estão em nenhum local específico, não estão engajados com nenhum investigador e não podem engajar investigadores a menos que sejam expostos.",
+                "bullet_type": "small"
               },
               {
-                "text": "Enemies in the shadows can qualify as the “nearest” enemy, but only if there are no other enemies in play at any location."
+                "text": "Inimigos nas sombras não atacam durante a fase dos inimigos.",
+                "bullet_type": "small"
               },
               {
-                "text": "Enemies in the shadows cannot be damaged or leave play via player card effects."
+                "text": "Inimigos nas sombras não podem sofrer dano, ser movidos ou ter cartas anexadas a eles, a menos que um efeito mencione expressamente inimigos nas sombras.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Inimigos nas Sombras"
           },
           {
             "id": "$concealed_mini_cards",
             "type": "rule_reminder",
-            "title": "Concealed Mini-Cards",
-            "text": "While in play, concealed mini-cards represent the possible location of an enemy in the shadows. In order to deal with such an enemy, its true location must first be discovered by exposing its mini-card. This can be done via one of three methods: fighting, evading, or investigating."
+            "title": "Minicartas Encobertas",
+            "text": "Enquanto estiverem em jogo, as minicartas encobertas representam possíveis localizações de um inimigo nas sombras. Para enfrentar esse inimigo, é preciso primeiro descobrir a verdadeira localização dele, expondo a minicarta dele. Isso pode ser feito de três formas: lutando, evadindo ou investigando."
           },
           {
             "id": "$concealed_mini_cards_1",
-            "text": "Concealed mini-cards are not enemies and cannot be engaged like enemies. However, any investigator at the same location as a concealed mini-card may attempt to expose it by successfully attacking it or evading it (as if it were an engaged enemy), or by successfully investigating its location. The difficulty to successfully attack or evade a concealed mini-card is equal to the shroud value of its location.",
+            "text": "Um investigador pode expor uma minicarta encoberta em seu local realizando uma ação de [action] e sendo bem-sucedido em um teste de perícia de [intellect] ou [agility] com dificuldade igual ao valor de cobertura do inimigo nas sombras.",
             "bullets": [
               {
-                "text": "An investigator may also use a card effect that automatically evades an enemy, deals damage to an enemy, or discovers a clue at a location in order to instead expose a concealed mini-card."
+                "text": "Um investigador também pode usar um efeito de carta que evada automaticamente um inimigo, cause dano a um inimigo ou descubra uma pista em um local para, em vez disso, expor uma minicarta encoberta.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Expor Minicartas Encobertas"
           },
           {
             "id": "$concealed_mini_cards_2",
-            "text": "If an investigator chooses to expose a concealed mini-card, that effect replaces the standard effects of the action or ability that exposed it. <i>(i.e., if an enemy’s mini-card is exposed by evasion or damage, the matching enemy is not evaded, nor does it take damage. If a mini-card is exposed by discovering clues or investigating, no clues are discovered.)</i>"
+            "text": "Se o investigador escolher expor uma minicarta encoberta, esse efeito substitui os efeitos normais da ação ou habilidade que a expôs. <i>(Ou seja, se a minicarta encoberta de um inimigo for exposta por meio de evasão ou dano, o inimigo correspondente não é evadido nem sofre dano. Se uma minicarta for exposta ao descobrir pistas ou investigar, nenhuma pista é descoberta.)</i>"
           },
           {
             "id": "$concealed_mini_cards_3",
-            "text": "If a concealed mini-card is exposed <i>(via any of the above methods)</i>, flip it to its revealed side.",
+            "text": "Se uma minicarta encoberta for exposta <i>(por qualquer um dos métodos acima)</i>, vire-a para o lado revelado.",
             "bullets": [
               {
-                "text": "If it is a decoy, set it aside, out of play, with no effect."
+                "text": "Se a minicarta exposta for uma carta de [[Isca]], descarte-a e nada mais acontece.",
+                "bullet_type": "small"
               },
               {
-                "text": "If it is an enemy’s mini-card, that enemy is now exposed. Place the matching enemy in the shadows at that mini-card’s location, then set that mini-card aside, out of play. <i>(That enemy is no longer in the shadows, and is now at the location where its mini-card was located).</i> Then, if there are no other enemies in the shadows, set all remaining concealed mini-cards in play aside, out of play."
+                "text": "Se a minicarta exposta corresponder a um inimigo nas sombras, coloque esse inimigo em jogo no local onde a minicarta foi exposta, descarte a minicarta e o inimigo engaja um investigador naquele local normalmente.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Revelando Minicartas Encobertas"
           },
           {
             "id": "$concealed_mini_cards_4",
-            "text": "Only one concealed mini-card may be exposed per effect unless explicitly stated. <i>(i.e., an effect that deals 3 damage to each enemy at a location does not expose all concealed mini-cards at that location; only one.)</i>"
+            "text": "Somente uma minicarta encoberta pode ser exposta por efeito, exceto quando especificado o contrário. <i>(Ou seja, um efeito que causa 3 de dano a cada inimigo em um local não expõe todas as minicartas encobertas nesse local; apenas uma.)</i>"
           },
           {
             "id": "$concealed_mini_cards_5",
             "type": "rule_reminder",
-            "text": "<i>For example: There is a Coterie Agent and a Coterie Assassin in the shadows. There is a concealed mini-card at Kymani’s location and another concealed mini-card at a connecting location. (1) First, Kymani plays an event that discovers a clue at their location, but instead of discovering a clue, they choose to expose the concealed mini-card at their location, flipping it over. That mini-card is a decoy, and is set aside without effect. (2) Next, they move to the connecting location with the other concealed mini-card and attempt to expose it using an evade action. They succeed and flip the mini-card over… revealing the Coterie Assassin’s mini-card! (3) The Coterie Assassin’s mini-card is set aside, and the Coterie Assassin in the shadows is moved to Kymani’s location, engaging them. Because there is another enemy in the shadows, they do not remove any of the other concealed mini-cards from play.</i>",
+            "text": "<i>Por exemplo: Há um Agente da Confraria e um Assassino da Confraria nas sombras. Há uma minicarta encoberta no local de Kymani e outra minicarta encoberta em um local conectado. (1) Primeiro, Kymani joga um evento que descobre uma pista em seu local, mas, em vez de descobrir uma pista, elu escolhe expor a minicarta encoberta em seu local, virando-a. Essa minicarta é uma isca, e é separada sem efeito. (2) Em seguida, elu se move para o local conectado com a outra minicarta encoberta e tenta expô-la usando uma ação de evadir. Elu é bem-sucedide e vira a minicarta… revelando a minicarta Assassino da Confraria! (3) A minicarta Assassino da Confraria é separada, e o Assassino da Confraria nas sombras é movido para o local de Kymani, engajado com elu. Como há outro inimigo nas sombras, nenhuma outra minicarta encoberta é removida de jogo.</i>",
             "images": [
               {
                 "image": {
@@ -229227,48 +229324,53 @@
           },
           {
             "id": "$patrol_rule",
-            "title": "Patrol",
+            "title": "Patrulha",
             "type": "rule_reminder",
-            "text": "Some enemies have the patrol keyword. During the enemy phase (in framework step 3.2), each ready, unengaged enemy with the patrol keyword moves to a connecting location along the shortest path toward the designated location (as described in parentheses next to the word patrol).",
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave patrulha. Durante a fase dos inimigos (na etapa estrutural 3.2), cada inimigo preparado e desengajado com a palavra-chave patrulha se move para um local conectado pelo caminho mais curto em direção ao local designado (conforme descrito nos parênteses ao lado da palavra patrulha).",
             "bullets": [
               {
-                "text": "If there are multiple locations that qualify as the designated location, the lead investigator may choose which location the enemy moves toward."
+                "text": "Se houver múltiplos locais que se qualificam como o local designado, o investigador líder pode escolher para qual local o inimigo se move.",
+                "bullet_type": "small"
               },
               {
-                "text": "If an enemy with patrol would be compelled to move to a location which is blocked by a card ability, the enemy does not move."
+                "text": "Se um inimigo com patrulha for obrigado a se mover para um local através de um caminho que esteja bloqueado por uma habilidade de carta, o inimigo não se move.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$tracking_time_rule",
             "type": "rule_reminder",
-            "title": "Tracking Time",
-            "text": "Throughout this campaign, tracking the passage of time is of crucial importance. As time marches on, these paranormal events will grow more and more dangerous, and machinations beyond your understanding will progress. Additionally, some opportunities may only be open to you during certain windows of time. When you are instructed to mark one or more time in your Campaign Log, fill in that many boxes under the “Time Passed” header.\nIf you fill in a box that has a symbol (in the form of a Greek letter), proceed to the Status Reports section of the Campaign Guide, find the status report matching that letter, and read the text that follows.",
+            "title": "Marcação de Tempo",
+            "text": "Ao longo desta campanha, marcar a passagem do tempo é crucial. À medida que o tempo passa, esses eventos paranormais ficarão cada vez mais perigosos, e maquinações além da sua compreensão vão progredir. Além disso, algumas oportunidades podem estar abertas para você somente durante certas janelas de tempo. Quando você for instruído a marcar um ou mais de <b>tempo</b> no Registro da Campanha, marque essa quantidade de caixas na seção “Tempo Passado”.\nSe você marcar uma caixa que tem um símbolo (na forma de uma letra grega), avance para a seção Relatórios de Situação do Guia de Campanha, encontre o relatório de situação correspondente a essa letra e leia o texto a seguir.",
             "example": "Note: The app will show you the appropriate Status Reports automatically after time is marked."
           },
           {
             "id": "$embark_rule",
             "type": "rule_reminder",
-            "title": "Embarking and Travel",
-            "text": "Whenever you <b>embark</b>, you may travel wherever you wish using the map included in <i>The Scarlet Keys</i> campaign expansion. Each space on the map is connected to one or more other spaces by paths. When you are ready to embark, travel along the paths to reach whichever destination you wish (as a group). For each path you use to reach your destination, you must mark 1 <b>time</b> in your Campaign Log (to a minimum of 1).\nAt each space on the map, there is a number and letter combination that will guide you to a particular page in this Campaign Guide. You do not have to stop at every space you travel through; however, if you wish to stop traveling and see what is at that space, turn to the page of the Campaign Guide that matches the indicated number and follow the story text there. This might lead you to an interlude or to a scenario. There is no perfect path to follow, so follow your gut… just be wary of how much time you spend (see “Tracking Time” in Campaign Setup).\n<i>For example: Shelley wishes to travel from Alexandria to Marrakesh. She first marks 1 <b>time</b> to use the path to Rome, but chooses not to stop there, and marks 1 more <b>time</b> to travel to Marrakesh, where she stops. Marrakesh is marked as “11–B,” so she opens the Campaign Guide to page 11 and reads File #11–B: Dead Heat.</i>",
+            "title": "Embarcar",
+            "text": "A ação de <b>embarcar</b> permite que os investigadores viajem pelo mundo investigando a conspiração da Coterie e desvendando mistérios.\nDurante a ação de embarcar, os investigadores consultam o mapa do mundo e escolhem um destino válido. O tempo necessário para viajar até o destino é medido em tempo de viagem (marcado no Registro de Tempo da Campanha).\nAlgumas rotas exigem meios específicos de transporte (ferrovia, navio a vapor ou dirigível), enquanto outras permitem viagem livre. Ao chegar ao destino, os investigadores lêem a seção correspondente do Guia de Campanha para iniciar o próximo cenário ou interlúdio.",
             "bullets": [
               {
-                "text": "Some locations are marked by a red border and the lack of a letter. You can only travel to such a location once you are permitted to do so by a Campaign Log entry."
+                "text": "Nota: O aplicativo gerencia automaticamente as rotas, o cálculo de tempo de viagem e o desbloqueio de novos destinos conforme os investigadores progridem na campanha.",
+                "bullet_type": "small"
               }
             ]
           },
           {
             "id": "$embark_rule_1",
-            "text": "Some locations, marked by a green border, represent the sites of possible side stories <i>(found in other Arkam Horror: The Card Game standalone products)</i>. If you wish to incorporate a side story into this campaign, simply travel to the appropriate location on the map and spend additional time equal to the normal experience cost for playing that side story (instead of spending the experience cost).",
+            "text": "Cada destino no mapa possui um número de identificação e indica as rotas conectadas a ele. Os investigadores não podem viajar para um destino a menos que haja uma rota válida conectando seu local atual a ele.",
             "bullets": [
               {
-                "text": "If you are not stopping at one of these locations to embark on a side-story, you may skip it and continue traveling along the path. If so, count it as one contiguous path, not as two separate paths."
+                "text": "Se uma rota exigir um bilhete ou passe de trânsito, os investigadores só podem usar essa rota se possuírem o item correspondente registrado no Registro da Campanha.",
+                "bullet_type": "small"
               }
-            ]
+            ],
+            "title": "Rotas e Destinos"
           },
           {
             "id": "$embark_rule_2",
-            "text": "Once you have stopped at a location, you cannot stop there again for the remainder of the campaign unless instructed otherwise."
+            "text": "Depois de parar em um local, você não pode parar lá novamente pelo resto da campanha, a menos que seja instruído de outra forma."
           },
           {
             "id": "$embark_note",
@@ -229277,11 +229379,12 @@
           {
             "id": "$dossiers_rule",
             "type": "rule_reminder",
-            "title": "The Foundation Dossiers",
-            "text": "Throughout this Campaign Guide, there are a number of Foundation Dossier sidebars. Investigators are allowed to peek at the Foundation Dossier sidebar for any space on the map, at any time. Use these sidebars to help guide your actions and plan your route. While reading a dossier, investigators are not allowed to peek at any other text on that page until they travel to that location.",
+            "title": "Os Dossiês da Fundação",
+            "text": "Ao longo deste Guia de Campanha, há várias colunas laterais de Dossiês da Fundação. Os investigadores podem olhar a coluna de Dossiê da Fundação de qualquer espaço no mapa, a qualquer momento. Use essas colunas para ajudar a guiar suas ações e planejar sua rota. Ao ler um dossiê, os investigadores não podem olhar nenhum outro texto nessa página até que viajem para esse local.",
             "bullets": [
               {
-                "text": "Note: These Foundation Dossiers, along with any information or leads your investigators may have learned in their travels, are accessible in the app when browsing the map. This can be accessed while you are taking an <b>embark</b> action, or on the main campaign screen at any time."
+                "text": "Nota: Esses Dossiês da Fundação, juntamente com quaisquer pistas ou informações que seus investigadores tenham descoberto em suas viagens, ficam acessíveis no aplicativo ao navegar pelo mapa. Isso pode ser acessado durante uma ação de <b>embarcar</b> ou na tela principal da campanha a qualquer momento.",
+                "bullet_type": "small"
               }
             ]
           },
@@ -232558,7 +232661,7 @@
             ]
           },
           {
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "steps": [
               "story_cards"
             ]
@@ -233044,8 +233147,8 @@
           {
             "id": "story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "Story cards are out of play, “Story” side up. Don’t read the text boxes and don’t flip them, unless an in-game effect tells you to do so."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "earn_xp",
@@ -235541,7 +235644,7 @@
         ],
         "rules": [
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol_rule"
             ]
@@ -243911,7 +244014,7 @@
             ]
           },
           {
-            "title": "Elusive / Elusivo",
+            "title": "Elusivo",
             "steps": [
               "elusive_rule"
             ]
@@ -244495,13 +244598,13 @@
             ]
           },
           {
-            "title": "Elusive / Elusivo",
+            "title": "Elusivo",
             "steps": [
               "elusive_rule"
             ]
           },
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol_rule"
             ]
@@ -246610,7 +246713,7 @@
             ]
           },
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol_rule"
             ]
@@ -248454,7 +248557,7 @@
             ]
           },
           {
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "steps": [
               "story_rule"
             ]
@@ -248643,7 +248746,7 @@
           {
             "id": "story_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Story cards are a new cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. When a story card is drawn, read its story text and resolve its <b>Revelation</b> effect. Its game text is considered active for as long as the card is in play. The story cards in this scenario are double sided, with one side entitled “Deep Within the Labyrinth.” Do not flip them to this  until you are instructed to do so."
           },
           {
@@ -249458,7 +249561,7 @@
             ]
           },
           {
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "steps": [
               "story_rule"
             ]
@@ -249618,7 +249721,7 @@
           {
             "id": "story_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Story cards are a new cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. When a story card is drawn, read its story text and resolve its <b>Revelation</b> effect. Its game text is considered active for as long as the card is in play. The story cards in this scenario are double sided, with one side entitled “Deep Within the Labyrinth.” Do not flip them to this  until you are instructed to do so."
           },
           {
@@ -250743,7 +250846,7 @@
             ]
           },
           {
-            "title": "Elusive / Elusivo",
+            "title": "Elusivo",
             "steps": [
               "elusive_rule"
             ]
@@ -251792,7 +251895,7 @@
             ]
           },
           {
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "steps": [
               "story_cards_rule"
             ]
@@ -251816,7 +251919,7 @@
             ]
           },
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol_rule"
             ]
@@ -252136,7 +252239,7 @@
           {
             "id": "story_cards_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Story cards are a cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. During setup, resolve the <b>Setup</b> text on each story card in play. Abilities on story cards in play can be triggered by any investigator."
           },
           {
@@ -253574,7 +253677,7 @@
         ],
         "rules": [
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol_rule"
             ]
@@ -258080,7 +258183,7 @@
           },
           {
             "id": "explore",
-            "title": "Explore",
+            "title": "Explorar",
             "text": "Some abilities in this scenario are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action."
           },
           {
@@ -259936,13 +260039,13 @@
         ],
         "rules": [
           {
-            "title": "Explore",
+            "title": "Explorar",
             "steps": [
               "explore_rule"
             ]
           },
           {
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "steps": [
               "story_cards"
             ]
@@ -260109,7 +260212,7 @@
           },
           {
             "id": "explore_rule",
-            "title": "Explore",
+            "title": "Explorar",
             "type": "rule_reminder",
             "text": "Some abilities in <i>Guardians of the Abyss</i> are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action.\n<b>Explore</b> abilities instruct you to draw the top card of the “exploration deck,” which is a separate deck that will be constructed during this scenario. This deck consists of several single-sided locations and treachery cards.",
             "bullets": [
@@ -260133,9 +260236,9 @@
           },
           {
             "id": "story_cards",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "type": "rule_reminder",
-            "text": "Story cards are a new cardtype in this scenario. These cards serve as an avenue for additional narrative and typically appear as the reverse side of another scenario card. When you are instructed to resolve a story card, simply read its story text and resolve its game text, if any.\n<i>(Note: When a location or enemy that is in play is flipped over to a story card on its other side, that location or enemy is still considered to be in play while that story card is being resolved.)</i>"
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "strength_of_the_abyss",
@@ -261000,7 +261103,7 @@
             ]
           },
           {
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "steps": [
               "story_cards"
             ]
@@ -261024,7 +261127,7 @@
             ]
           },
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol"
             ]
@@ -261692,8 +261795,8 @@
           {
             "id": "story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "Story cards are a cardtype used in this scenario. These cards provide additional narrative and game text. Abilities on story cards in play can be triggered by any investigator."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "guest_story_assets",
@@ -262998,13 +263101,13 @@
         ],
         "rules": [
           {
-            "title": "Explore",
+            "title": "Explorar",
             "steps": [
               "explore_rule"
             ]
           },
           {
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "steps": [
               "story_cards"
             ]
@@ -263171,7 +263274,7 @@
           },
           {
             "id": "explore_rule",
-            "title": "Explore",
+            "title": "Explorar",
             "type": "rule_reminder",
             "text": "Some abilities in <i>Guardians of the Abyss</i> are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action.\n<b>Explore</b> abilities instruct you to draw the top card of the “exploration deck,” which is a separate deck that will be constructed during this scenario. This deck consists of several single-sided locations and treachery cards.",
             "bullets": [
@@ -263207,9 +263310,9 @@
           },
           {
             "id": "story_cards",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "type": "rule_reminder",
-            "text": "Story cards are a new cardtype in this scenario. These cards serve as an avenue for additional narrative and typically appear as the reverse side of another scenario card. When you are instructed to resolve a story card, simply read its story text and resolve its game text, if any.\n<i>(Note: When a location or enemy that is in play is flipped over to a story card on its other side, that location or enemy is still considered to be in play while that story card is being resolved.)</i>"
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "intro_1",
@@ -264518,7 +264621,7 @@
             ]
           },
           {
-            "title": "Concealed X",
+            "title": "Encoberto X",
             "steps": [
               "concealed_x",
               "concealed_x_2",
@@ -264531,7 +264634,7 @@
             ]
           },
           {
-            "title": "Elusive / Elusivo",
+            "title": "Elusivo",
             "steps": [
               "elusive_rule"
             ]
@@ -264725,7 +264828,7 @@
           {
             "id": "concealed_x",
             "type": "rule_reminder",
-            "title": "Concealed X",
+            "title": "Encoberto X",
             "text": "Concealed X is a keyword that first appeared in <i>The Scarlet Keys</i> campaign. Concealed enemies represent hidden enemies whose true location is a mystery until the investigators work to expose where—and in some cases, who—they truly are.\nWhen a scenario includes one or more concealed enemies, investigators are instructed to set aside several concealed mini-cards. These mini-cards are double-sided. The facedown side represents the possible location of a concealed enemy. The revealed side reveals the mini-card’s true nature—an enemy’s true location, or simply a decoy."
           },
           {
@@ -264752,7 +264855,7 @@
           {
             "id": "concealed_mini_cards",
             "type": "rule_reminder",
-            "title": "Concealed Mini-Cards",
+            "title": "Minicartas Encobertas",
             "text": "While in play, concealed mini-cards represent the possible location of an enemy in the shadows. In order to deal with such an enemy, its true location must first be discovered by exposing its mini-card. This can be done via one of three methods: fighting, evading, or investigating."
           },
           {
@@ -267831,7 +267934,7 @@
             ]
           },
           {
-            "title": "Swarming X",
+            "title": "Enxame X",
             "steps": [
               "swarming"
             ]
@@ -268186,26 +268289,32 @@
           {
             "id": "swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "An enemy with the swarming X keyword is actually a pack of enemies operating in unison. After you put an enemy with the swarming X keyword into play, place the top X cards of your deck facedown underneath the enemy as swarm cards, without looking at them. The enemy they are underneath is called the “host enemy.” Some scenario card effects may also instruct a player to add swarm cards to an enemy. This is done using the same process.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
@@ -274942,32 +275051,38 @@
           {
             "id": "$story",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "As cartas de história servem como um meio de transmitir uma narrativa adicional e geralmente aparecem como o verso de outra carta de cenário. Quando você for instruído a resolver uma carta de história, simplesmente leia o texto de história dela e resolva o texto de jogo."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "$swarming",
             "type": "rule_reminder",
-            "title": "Swarming X",
-            "text": "An enemy with the swarming X keyword is actually a pack of enemies operating in unison. After you put an enemy with the swarming X keyword into play, place the top X cards of your deck facedown underneath the enemy as swarm cards, without looking at them. The enemy they are underneath is called the “host enemy.” Some scenario card effects may also instruct a player to add swarm cards to an enemy. This is done using the same process.",
+            "title": "Enxame X",
+            "text": "Um inimigo com a palavra-chave enxame X é, na verdade, um bando de inimigos operando em uníssono. Depois de colocar um inimigo com a palavra-chave enxame X em jogo, coloque as X primeiras cartas do topo de seu baralho com a face para baixo embaixo do inimigo como cartas de enxame, sem olhar para elas. O inimigo sob o qual elas estão é chamado de “inimigo hospedeiro”. Alguns efeitos de cartas de cenário também podem instruir um jogador a adicionar cartas de enxame a um inimigo. Isso é feito usando o mesmo processo.",
             "bullets": [
               {
-                "text": "If it is ever unclear which investigator should add swarm cards, the lead investigator does so."
+                "text": "Caso não esteja claro qual investigador deve adicionar cartas de enxame, o investigador líder o faz.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card underneath the host enemy acts as a separate instance of that enemy for most purposes. Each swarm card has the same values and text as its host card. <i>(For example, if an investigator is engaged with a host enemy with 2 swarm cards underneath it, that investigator is engaged with 3 enemies in total.)</i>"
+                "text": "Cada carta de enxame embaixo do inimigo hospedeiro age como uma instância separada daquele inimigo para a maioria dos propósitos. Cada carta de enxame tem os mesmos valores e texto que sua carta hospedeira. <i>(Por exemplo, se um investigador estiver engajado com um inimigo hospedeiro com 2 cartas de enxame embaixo dele, esse investigador está engajado com 3 inimigos no total.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card attacks separately when enemies attack during the enemy phase. Once the host enemy and all of its swarm cards have attacked during this step, exhaust all of them."
+                "text": "Cada carta de enxame ataca separadamente quando os inimigos atacam durante a fase dos inimigos. Assim que o inimigo hospedeiro e todas as suas cartas de enxame tiverem atacado durante esta etapa, esgote todos eles.",
+                "bullet_type": "small"
               },
               {
-                "text": "Each swarm card can be attacked or dealt damage separately, but the host enemy cannot be defeated while it still has swarm cards underneath it. When a swarm card is defeated, any excess damage may be dealt to another swarm card underneath the same host enemy or to the host enemy itself. <i>(For example, Tony Morgan uses a .41 Derringer to attack a Stealthy Zoog with 2 swarm cards. The attack deals 2 damage. The first point of damage defeats 1 of the 2 swarm cards, so the excess point of damage may be dealt to another swarm card, defeating it as well.)</i>"
+                "text": "Cada carta de enxame pode ser atacada ou sofrer dano separadamente, mas o inimigo hospedeiro não pode ser derrotado enquanto ainda tiver cartas de enxame embaixo dele. Quando uma carta de enxame for derrotada, qualquer dano excedente pode ser causado a outra carta de enxame embaixo do mesmo inimigo hospedeiro ou ao próprio inimigo hospedeiro. <i>(Por exemplo, Tony Morgan usa uma Derringer .41 para atacar um Zoog Sorrateiro com 2 cartas de enxame. O ataque causa 2 de dano. O primeiro ponto de dano derrota 1 das 2 cartas de enxame, então o ponto de dano excedente pode ser causado a outra carta de enxame, derrotando-a da mesma forma.)</i>",
+                "bullet_type": "small"
               },
               {
-                "text": "Anytime a swarm card leaves play, place it on the bottom of its owner’s deck. If you are unsure of the owner of the swarm card, you may look at it to determine its owner."
+                "text": "Sempre que uma carta de enxame sair de jogo, coloque-a no fundo do baralho de seu dono. Caso não saiba quem é o dono da carta de enxame, você pode olhar a carta para determinar seu dono.",
+                "bullet_type": "small"
               },
               {
-                "text": "The host enemy and all of its swarm cards move, engage, and exhaust as a single entity. (For example, if a host enemy or any of its swarm cards are evaded, all of them exhaust and become disengaged.)"
+                "text": "O inimigo hospedeiro e todas as suas cartas de enxame se movem, engajam e são esgotados como uma entidade única. <i>(Por exemplo, se um inimigo hospedeiro ou qualquer uma de suas cartas de enxame for evadida, todos são esgotados e ficam desengajados.)</i>",
+                "bullet_type": "small"
               }
             ]
           },
@@ -311626,7 +311741,7 @@
             ]
           },
           {
-            "title": "Swarming X",
+            "title": "Enxame X",
             "steps": [
               "swarming_rule"
             ]
@@ -316333,13 +316448,13 @@
         ],
         "rules": [
           {
-            "title": "Selo",
+            "title": "Selar",
             "steps": [
               "seal_rule"
             ]
           },
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol_rule"
             ]
@@ -316464,7 +316579,7 @@
           {
             "id": "seal_rule",
             "type": "rule_reminder",
-            "title": "Selo",
+            "title": "Selar",
             "text": "Some cards may have the ability to seal one or more chaos tokens as part of their effect. This is done as follows: Search the chaos bag for the specified token, remove it from the chaos bag, and place it on the card. If the specified token is not in the chaos bag, the effect fails.\nWhen a chaos token is “released,” it is returned to the chaos bag and is no longer considered sealed. <b>If a card with one or more chaos tokens sealed on it leaves play for any reason, any chaos tokens sealed on it are immediately released.</b>"
           },
           {
@@ -317873,7 +317988,7 @@
           ]
         },
         {
-          "title": "Story Cards",
+          "title": "Cartas de História",
           "steps": [
             "$story_cards"
           ]
@@ -317891,7 +318006,7 @@
           ]
         },
         {
-          "title": "Explore (Updated version - Forgotten Age)",
+          "title": "Explorar (Versão atualizada - A Era Esquecida)",
           "steps": [
             "$explore"
           ]
@@ -319970,7 +320085,7 @@
             ]
           },
           {
-            "title": "Patrol",
+            "title": "Patrulha",
             "steps": [
               "patrol"
             ]
@@ -321399,8 +321514,8 @@
           {
             "id": "$story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
-            "text": "Story cards are set aside out of play and serve as an avenue for the scenario narrative. Don't read the text on these cards and don't flip them over unless a game effect instructs you to do so. When you are instructed to resolve a story card, simply read its story text and resolve its game text, if any."
+            "title": "Cartas de História",
+            "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
             "id": "$alert",

@@ -42,8 +42,7 @@ const ASSET_MODULES: { [key: string]: any } = {
   'rules_it': require('../../assets/generated/rules_it.txt'),
   'rules_ko': require('../../assets/generated/rules_ko.txt'),
   'rules_pl': require('../../assets/generated/rules_pl.txt'),
-  // Not present, use english
-  'rules_pt': require('../../assets/generated/rules.txt'),
+  'rules_pt': require('../../assets/generated/rules_pt.txt'),
   'rules_ru': require('../../assets/generated/rules_ru.txt'),
   // Not present, use english
   'rules_vi': require('../../assets/generated/rules.txt'),
