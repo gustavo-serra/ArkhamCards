@@ -353,7 +353,7 @@
             ]
           },
           {
-            "title": "Peril / Perigo",
+            "title": "Perigo",
             "steps": [
               "$peril_rule"
             ]
@@ -365,7 +365,7 @@
             ]
           },
           {
-            "title": "Surge / Ímpeto",
+            "title": "Ímpeto",
             "steps": [
               "$surge_rule"
             ]
@@ -3555,7 +3555,7 @@
           {
             "id": "$peril_rule",
             "type": "rule_reminder",
-            "title": "Peril / Perigo",
+            "title": "Perigo",
             "text": "Peril / Perigo é uma habilidade de palavra-chave.\nEnquanto um investigador estiver resolvendo uma carta de encontro com a palavra-chave “Perigo”, ele não pode consultar os outros jogadores. Os outros jogadores não podem jogar cartas, ativar habilidades ou comprometer cartas para os testes de perícia desse investigador enquanto a carta de encontro “Perigo” estiver sendo resolvida."
           },
           {
@@ -3583,7 +3583,7 @@
           {
             "id": "$surge_rule",
             "type": "rule_reminder",
-            "title": "Surge / Ímpeto",
+            "title": "Ímpeto",
             "text": "Surge / Ímpeto é uma habilidade de palavra-chave.\nDepois que um investigador compra e resolve uma carta de encontro que possui a palavra-chave surge / ímpeto, esse investigador deve comprar e resolver outra carta.",
             "bullets": [
               {
@@ -74967,7 +74967,7 @@
           },
           {
             "id": "$day_and_night_rule",
-            "title": "Day [day] and Night [night]",
+            "title": "Dia [day] e Noite [night]",
             "text": "Durante a preparação desta campanha, os jogadores poderão ser instruídos a colocar a carta de Marcador de Período em jogo. Para fazer isso, encontre a carta de Marcador de Período no conjunto de encontros <i>O Primeiro Dia</i>, <i>O Segundo Dia</i> ou <i>O Último Dia</i> correspondente ao dia atual e coloque-a ao lado do baralho de agendas. Esse será o dia e o período atuais.\nAlgumas cartas têm efeitos diferentes dependendo se o cenário se passa durante o Dia ou a Noite. O texto após uma palavra-chave <b>(Dia [day])</b> ou <b>(Noite [night])</b> só estará ativo se o cenário ou prelúdio que estiver sendo jogado se passar durante o Dia ou a Noite, respectivamente. Quaisquer outras habilidades que não sejam precedidas por essas palavras-chave estarão ativas independentemente do período.\nAs instruções de preparação podem conter informações específicas dependendo do dia e do período atuais. <i>(Por exemplo,</i> “Se for o <b>Dia 2</b>, coloque River Hawthorne em jogo no Brejo de Cranberries” <i>só se aplica quando esse cenário for jogado como um cenário de</i> <b>Dia 2</b> <i>e não como um cenário de</i> <b>Noite 2</b><i>).</i>"
           },
           {
@@ -77975,7 +77975,7 @@
         "steps": [
           {
             "id": "$explore_rule",
-            "title": "Explore",
+            "title": "Explorar",
             "type": "rule_reminder",
             "text": "Some abilities in <i>Guardians of the Abyss</i> are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action.\n<b>Explore</b> abilities instruct you to draw the top card of the “exploration deck,” which is a separate deck that will be constructed during this scenario. This deck consists of several single-sided locations and treachery cards.",
             "bullets": [
@@ -77999,7 +77999,7 @@
           },
           {
             "id": "$story_cards",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "type": "rule_reminder",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
@@ -83199,7 +83199,7 @@
           {
             "id": "$story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
@@ -96259,7 +96259,7 @@
           {
             "id": "$story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
@@ -104508,7 +104508,7 @@
           {
             "id": "$story_cards_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
@@ -119044,7 +119044,7 @@
           {
             "id": "$explore",
             "type": "rule_reminder",
-            "title": "Explore",
+            "title": "Explorar",
             "text": "Algumas habilidades nesta campanha são identificadas com um designador de ação de <b>Explorar</b>. Essas habilidades geralmente são usadas para encontrar novos locais para colocar em jogo e são iniciadas usando a ação de “ativar”.\nAs habilidades de <b>Explorar</b> orientam você a comprar a carta do topo do “baralho de exploração”, que é um baralho separado que é construído durante a preparação de alguns cenários. Esse baralho consiste em vários locais e cartas de traição de um único lado.",
             "bullets": [
               {
@@ -143426,7 +143426,7 @@
           {
             "id": "$story_cards_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           }
         ]
@@ -169974,7 +169974,7 @@
           },
           {
             "id": "$relentless_rule",
-            "title": "Relentless",
+            "title": "Implacável",
             "type": "rule_reminder",
             "text": "Alguns inimigos nesta campanha têm a palavra-chave implacável. Durante a fase dos inimigos (após a etapa estrutural 3.3), cada inimigo com a palavra-chave implacável que atacou nessa fase (mesmo que o ataque tenha sido cancelado) é preparado e ataca os investigadores com os quais está engajado uma segunda vez."
           },
@@ -170035,7 +170035,7 @@
           {
             "id": "$seal_rule",
             "type": "rule_reminder",
-            "title": "Selo",
+            "title": "Selar",
             "text": "Como custo adicional para uma carta com a palavra-chave selar entrar em jogo, seu controlador deverá procurar a ficha de caos especificada na bolsa de caos e colocá-la sobre a carta, assim selando a ficha. Se houver uma escolha de qual ficha selar, o controlador da carta escolherá. Se a ficha especificada não estiver na bolsa de caos, a carta não poderá entrar em jogo.\nUma ficha de caos selada não é considerada como estando na bolsa de caos, e, portanto, não pode ser revelada da bolsa de caos como parte de um teste de perícia ou habilidade.\nQuando uma ficha de caos é “liberada”, ela retorna para a bolsa de caos e não é mais considerada selada. <b>Se uma carta com uma ou mais fichas de caos seladas sobre ela sair de jogo por qualquer motivo, as fichas de caos seladas nela serão imediatamente liberadas</b>.\nAlgumas cartas (com ou sem a palavra-chave “selar”) também podem ter habilidades que selem uma ou mais fichas de caos como parte de seu efeito. Isso é feito seguindo o mesmo processo acima: procurando a ficha especificada na bolsa de caos, removendo-a da bolsa de caos e colocando-a sobre a carta. Se a ficha especificada não estiver na bolsa de caos, o efeito falhará."
           },
           {
@@ -174567,7 +174567,7 @@
           {
             "id": "$story",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
@@ -180559,7 +180559,7 @@
           {
             "id": "$story",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
@@ -183239,7 +183239,7 @@
           {
             "id": "$explore",
             "type": "rule_reminder",
-            "title": "Explore",
+            "title": "Explorar",
             "text": "Algumas habilidades nesta campanha são identificadas com um designador de ação de <b>Explorar</b>. Essas habilidades geralmente são usadas para encontrar novos locais para colocar em jogo e são iniciadas usando a ação de “ativar”.\nAs habilidades de <b>Explorar</b> orientam você a comprar a carta do topo do “baralho de exploração”, que é um baralho separado que é construído durante a preparação de alguns cenários. Esse baralho consiste em vários locais e cartas de traição de um único lado.",
             "bullets": [
               {
@@ -208003,7 +208003,7 @@
         ],
         "rules": [
           {
-            "title": "Civilians",
+            "title": "Civis",
             "steps": [
               "$civilians_rule"
             ]
@@ -223555,7 +223555,7 @@
             ]
           },
           {
-            "title": "Locations in the Shadows",
+            "title": "Locais nas Sombras",
             "steps": [
               "$locations_in_the_shadows_rule",
               "$locations_in_the_shadows_rule_2",
@@ -224157,7 +224157,7 @@
             ]
           },
           {
-            "title": "Locations in the Shadows",
+            "title": "Locais nas Sombras",
             "steps": [
               "$locations_in_the_shadows_rule",
               "$locations_in_the_shadows_rule_2",
@@ -229015,7 +229015,7 @@
           {
             "id": "$locations_in_the_shadows_rule",
             "type": "rule_reminder",
-            "title": "Locations in the Shadows",
+            "title": "Locais nas Sombras",
             "text": "During this scenario, investigators must traverse the deceptively labyrinthine and illusory home world of the Outsiders. To represent the difficulty of exploring this alien dimension, three City of Remnants locations are placed in the shadows at all times (taken from the top of the Otherworld deck) and concealed mini-cards are arranged adjacent to locations, rather than placed at them. Exposing these concealed mini-cards is the key to finding a route through this otherworldly place.",
             "bullets": [
               {
@@ -229090,7 +229090,7 @@
           {
             "id": "$civilians_rule",
             "type": "rule_reminder",
-            "title": "Civilians",
+            "title": "Civis",
             "text": "In this scenario, resources on locations represent the innocent civilians of Marrakesh, who are in grave danger.",
             "bullets": [
               {
@@ -229172,13 +229172,13 @@
           {
             "id": "$red_gloved_man",
             "type": "rule_reminder",
-            "title": "The Red-Gloved Man",
+            "title": "O Homem de Luvas Vermelhas",
             "text": "Durante a campanha <i>As Chaves Escarlates</i>, os investigadores enfrentarão vários membros perigosos e misteriosos da sociedade secreta conhecida como Confraria Vermelha. Um desses membros é o icônico Homem da Luva Vermelha. Por isso, ao jogar a campanha <i>As Chaves Escarlates</i> os investigadores não podem adquirir ou incluir o ativo O Homem da Luva Vermelha <i>(O Legado de Dunwich, carta #310)</i> em seus baralhos."
           },
           {
             "id": "$concealed_x",
             "type": "rule_reminder",
-            "title": "Concealed X",
+            "title": "Encoberto X",
             "text": "Encoberto X é uma palavra-chave que aparece em algumas cartas de inimigo na campanha <i>As Chaves Escarlates</i>. Inimigos encobertos representam inimigos escondidos, cuja verdadeira localização é um mistério até que os investigadores trabalhem para expor onde eles realmente estão e, em alguns casos, quem realmente são.\nQuando um cenário incluir um ou mais inimigos encobertos, os investigadores receberão instruções para separar várias minicartas encobertas. Essas minicartas são de dupla face. O lado para baixo representa a possível localização de um inimigo encoberto. O lado revelado mostra a verdadeira natureza da minicarta — a verdadeira localização de um inimigo ou uma mera isca.",
             "images": [
               {
@@ -229248,7 +229248,7 @@
           {
             "id": "$concealed_mini_cards",
             "type": "rule_reminder",
-            "title": "Concealed Mini-Cards",
+            "title": "Minicartas Encobertas",
             "text": "Enquanto estiverem em jogo, as minicartas encobertas representam possíveis localizações de um inimigo nas sombras. Para enfrentar esse inimigo, é preciso primeiro descobrir a verdadeira localização dele, expondo a minicarta dele. Isso pode ser feito de três formas: lutando, evadindo ou investigando."
           },
           {
@@ -229341,7 +229341,7 @@
           {
             "id": "$tracking_time_rule",
             "type": "rule_reminder",
-            "title": "Tracking Time",
+            "title": "Marcação de Tempo",
             "text": "Ao longo desta campanha, marcar a passagem do tempo é crucial. À medida que o tempo passa, esses eventos paranormais ficarão cada vez mais perigosos, e maquinações além da sua compreensão vão progredir. Além disso, algumas oportunidades podem estar abertas para você somente durante certas janelas de tempo. Quando você for instruído a marcar um ou mais de <b>tempo</b> no Registro da Campanha, marque essa quantidade de caixas na seção “Tempo Passado”.\nSe você marcar uma caixa que tem um símbolo (na forma de uma letra grega), avance para a seção Relatórios de Situação do Guia de Campanha, encontre o relatório de situação correspondente a essa letra e leia o texto a seguir.",
             "example": "Note: The app will show you the appropriate Status Reports automatically after time is marked."
           },
@@ -233147,7 +233147,7 @@
           {
             "id": "story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
@@ -248746,7 +248746,7 @@
           {
             "id": "story_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Story cards are a new cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. When a story card is drawn, read its story text and resolve its <b>Revelation</b> effect. Its game text is considered active for as long as the card is in play. The story cards in this scenario are double sided, with one side entitled “Deep Within the Labyrinth.” Do not flip them to this  until you are instructed to do so."
           },
           {
@@ -249721,7 +249721,7 @@
           {
             "id": "story_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Story cards are a new cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. When a story card is drawn, read its story text and resolve its <b>Revelation</b> effect. Its game text is considered active for as long as the card is in play. The story cards in this scenario are double sided, with one side entitled “Deep Within the Labyrinth.” Do not flip them to this  until you are instructed to do so."
           },
           {
@@ -252239,7 +252239,7 @@
           {
             "id": "story_cards_rule",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Story cards are a cardtype in this scenario. These cards serve as an avenue for additional narrative and game text. During setup, resolve the <b>Setup</b> text on each story card in play. Abilities on story cards in play can be triggered by any investigator."
           },
           {
@@ -258183,7 +258183,7 @@
           },
           {
             "id": "explore",
-            "title": "Explore",
+            "title": "Explorar",
             "text": "Some abilities in this scenario are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action."
           },
           {
@@ -260212,7 +260212,7 @@
           },
           {
             "id": "explore_rule",
-            "title": "Explore",
+            "title": "Explorar",
             "type": "rule_reminder",
             "text": "Some abilities in <i>Guardians of the Abyss</i> are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action.\n<b>Explore</b> abilities instruct you to draw the top card of the “exploration deck,” which is a separate deck that will be constructed during this scenario. This deck consists of several single-sided locations and treachery cards.",
             "bullets": [
@@ -260236,7 +260236,7 @@
           },
           {
             "id": "story_cards",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "type": "rule_reminder",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
@@ -261795,7 +261795,7 @@
           {
             "id": "story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
@@ -263274,7 +263274,7 @@
           },
           {
             "id": "explore_rule",
-            "title": "Explore",
+            "title": "Explorar",
             "type": "rule_reminder",
             "text": "Some abilities in <i>Guardians of the Abyss</i> are identified with an <b>Explore</b> action designator. Such abilities are generally used to find new locations to put into play, and are initiated using the “activate” action.\n<b>Explore</b> abilities instruct you to draw the top card of the “exploration deck,” which is a separate deck that will be constructed during this scenario. This deck consists of several single-sided locations and treachery cards.",
             "bullets": [
@@ -263310,7 +263310,7 @@
           },
           {
             "id": "story_cards",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "type": "rule_reminder",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
@@ -264828,7 +264828,7 @@
           {
             "id": "concealed_x",
             "type": "rule_reminder",
-            "title": "Concealed X",
+            "title": "Encoberto X",
             "text": "Concealed X is a keyword that first appeared in <i>The Scarlet Keys</i> campaign. Concealed enemies represent hidden enemies whose true location is a mystery until the investigators work to expose where—and in some cases, who—they truly are.\nWhen a scenario includes one or more concealed enemies, investigators are instructed to set aside several concealed mini-cards. These mini-cards are double-sided. The facedown side represents the possible location of a concealed enemy. The revealed side reveals the mini-card’s true nature—an enemy’s true location, or simply a decoy."
           },
           {
@@ -264855,7 +264855,7 @@
           {
             "id": "concealed_mini_cards",
             "type": "rule_reminder",
-            "title": "Concealed Mini-Cards",
+            "title": "Minicartas Encobertas",
             "text": "While in play, concealed mini-cards represent the possible location of an enemy in the shadows. In order to deal with such an enemy, its true location must first be discovered by exposing its mini-card. This can be done via one of three methods: fighting, evading, or investigating."
           },
           {
@@ -275051,7 +275051,7 @@
           {
             "id": "$story",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
@@ -316579,7 +316579,7 @@
           {
             "id": "seal_rule",
             "type": "rule_reminder",
-            "title": "Selo",
+            "title": "Selar",
             "text": "Some cards may have the ability to seal one or more chaos tokens as part of their effect. This is done as follows: Search the chaos bag for the specified token, remove it from the chaos bag, and place it on the card. If the specified token is not in the chaos bag, the effect fails.\nWhen a chaos token is “released,” it is returned to the chaos bag and is no longer considered sealed. <b>If a card with one or more chaos tokens sealed on it leaves play for any reason, any chaos tokens sealed on it are immediately released.</b>"
           },
           {
@@ -321514,7 +321514,7 @@
           {
             "id": "$story_cards",
             "type": "rule_reminder",
-            "title": "Story Cards",
+            "title": "Cartas de História",
             "text": "Cartas de história estão fora de jogo, com o lado \"História\" virado para cima. Não leia as caixas de texto e não as vire, a menos que um efeito de jogo instrua você a fazê-lo."
           },
           {
