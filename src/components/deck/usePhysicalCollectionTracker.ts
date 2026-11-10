@@ -326,7 +326,7 @@ export function isDeckTrackedAndAssembled(
  * Returns all latest decks in the app (Redux local/ArkhamDB decks, Remote Arkham Cards Cloud decks,
  * and any explicitly assembled decks) with their physical assembly status and slots.
  */
-export function useTrackedPhysicalDecks(): {
+export function useTrackedPhysicalDecks(enabled: boolean = true): {
   mode: PhysicalCollectionMode;
   allTrackedDecks: TrackedPhysicalDeck[];
   assembledDecksList: TrackedPhysicalDeck[];
@@ -338,18 +338,26 @@ export function useTrackedPhysicalDecks(): {
   const allCampaigns = useSelector((state: AppState) => state.campaigns_2.all);
 
   const { userId } = useContext(ArkhamCardsAuthContext);
+  const skipRemote = !userId || !enabled || mode === 'disabled';
   const { data: remoteDecksData } = useGetMyDecksQuery({
     variables: { userId: userId || '' },
-    skip: !userId,
-    fetchPolicy: 'cache-first',
+    skip: skipRemote,
+    fetchPolicy: 'cache-only',
   });
   const { data: remoteCampaignsData } = useGetMyCampaignsQuery({
     variables: { userId: userId || '' },
-    skip: !userId,
-    fetchPolicy: 'cache-first',
+    skip: skipRemote,
+    fetchPolicy: 'cache-only',
   });
 
   return useMemo(() => {
+    if (!enabled || mode === 'disabled') {
+      return {
+        mode,
+        allTrackedDecks: [],
+        assembledDecksList: [],
+      };
+    }
     const remoteCampaignMap: { [uuid: string]: CampaignStatusLike | undefined } = {};
     forEach(remoteCampaignsData?.users_by_pk?.campaigns || [], entry => {
       const c = entry.campaign;
@@ -583,7 +591,7 @@ export function useTrackedPhysicalDecks(): {
       allTrackedDecks: sorted,
       assembledDecksList,
     };
-  }, [mode, assembledDecks, allDecks, deckToCampaign, allCampaigns, remoteDecksData, remoteCampaignsData]);
+  }, [enabled, mode, assembledDecks, allDecks, deckToCampaign, allCampaigns, remoteDecksData, remoteCampaignsData]);
 }
 
 function getCardOwnedCount(
@@ -610,7 +618,10 @@ function getCardOwnedCount(
  * grouping printings/duplicates by `canonicalCode` and assigning physical copies
  * in descending order of `assembledAt` (most recently assembled deck holds physical priority).
  */
-export function usePhysicalCollectionAllocations(extraCards?: CardsMap): {
+export function usePhysicalCollectionAllocations(
+  extraCards?: CardsMap,
+  enabled: boolean = true
+): {
   mode: PhysicalCollectionMode;
   assembledDecksList: TrackedPhysicalDeck[];
   allTrackedDecks: TrackedPhysicalDeck[];
@@ -618,7 +629,7 @@ export function usePhysicalCollectionAllocations(extraCards?: CardsMap): {
   cardsMap: CardsMap;
   loading: boolean;
 } {
-  const { mode, allTrackedDecks, assembledDecksList } = useTrackedPhysicalDecks();
+  const { mode, allTrackedDecks, assembledDecksList } = useTrackedPhysicalDecks(enabled);
   const inCollection = useSelector(getPacksInCollection);
   const packQuantities = useSelector(getPackQuantities);
   const printingOverrides = useSelector(getCardPrintingOverrides);
@@ -626,17 +637,21 @@ export function usePhysicalCollectionAllocations(extraCards?: CardsMap): {
   const { getExistingCards } = useContext(PlayerCardContext);
 
   const neededCodes = useMemo(() => {
-    if (mode === 'disabled') {
+    if (!enabled || mode === 'disabled' || assembledDecksList.length === 0) {
       return [];
     }
-    return uniq(
-      flatMap(allTrackedDecks, d => [
+    const rawCodes = uniq(
+      flatMap(assembledDecksList, d => [
         d.investigatorCode,
         ...keys(d.physicalSlots),
         ...keys(d.targetSlots),
       ])
     );
-  }, [mode, allTrackedDecks]);
+    if (!extraCards) {
+      return rawCodes;
+    }
+    return filter(rawCodes, code => !extraCards[code]);
+  }, [enabled, mode, assembledDecksList, extraCards]);
 
   const [fetchedCards, loading] = usePlayerCards(neededCodes, false, 0);
 
@@ -875,10 +890,13 @@ export function useDeckPhysicalChecklistPlan(
     return targetSlots;
   }, [state, targetSlots]);
 
-  const deckCardCodes = useMemo(
-    () => uniq([...keys(targetSlots), ...keys(physicalSlots)]),
-    [targetSlots, physicalSlots]
-  );
+  const deckCardCodes = useMemo(() => {
+    const allCodes = uniq([...keys(targetSlots), ...keys(physicalSlots)]);
+    if (!extraCards) {
+      return allCodes;
+    }
+    return filter(allCodes, code => !extraCards[code]);
+  }, [targetSlots, physicalSlots, extraCards]);
 
   const [deckCards, deckCardsLoading] = usePlayerCards(deckCardCodes, false, 0);
 
