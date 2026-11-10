@@ -32,11 +32,14 @@ import {
   SetCardPrintingOverrideAction,
   SET_PHYSICAL_COLLECTION_MODE,
   CONFIRM_PHYSICAL_DECK_ASSEMBLY,
+  CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY,
   DISASSEMBLE_PHYSICAL_DECK,
   SET_DECK_PHYSICAL_TRACKING,
   DISASSEMBLE_CAMPAIGN_DECKS,
   PhysicalCollectionMode,
+  PhysicalDeckAssemblyEntry,
   ConfirmPhysicalDeckAssemblyAction,
+  ConfirmMultiplePhysicalDecksAssemblyAction,
   DisassemblePhysicalDeckAction,
   SetDeckPhysicalTrackingAction,
   DisassembleCampaignDecksAction,
@@ -462,6 +465,15 @@ export function confirmPhysicalDeckAssembly(
   return {
     type: CONFIRM_PHYSICAL_DECK_ASSEMBLY,
     ...payload,
+  };
+}
+
+export function confirmMultiplePhysicalDecksAssembly(
+  decks: PhysicalDeckAssemblyEntry[]
+): ConfirmMultiplePhysicalDecksAssemblyAction {
+  return {
+    type: CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY,
+    decks,
   };
 }
 

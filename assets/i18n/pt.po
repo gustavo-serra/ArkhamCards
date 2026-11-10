@@ -9353,3 +9353,27 @@ msgstr "Voltar a Rastrear na Minha Coleção Física"
 
 msgid "Mark as Friend's Deck (Doesn't use my collection)"
 msgstr "Marcar como Deck de Amigo (Não usa minha coleção)"
+
+#, javascript-format
+msgid "You have ${ deckCount } deck(s) across ${ campaignCount } open campaign(s). Enable physical collection tracking and assemble them in chronological order (oldest played first)? Remaining uncontested cards stay marked in older campaigns, while newer campaigns hold physical priority on shared cards and older decks show missing cards."
+msgstr "Você tem ${ deckCount } deck(s) em ${ campaignCount } campanha(s) em aberto. Ativar o rastreamento de coleção física e montá-los em ordem cronológica (mais antiga primeiro)? Cartas remanescentes sem conflito ficam marcadas nas campanhas antigas, enquanto campanhas mais novas ficam com prioridade física e os decks antigos mostram cartas faltantes."
+
+#, javascript-format
+msgid "You have ${ deckCount } deck(s) across ${ campaignCount } open campaign(s) not yet assembled. Assemble them now in chronological order (oldest played first)? Remaining uncontested cards stay marked in older campaigns, while newer campaigns hold physical priority on shared cards and older decks show missing cards."
+msgstr "Você tem ${ deckCount } deck(s) em ${ campaignCount } campanha(s) em aberto ainda não montados. Montá-los agora em ordem cronológica (mais antiga primeiro)? Cartas remanescentes sem conflito ficam marcadas nas campanhas antigas, enquanto campanhas mais novas ficam com prioridade física e os decks antigos mostram cartas faltantes."
+
+msgid "Assemble Open Campaigns Chronologically?"
+msgstr "Montar campanhas em aberto em ordem cronológica?"
+
+msgid "Assemble Chronologically"
+msgstr "Montar em ordem"
+
+#, javascript-format
+msgid "⚠️ ${ missingInDeck } card(s) missing (in newer deck)"
+msgstr "⚠️ ${ missingInDeck } carta(s) faltando (em deck mais novo)"
+
+msgid "Assemble Open Campaigns Chronologically"
+msgstr "Montar campanhas em aberto em ordem cronológica"
+
+msgid "Marks uncontested cards in older campaigns and missing cards where newer campaigns took them"
+msgstr "Marca cartas remanescentes nas campanhas antigas e cartas faltantes tomadas por campanhas mais novas"

@@ -1182,9 +1182,7 @@ export interface SetPhysicalCollectionModeAction {
   mode: PhysicalCollectionMode;
 }
 
-export const CONFIRM_PHYSICAL_DECK_ASSEMBLY = 'CONFIRM_PHYSICAL_DECK_ASSEMBLY';
-export interface ConfirmPhysicalDeckAssemblyAction {
-  type: typeof CONFIRM_PHYSICAL_DECK_ASSEMBLY;
+export interface PhysicalDeckAssemblyEntry {
   deckKey: string;
   campaignId?: CampaignId;
   campaignName?: string;
@@ -1193,6 +1191,17 @@ export interface ConfirmPhysicalDeckAssemblyAction {
   deckName?: string;
   physicalSlots: Slots;
   assembledAt: string;
+}
+
+export const CONFIRM_PHYSICAL_DECK_ASSEMBLY = 'CONFIRM_PHYSICAL_DECK_ASSEMBLY';
+export interface ConfirmPhysicalDeckAssemblyAction extends PhysicalDeckAssemblyEntry {
+  type: typeof CONFIRM_PHYSICAL_DECK_ASSEMBLY;
+}
+
+export const CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY = 'CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY';
+export interface ConfirmMultiplePhysicalDecksAssemblyAction {
+  type: typeof CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY;
+  decks: PhysicalDeckAssemblyEntry[];
 }
 
 export const DISASSEMBLE_PHYSICAL_DECK = 'DISASSEMBLE_PHYSICAL_DECK';
@@ -1220,6 +1229,7 @@ export interface DisassembleCampaignDecksAction {
 export type PhysicalCollectionActions =
   | SetPhysicalCollectionModeAction
   | ConfirmPhysicalDeckAssemblyAction
+  | ConfirmMultiplePhysicalDecksAssemblyAction
   | DisassemblePhysicalDeckAction
   | SetDeckPhysicalTrackingAction
   | DisassembleCampaignDecksAction;

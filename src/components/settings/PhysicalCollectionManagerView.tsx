@@ -8,11 +8,12 @@ import {
   View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { filter, map, sortBy, sum, values } from 'lodash';
+import { filter, forEach, map, sortBy, sum, values } from 'lodash';
 import { t } from 'ttag';
 import { useNavigation } from '@react-navigation/native';
 
 import {
+  confirmMultiplePhysicalDecksAssembly,
   confirmPhysicalDeckAssembly,
   disassemblePhysicalDeck,
   setDeckPhysicalTracking,
@@ -21,9 +22,12 @@ import {
 import { PhysicalCollectionMode } from '@actions/types';
 import { getAssembledDecks } from '@reducers';
 import {
+  buildChronologicalOpenCampaignAssemblyEntries,
   CardPhysicalAllocation,
+  promptChronologicalOpenCampaignAssembly,
   TrackedPhysicalDeck,
   usePhysicalCollectionAllocations,
+  useTrackedPhysicalDecks,
 } from '@components/deck/usePhysicalCollectionTracker';
 import StyleContext from '@styles/StyleContext';
 import space, { s, xs } from '@styles/space';
@@ -84,6 +88,7 @@ export default function PhysicalCollectionManagerView() {
   const dispatch = useDispatch();
   const { backgroundStyle, borderStyle, colors, typography } = useContext(StyleContext);
   const assembledDecksState = useSelector(getAssembledDecks);
+  const { allTrackedDecks: rawTrackedDecks } = useTrackedPhysicalDecks(true, true);
   const {
     mode,
     assembledDecksList,
@@ -93,9 +98,49 @@ export default function PhysicalCollectionManagerView() {
     loading,
   } = usePhysicalCollectionAllocations();
 
+  const openCampaignAssemblyEntries = useMemo(() => {
+    return buildChronologicalOpenCampaignAssemblyEntries(rawTrackedDecks, assembledDecksState);
+  }, [rawTrackedDecks, assembledDecksState]);
+
+  const borrowedCountByDeckKey = useMemo((): { [deckKey: string]: number | undefined } => {
+    const counts: { [deckKey: string]: number | undefined } = {};
+    forEach(allocationsByCanonicalCode, alloc => {
+      if (!alloc || alloc.conflictCount <= 0) {
+        return;
+      }
+      forEach(alloc.holders, holder => {
+        if (holder.borrowedCopies > 0) {
+          counts[holder.deckKey] = (counts[holder.deckKey] || 0) + holder.borrowedCopies;
+        }
+      });
+    });
+    return counts;
+  }, [allocationsByCanonicalCode]);
+
+  const handleAssembleOpenCampaigns = useCallback(() => {
+    if (openCampaignAssemblyEntries.length > 0) {
+      dispatch(confirmMultiplePhysicalDecksAssembly(openCampaignAssemblyEntries));
+    }
+  }, [dispatch, openCampaignAssemblyEntries]);
+
+  const handlePromptChronologicalAssembly = useCallback(() => {
+    if (openCampaignAssemblyEntries.length > 0) {
+      promptChronologicalOpenCampaignAssembly(
+        openCampaignAssemblyEntries,
+        handleAssembleOpenCampaigns
+      );
+    }
+  }, [openCampaignAssemblyEntries, handleAssembleOpenCampaigns]);
+
   const handleSelectMode = useCallback((nextMode: PhysicalCollectionMode) => {
     dispatch(setPhysicalCollectionMode(nextMode));
-  }, [dispatch]);
+    if (nextMode === 'manual' && openCampaignAssemblyEntries.length > 0) {
+      promptChronologicalOpenCampaignAssembly(
+        openCampaignAssemblyEntries,
+        handleAssembleOpenCampaigns
+      );
+    }
+  }, [dispatch, openCampaignAssemblyEntries, handleAssembleOpenCampaigns]);
 
   const conflictAllocations = useMemo((): CardPhysicalAllocation[] => {
     const conflicts = filter(
@@ -345,6 +390,7 @@ export default function PhysicalCollectionManagerView() {
                       const investigator = cardsMap[trackedDeck.investigatorCode];
                       const totalPhysicalCards = sum(values(trackedDeck.physicalSlots));
                       const assembledDate = formatAssembledTimestamp(trackedDeck.assembledAt);
+                      const missingInDeck = borrowedCountByDeckKey[trackedDeck.deckKey] || 0;
                       const isLast = idx === assembledDecksList.length - 1;
 
                       return (
@@ -383,6 +429,13 @@ export default function PhysicalCollectionManagerView() {
                               <View style={[styles.statusBadge, { backgroundColor: colors.L30 }]}>
                                 <Text style={[typography.small, typography.bold, { color: colors.D30 }]}>
                                   {t`✅ Physically Assembled`}
+                                </Text>
+                              </View>
+                            )}
+                            {missingInDeck > 0 && (
+                              <View style={[styles.statusBadge, { backgroundColor: colors.warn }]}>
+                                <Text style={[typography.small, typography.bold, { color: '#FFFFFF' }]}>
+                                  {t`⚠️ ${missingInDeck} card(s) missing (in newer deck)`}
                                 </Text>
                               </View>
                             )}
@@ -436,6 +489,17 @@ export default function PhysicalCollectionManagerView() {
                 }
               >
                 <View style={space.paddingS}>
+                  {mode === 'manual' && openCampaignAssemblyEntries.length > 0 && (
+                    <DeckButton
+                      icon="deck"
+                      color="gold"
+                      title={t`Assemble Open Campaigns Chronologically`}
+                      detail={t`Marks uncontested cards in older campaigns and missing cards where newer campaigns took them`}
+                      onPress={handlePromptChronologicalAssembly}
+                      bottomMargin={s}
+                      thin
+                    />
+                  )}
                   {availableDecksList.length === 0 ? (
                     <Text style={[typography.text, { color: colors.D10 }]}>
                       {t`No other active decks available for physical assembly.`}
@@ -602,6 +666,8 @@ const styles = StyleSheet.create({
   statusBadgeRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: xs,
   },
   statusBadge: {
     paddingHorizontal: s,

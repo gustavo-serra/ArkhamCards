@@ -1,11 +1,13 @@
 import { forEach } from 'lodash';
 import {
   AssembledDeckState,
+  CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY,
   CONFIRM_PHYSICAL_DECK_ASSEMBLY,
   DISASSEMBLE_CAMPAIGN_DECKS,
   DISASSEMBLE_PHYSICAL_DECK,
   PhysicalCollectionActions,
   PhysicalCollectionMode,
+  PhysicalDeckAssemblyEntry,
   SET_DECK_PHYSICAL_TRACKING,
   SET_PHYSICAL_COLLECTION_MODE,
 } from '@actions/types';
@@ -22,6 +24,21 @@ const DEFAULT_PHYSICAL_COLLECTION_STATE: PhysicalCollectionState = {
   assembledDecks: {},
 };
 
+function toAssembledDeckState(entry: PhysicalDeckAssemblyEntry): AssembledDeckState {
+  return {
+    deckKey: entry.deckKey,
+    campaignId: entry.campaignId,
+    campaignName: entry.campaignName,
+    investigatorCode: entry.investigatorCode,
+    deckId: entry.deckId,
+    deckName: entry.deckName,
+    tracked: true,
+    assembled: true,
+    physicalSlots: { ...entry.physicalSlots },
+    assembledAt: entry.assembledAt,
+  };
+}
+
 export default function physicalCollection(
   state: PhysicalCollectionState = DEFAULT_PHYSICAL_COLLECTION_STATE,
   action: PhysicalCollectionActions
@@ -34,18 +51,17 @@ export default function physicalCollection(
       };
     case CONFIRM_PHYSICAL_DECK_ASSEMBLY: {
       const nextDecks = { ...(state.assembledDecks || {}) };
-      nextDecks[action.deckKey] = {
-        deckKey: action.deckKey,
-        campaignId: action.campaignId,
-        campaignName: action.campaignName,
-        investigatorCode: action.investigatorCode,
-        deckId: action.deckId,
-        deckName: action.deckName,
-        tracked: true,
-        assembled: true,
-        physicalSlots: { ...action.physicalSlots },
-        assembledAt: action.assembledAt,
+      nextDecks[action.deckKey] = toAssembledDeckState(action);
+      return {
+        ...state,
+        assembledDecks: nextDecks,
       };
+    }
+    case CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY: {
+      const nextDecks = { ...(state.assembledDecks || {}) };
+      forEach(action.decks, entry => {
+        nextDecks[entry.deckKey] = toAssembledDeckState(entry);
+      });
       return {
         ...state,
         assembledDecks: nextDecks,
