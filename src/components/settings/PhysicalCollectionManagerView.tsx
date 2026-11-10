@@ -40,35 +40,37 @@ interface ModeOption {
   description: string;
 }
 
-const MODE_OPTIONS: ModeOption[] = [
-  {
-    value: 'manual',
-    title: 'Manual por Deck/Campanha (Padrão)',
-    description: 'Você escolhe quais decks estão fisicamente montados.',
-  },
-  {
-    value: 'active_campaigns',
-    title: 'Campanhas Ativas',
-    description: 'Rastreia automaticamente todos os decks de campanhas não arquivadas.',
-  },
-  {
-    value: 'all_decks',
-    title: 'Todos os Decks',
-    description: 'Considera todos os seus decks ativos como montados.',
-  },
-  {
-    value: 'disabled',
-    title: 'Desativado',
-    description: 'Oculta avisos e badges de coleção física.',
-  },
-];
+function getModeOptions(): ModeOption[] {
+  return [
+    {
+      value: 'manual',
+      title: t`Manual per Deck/Campaign (Default)`,
+      description: t`You choose which decks are physically assembled.`,
+    },
+    {
+      value: 'active_campaigns',
+      title: t`Active Campaigns`,
+      description: t`Automatically tracks all decks in non-archived campaigns.`,
+    },
+    {
+      value: 'all_decks',
+      title: t`All Decks`,
+      description: t`Treats all your active decks as physically assembled.`,
+    },
+    {
+      value: 'disabled',
+      title: t`Disabled`,
+      description: t`Hides physical collection warnings and badges.`,
+    },
+  ];
+}
 
 function formatAssembledTimestamp(isoString: string): string {
   const date = new Date(isoString);
   if (isNaN(date.getTime()) || date.getTime() <= 0) {
-    return t`Automático`;
+    return t`Automatic`;
   }
-  return date.toLocaleString('pt-BR', {
+  return date.toLocaleString(undefined, {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -156,6 +158,11 @@ export default function PhysicalCollectionManagerView() {
     }
   }, [navigation, cardsMap, colors]);
 
+  const modeOptions = getModeOptions();
+  const conflictCount = conflictAllocations.length;
+  const assembledCount = assembledDecksList.length;
+  const availableCount = availableDecksList.length;
+
   return (
     <SafeAreaView style={[styles.container, backgroundStyle]}>
       <ScrollView
@@ -163,16 +170,16 @@ export default function PhysicalCollectionManagerView() {
         contentContainerStyle={space.paddingBottomM}
         keyboardShouldPersistTaps="always"
       >
-        {/* Section 1: Modo de Rastreamento Físico */}
+        {/* Section 1: Physical Tracking Mode */}
         <View style={[space.paddingSideS, space.paddingTopS, space.paddingBottomS]}>
           <RoundedFactionBlock
             faction="neutral"
-            header={<DeckSectionHeader faction="neutral" title={t`Modo de Rastreamento Físico`} />}
+            header={<DeckSectionHeader faction="neutral" title={t`Physical Tracking Mode`} />}
           >
             <View style={[space.paddingTopXs, space.paddingBottomXs]}>
-              {map(MODE_OPTIONS, (option, idx) => {
+              {map(modeOptions, (option, idx) => {
                 const selected = mode === option.value;
-                const isLast = idx === MODE_OPTIONS.length - 1;
+                const isLast = idx === modeOptions.length - 1;
                 return (
                   <TouchableOpacity
                     key={option.value}
@@ -209,28 +216,28 @@ export default function PhysicalCollectionManagerView() {
           <View style={[styles.loadingRow, space.paddingS]}>
             <ActivityIndicator size="small" color={colors.D20} />
             <Text style={[typography.small, space.marginLeftS, { color: colors.D10 }]}>
-              {t`Calculando alocações físicas...`}
+              {t`Calculating physical allocations...`}
             </Text>
           </View>
         )}
 
         {mode !== 'disabled' && (
           <>
-            {/* Section 2: Resumo de Conflitos e Empréstimos Ativos */}
+            {/* Section 2: Active Conflicts & Borrowed Cards */}
             <View style={[space.paddingSideS, space.paddingBottomS]}>
               <RoundedFactionBlock
                 faction="neutral"
                 header={
                   <DeckSectionHeader
                     faction="neutral"
-                    title={t`Resumo de Conflitos e Empréstimos Ativos (${conflictAllocations.length})`}
+                    title={t`Active Conflicts & Borrowed Cards (${conflictCount})`}
                   />
                 }
               >
                 <View style={space.paddingS}>
                   {conflictAllocations.length === 0 ? (
                     <Text style={[typography.text, { color: colors.D10 }]}>
-                      {t`✅ Nenhum conflito físico entre os decks montados no momento.`}
+                      {t`✅ No physical conflicts among assembled decks right now.`}
                     </Text>
                   ) : (
                     map(conflictAllocations, (alloc, idx) => {
@@ -241,6 +248,8 @@ export default function PhysicalCollectionManagerView() {
                       const holdingDecks = filter(alloc.holders, h => h.heldCopies > 0);
                       const borrowingDecks = filter(alloc.holders, h => h.borrowedCopies > 0);
                       const isLast = idx === conflictAllocations.length - 1;
+                      const totalRequested = alloc.totalPhysicalRequested;
+                      const totalOwned = alloc.totalOwned;
 
                       return (
                         <TouchableOpacity
@@ -266,7 +275,7 @@ export default function PhysicalCollectionManagerView() {
                               </View>
                               <View style={[styles.conflictBadge, { backgroundColor: colors.warn }]}>
                                 <Text style={[typography.small, typography.bold, { color: '#FFFFFF' }]}>
-                                  {t`Em uso: ${alloc.totalPhysicalRequested} / Na coleção: ${alloc.totalOwned}`}
+                                  {t`In use: ${totalRequested} / Owned: ${totalOwned}`}
                                 </Text>
                               </View>
                             </View>
@@ -274,7 +283,7 @@ export default function PhysicalCollectionManagerView() {
                             {holdingDecks.length > 0 && (
                               <View style={space.marginTopXs}>
                                 <Text style={[typography.small, typography.bold, { color: colors.D20 }]}>
-                                  {t`📦 Cópia física atual com:`}
+                                  {t`📦 Physical copy currently held by:`}
                                 </Text>
                                 {map(holdingDecks, holder => (
                                   <Text
@@ -290,16 +299,20 @@ export default function PhysicalCollectionManagerView() {
                             {borrowingDecks.length > 0 && (
                               <View style={space.marginTopXs}>
                                 <Text style={[typography.small, typography.bold, { color: colors.warn }]}>
-                                  {t`⚠️ Emprestada / Faltando em:`}
+                                  {t`⚠️ Borrowed / Missing in:`}
                                 </Text>
-                                {map(borrowingDecks, holder => (
-                                  <Text
-                                    key={`borrowed-${holder.deckKey}`}
-                                    style={[typography.small, { color: colors.D10, marginLeft: xs }]}
-                                  >
-                                    {`• ${holder.deckName}${holder.campaignName ? ` (${holder.campaignName})` : ''}: faltam ${holder.borrowedCopies}x`}
-                                  </Text>
-                                ))}
+                                {map(borrowingDecks, holder => {
+                                  const deckLabel = `${holder.deckName}${holder.campaignName ? ` (${holder.campaignName})` : ''}`;
+                                  const missingCount = holder.borrowedCopies;
+                                  return (
+                                    <Text
+                                      key={`borrowed-${holder.deckKey}`}
+                                      style={[typography.small, { color: colors.D10, marginLeft: xs }]}
+                                    >
+                                      {t`• ${deckLabel}: missing ${missingCount}x`}
+                                    </Text>
+                                  );
+                                })}
                               </View>
                             )}
                           </View>
@@ -311,26 +324,27 @@ export default function PhysicalCollectionManagerView() {
               </RoundedFactionBlock>
             </View>
 
-            {/* Section 3: Decks Fisicamente Montados */}
+            {/* Section 3: Physically Assembled Decks */}
             <View style={[space.paddingSideS, space.paddingBottomS]}>
               <RoundedFactionBlock
                 faction="neutral"
                 header={
                   <DeckSectionHeader
                     faction="neutral"
-                    title={t`Decks Fisicamente Montados (${assembledDecksList.length})`}
+                    title={t`Physically Assembled Decks (${assembledCount})`}
                   />
                 }
               >
                 <View style={space.paddingS}>
                   {assembledDecksList.length === 0 ? (
                     <Text style={[typography.text, { color: colors.D10 }]}>
-                      {t`Nenhum deck marcado como fisicamente montado.`}
+                      {t`No decks marked as physically assembled.`}
                     </Text>
                   ) : (
                     map(assembledDecksList, (trackedDeck, idx) => {
                       const investigator = cardsMap[trackedDeck.investigatorCode];
                       const totalPhysicalCards = sum(values(trackedDeck.physicalSlots));
+                      const assembledDate = formatAssembledTimestamp(trackedDeck.assembledAt);
                       const isLast = idx === assembledDecksList.length - 1;
 
                       return (
@@ -353,7 +367,7 @@ export default function PhysicalCollectionManagerView() {
                                 {trackedDeck.campaignName ? trackedDeck.campaignName : t`Standalone`}
                               </Text>
                               <Text style={[typography.small, { color: colors.M, marginTop: 2 }]}>
-                                {t`${totalPhysicalCards} cartas · Montado em: ${formatAssembledTimestamp(trackedDeck.assembledAt)}`}
+                                {t`${totalPhysicalCards} cards · Assembled: ${assembledDate}`}
                               </Text>
                             </View>
                           </View>
@@ -362,13 +376,13 @@ export default function PhysicalCollectionManagerView() {
                             {trackedDeck.hasPendingUpgrade ? (
                               <View style={[styles.statusBadge, { backgroundColor: colors.upgrade }]}>
                                 <Text style={[typography.small, typography.bold, { color: '#24201C' }]}>
-                                  {t`🔄 Upgrade Físico Pendente`}
+                                  {t`🔄 Pending Physical Upgrade`}
                                 </Text>
                               </View>
                             ) : (
                               <View style={[styles.statusBadge, { backgroundColor: colors.L30 }]}>
                                 <Text style={[typography.small, typography.bold, { color: colors.D30 }]}>
-                                  {t`✅ Montado Fisicamente`}
+                                  {t`✅ Physically Assembled`}
                                 </Text>
                               </View>
                             )}
@@ -378,8 +392,8 @@ export default function PhysicalCollectionManagerView() {
                             <DeckButton
                               icon="check-thin"
                               color="gold"
-                              title={t`Atualizar Deckbox`}
-                              detail={t`Sincroniza a deckbox física com os upgrades mais recentes`}
+                              title={t`Update Deckbox`}
+                              detail={t`Syncs physical deckbox with latest upgrades`}
                               onPress={() => handleConfirmDeckAssembly(trackedDeck)}
                               bottomMargin={xs}
                               thin
@@ -389,7 +403,7 @@ export default function PhysicalCollectionManagerView() {
                           <DeckButton
                             icon="deck"
                             color="default"
-                            title={t`Abrir Checklist`}
+                            title={t`Open Checklist`}
                             onPress={() => handleOpenChecklist(trackedDeck)}
                             bottomMargin={xs}
                             thin
@@ -398,7 +412,7 @@ export default function PhysicalCollectionManagerView() {
                           <DeckButton
                             icon="dismiss"
                             color="red_outline"
-                            title={t`Desmontar (Devolver ao Fichário)`}
+                            title={t`Disassemble (Return to Binder)`}
                             onPress={() => handleDisassembleDeck(trackedDeck.deckKey)}
                             thin
                           />
@@ -410,21 +424,21 @@ export default function PhysicalCollectionManagerView() {
               </RoundedFactionBlock>
             </View>
 
-            {/* Section 4: Outros Decks Disponíveis para Montar */}
+            {/* Section 4: Other Decks Available to Assemble */}
             <View style={[space.paddingSideS, space.paddingBottomS]}>
               <RoundedFactionBlock
                 faction="neutral"
                 header={
                   <DeckSectionHeader
                     faction="neutral"
-                    title={t`Outros Decks Disponíveis para Montar (${availableDecksList.length})`}
+                    title={t`Other Decks Available to Assemble (${availableCount})`}
                   />
                 }
               >
                 <View style={space.paddingS}>
                   {availableDecksList.length === 0 ? (
                     <Text style={[typography.text, { color: colors.D10 }]}>
-                      {t`Não há outros decks ativos disponíveis para montagem física.`}
+                      {t`No other active decks available for physical assembly.`}
                     </Text>
                   ) : (
                     map(availableDecksList, (trackedDeck, idx) => {
@@ -454,13 +468,14 @@ export default function PhysicalCollectionManagerView() {
                               <Text style={[typography.small, { color: colors.D10, marginTop: 2 }]}>
                                 {investigator ? `${investigator.name} · ` : ''}
                                 {trackedDeck.campaignName ? trackedDeck.campaignName : t`Standalone`}
-                                {` · ${totalTargetCards} cartas`}
+                                {' · '}
+                                {t`${totalTargetCards} cards`}
                               </Text>
                             </View>
                             {isIgnoredFriendDeck && (
                               <View style={[styles.ignoredBadge, { backgroundColor: colors.L10 }]}>
                                 <Text style={[typography.small, { color: colors.D20 }]}>
-                                  {t`Ignorado (Amigo)`}
+                                  {t`Ignored (Friend)`}
                                 </Text>
                               </View>
                             )}
@@ -470,7 +485,7 @@ export default function PhysicalCollectionManagerView() {
                             <DeckButton
                               icon="check-thin"
                               color="default"
-                              title={t`Marcar como Montado`}
+                              title={t`Mark as Assembled`}
                               onPress={() => handleConfirmDeckAssembly(trackedDeck)}
                               bottomMargin={xs}
                               thin
@@ -500,8 +515,8 @@ export default function PhysicalCollectionManagerView() {
                                   ]}
                                 >
                                   {isIgnoredFriendDeck
-                                    ? t`Ignorado (Deck de Amigo) — Toque para Rastrear`
-                                    : t`Ignorar (Deck de Amigo)`}
+                                    ? t`Ignored (Friend's Deck) — Tap to Track`
+                                    : t`Ignore (Friend's Deck)`}
                                 </Text>
                               </View>
                             </TouchableOpacity>

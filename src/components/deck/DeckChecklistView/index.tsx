@@ -103,17 +103,17 @@ function ChecklistRetrieveSectionBlock({
   return (
     <View style={[styles.guideSection, { borderColor: colors.L10 }]}>
       <Text style={[typography.small, typography.bold, { color: colors.darkText }]}>
-        { t`🔄 Resgatar de Outros Decks` } ({ totalCount })
+        { t`🔄 Retrieve from Other Decks` } ({ totalCount })
       </Text>
       { items.length === 0 ? (
         <Text style={[typography.small, { color: colors.M, marginTop: 2 }]}>
-          { t`Nenhuma carta precisa ser retirada de outro deck.` }
+          { t`No cards need to be retrieved from another deck.` }
         </Text>
       ) : (
         map(grouped, (groupItems, sourceLabel) => (
           <View key={sourceLabel} style={space.marginTopXs}>
             <Text style={[typography.small, typography.bold, { color: colors.M }]}>
-              { t`De:` } { sourceLabel }
+              { t`From:` } { sourceLabel }
             </Text>
             { map(groupItems, item => (
               <Text
@@ -311,19 +311,19 @@ function DeckChecklistView({
 
   const statusText = useMemo(() => {
     if (!plan.assembled) {
-      return t`📦 Deck ainda não montado fisicamente`;
+      return t`📦 Deck not yet physically assembled`;
     }
     if (plan.hasPendingUpgrade) {
-      return t`🔄 Upgrade Físico Pendente (Deckbox desatualizada)`;
+      return t`🔄 Pending Physical Upgrade (Deckbox out of date)`;
     }
-    return t`✅ Montado Fisicamente na Deckbox`;
+    return t`✅ Physically Assembled in Deckbox`;
   }, [plan.assembled, plan.hasPendingUpgrade]);
 
   return (
     <View style={[backgroundStyle, { flex: 1 }]}>
       <View style={[styles.assistantPanel, { backgroundColor: colors.L20, borderBottomColor: colors.L10 }]}>
         <Text style={[typography.small, typography.bold, { color: colors.darkText }]}>
-          { t`Assistente de Coleção Física (Deckbox)` }
+          { t`Physical Collection Assistant (Deckbox)` }
         </Text>
         <Text style={[typography.small, { color: colors.M, marginTop: 2 }]}>
           { statusText }
@@ -335,7 +335,7 @@ function DeckChecklistView({
               onPress={handleConfirmAssembly}
             >
               <Text style={[typography.small, typography.bold, { color: COLORS.white }]}>
-                { t`Confirmar Montagem Física` }
+                { t`Confirm Physical Assembly` }
               </Text>
             </TouchableOpacity>
           ) }
@@ -346,7 +346,7 @@ function DeckChecklistView({
                 onPress={handleConfirmAssembly}
               >
                 <Text style={[typography.small, typography.bold, { color: COLORS.D30 }]}>
-                  { t`Confirmar Troca de Cartas (Atualizar Deckbox)` }
+                  { t`Confirm Card Swap (Update Deckbox)` }
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -354,7 +354,7 @@ function DeckChecklistView({
                 onPress={handleDisassemble}
               >
                 <Text style={[typography.small, { color: colors.darkText }]}>
-                  { t`Desmontar Deck` }
+                  { t`Disassemble Deck` }
                 </Text>
               </TouchableOpacity>
             </>
@@ -366,7 +366,7 @@ function DeckChecklistView({
                 onPress={handleConfirmAssembly}
               >
                 <Text style={[typography.small, typography.bold, { color: COLORS.white }]}>
-                  { t`Atualizar Posse Física (Resgatar Emprestadas)` }
+                  { t`Update Physical Possession (Reclaim Borrowed)` }
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -374,7 +374,7 @@ function DeckChecklistView({
                 onPress={handleDisassemble}
               >
                 <Text style={[typography.small, { color: colors.darkText }]}>
-                  { t`Desmontar Deck (Devolver ao Fichário)` }
+                  { t`Disassemble Deck (Return to Binder)` }
                 </Text>
               </TouchableOpacity>
             </>
@@ -383,37 +383,37 @@ function DeckChecklistView({
         <TouchableOpacity style={styles.toggleGuideButton} onPress={toggleGuide}>
           <Text style={[typography.small, typography.bold, { color: colors.M }]}>
             { guideExpanded
-              ? t`▲ Ocultar Guia de Montagem / Troca Física`
-              : t`▼ Ver Guia de Montagem / Troca Física` }
+              ? t`▲ Hide Physical Assembly / Swap Guide`
+              : t`▼ View Physical Assembly / Swap Guide` }
           </Text>
         </TouchableOpacity>
         { guideExpanded && (
           <ScrollView style={styles.guideScroll} nestedScrollEnabled>
             <ChecklistSectionBlock
-              title={t`📤 Retirar da Deckbox (Devolver ao Fichário)`}
+              title={t`📤 Remove from Deckbox (Return to Binder)`}
               items={plan.toReturnToBinder}
               cardsMap={cardsMap}
-              emptyText={t`Nenhuma carta precisa ser devolvida ao fichário.`}
+              emptyText={t`No cards need to be returned to the binder.`}
             />
             <ChecklistRetrieveSectionBlock
               items={plan.toRetrieveFromOtherDecks}
               cardsMap={cardsMap}
             />
             <ChecklistSectionBlock
-              title={t`📦 Pegar do Fichário / Caixa`}
+              title={t`📦 Take from Binder / Box`}
               items={plan.toTakeFromBinder}
               cardsMap={cardsMap}
-              emptyText={t`Nenhuma carta precisa ser retirada do fichário.`}
+              emptyText={t`No cards need to be taken from the binder.`}
             />
             <ChecklistSectionBlock
-              title={t`✅ Já estão na Deckbox`}
+              title={t`✅ Already in Deckbox`}
               items={plan.alreadyInDeckbox}
               cardsMap={cardsMap}
-              emptyText={t`Nenhuma carta deste deck está na deckbox ainda.`}
+              emptyText={t`No cards from this deck are in the deckbox yet.`}
             />
             { plan.missingFromCollection.length > 0 && (
               <ChecklistSectionBlock
-                title={t`⚠️ Faltam na Coleção Física`}
+                title={t`⚠️ Missing from Physical Collection`}
                 items={plan.missingFromCollection}
                 cardsMap={cardsMap}
                 emptyText=""

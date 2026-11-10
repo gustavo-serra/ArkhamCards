@@ -54,6 +54,8 @@ function PrintingSourceRow({ canonicalCode, source, packName }: PrintingSourceRo
 
   const hasOverride = source.manualDelta !== 0;
   const baseCopies = source.baseCopies;
+  const packsOwned = source.packsOwned;
+  const quantityPerPack = source.quantityPerPack;
 
   return (
     <View style={[styles.printingRow, { borderBottomColor: colors.L10 }]}>
@@ -68,7 +70,7 @@ function PrintingSourceRow({ canonicalCode, source, packName }: PrintingSourceRo
         </View>
         <View style={styles.packSubRow}>
           <Text style={[typography.small, { color: colors.D10 }]}>
-            { t`${source.packsOwned}x pacote (${source.quantityPerPack} por pacote = ${baseCopies})` }
+            { t`${packsOwned}x pack (${quantityPerPack} per pack = ${baseCopies})` }
           </Text>
           { hasOverride && (
             <TouchableOpacity
@@ -76,7 +78,7 @@ function PrintingSourceRow({ canonicalCode, source, packName }: PrintingSourceRo
               style={[styles.resetBadge, { borderColor: colors.M, backgroundColor: colors.L20 }]}
             >
               <Text style={[typography.tiny, typography.bold, { color: colors.D20 }]}>
-                { t`Padrão (${baseCopies})` }
+                { t`Default (${baseCopies})` }
               </Text>
             </TouchableOpacity>
           ) }
@@ -94,7 +96,7 @@ function PrintingSourceRow({ canonicalCode, source, packName }: PrintingSourceRo
               opacity: source.totalCopies <= 0 ? 0.4 : 1,
             },
           ]}
-          accessibilityLabel={t`Diminuir cópias de ${packName}`}
+          accessibilityLabel={t`Decrease copies of ${packName}`}
         >
           <Text style={[typography.text, typography.bold, { color: colors.darkText }]}>-</Text>
         </TouchableOpacity>
@@ -117,7 +119,7 @@ function PrintingSourceRow({ canonicalCode, source, packName }: PrintingSourceRo
               backgroundColor: colors.L20,
             },
           ]}
-          accessibilityLabel={t`Aumentar cópias de ${packName}`}
+          accessibilityLabel={t`Increase copies of ${packName}`}
         >
           <Text style={[typography.text, typography.bold, { color: colors.darkText }]}>+</Text>
         </TouchableOpacity>
@@ -178,7 +180,7 @@ function HolderRow({ holder }: HolderRowProps) {
               { color: borrowedCount > 0 ? colors.D30 : colors.darkText },
             ]}
           >
-            { t`${heldCount}/${physicalCount}x na Deckbox` }
+            { t`${heldCount}/${physicalCount}x in Deckbox` }
           </Text>
         </View>
       </View>
@@ -186,15 +188,15 @@ function HolderRow({ holder }: HolderRowProps) {
         <View style={[styles.warningRow, { backgroundColor: colors.L10 }]}>
           <Text style={[typography.small, typography.bold, { color: colors.red }]}>
             { borrowedDecksLabel.length > 0
-              ? t`⚠️ Emprestada (${borrowedCount}x) para: ${borrowedDecksLabel}`
-              : t`⚠️ Emprestada / Faltando (${borrowedCount}x)` }
+              ? t`⚠️ Borrowed (${borrowedCount}x) by: ${borrowedDecksLabel}`
+              : t`⚠️ Borrowed / Missing (${borrowedCount}x)` }
           </Text>
         </View>
       ) }
       { holder.hasPendingUpgrade && (
         <View style={[styles.upgradeBadge, { borderColor: colors.M }]}>
           <Text style={[typography.small, { color: colors.D20 }]}>
-            { t`🔄 Upgrade físico pendente (${physicalCount}x -> ${targetCount}x)` }
+            { t`🔄 Pending physical upgrade (${physicalCount}x -> ${targetCount}x)` }
           </Text>
         </View>
       ) }
@@ -248,14 +250,14 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
 
   return (
     <View style={[styles.container, width ? { width } : undefined]}>
-      <CardDetailSectionHeader title={t`Coleção Física & Onde Encontrar`} />
+      <CardDetailSectionHeader title={t`Physical Collection & Where to Find`} />
 
       <View style={[styles.cardBox, { borderColor: colors.L10, backgroundColor: colors.background }]}>
         {/* Header Summary */}
         <View style={[styles.summaryRow, { backgroundColor: colors.L20, borderColor: colors.L10 }]}>
           <View style={styles.summaryStat}>
             <Text style={[typography.small, { color: colors.D10 }]}>
-              { t`Total na Coleção` }
+              { t`Total in Collection` }
             </Text>
             <Text style={[typography.large, typography.bold, { color: colors.darkText }]}>
               { `${totalOwned}x` }
@@ -264,7 +266,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
           <View style={[styles.summaryDivider, { backgroundColor: colors.L10 }]} />
           <View style={styles.summaryStat}>
             <Text style={[typography.small, { color: colors.D10 }]}>
-              { t`No Fichário` }
+              { t`In Binder` }
             </Text>
             <Text
               style={[
@@ -279,7 +281,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
           <View style={[styles.summaryDivider, { backgroundColor: colors.L10 }]} />
           <View style={styles.summaryStat}>
             <Text style={[typography.small, { color: colors.D10 }]}>
-              { t`Em Decks` }
+              { t`In Decks` }
             </Text>
             <Text style={[typography.large, typography.bold, { color: colors.darkText }]}>
               { `${totalAllocated}x` }
@@ -290,7 +292,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
         { conflictCount > 0 && (
           <View style={[styles.conflictBanner, { backgroundColor: colors.warn }]}>
             <Text style={[typography.small, typography.bold, { color: colors.D30 }]}>
-              { t`⚠️ Faltam ${conflictCount} cópias físicas` }
+              { t`⚠️ Missing ${conflictCount} physical copies` }
             </Text>
           </View>
         ) }
@@ -298,7 +300,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
         {/* Breakdown by Pack / Printing */}
         <View style={styles.subSection}>
           <Text style={[typography.small, typography.bold, typography.uppercase, { color: colors.D10 }, space.marginBottomXs]}>
-            { t`Estoque por Pacote / Impressão` }
+            { t`Inventory by Pack / Printing` }
           </Text>
           { map(breakdown.sources, source => {
             const packName = source.packName || packNamesMap[source.packCode] || source.packCode.toUpperCase();
@@ -312,15 +314,15 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
             );
           }) }
 
-          {/* Avulsas / Extras / Proxies */}
+          {/* Singles / Extras / Proxies */}
           <View style={[styles.printingRow, styles.extraRow, { borderBottomColor: colors.L10 }]}>
             <View style={styles.printingInfo}>
               <Text style={[typography.text, typography.bold, { color: colors.darkText }]}>
-                { t`Avulsas / Extras / Proxies` }
+                { t`Singles / Extras / Proxies` }
               </Text>
               <View style={styles.packSubRow}>
                 <Text style={[typography.small, { color: colors.D10 }]}>
-                  { t`Cópias extras fora de pacotes` }
+                  { t`Extra copies outside of packs` }
                 </Text>
                 { extraCopies > 0 && (
                   <TouchableOpacity
@@ -328,7 +330,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
                     style={[styles.resetBadge, { borderColor: colors.M, backgroundColor: colors.L20 }]}
                   >
                     <Text style={[typography.tiny, typography.bold, { color: colors.D20 }]}>
-                      { t`Zerar` }
+                      { t`Clear` }
                     </Text>
                   </TouchableOpacity>
                 ) }
@@ -346,7 +348,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
                     opacity: extraCopies <= 0 ? 0.4 : 1,
                   },
                 ]}
-                accessibilityLabel={t`Diminuir cópias avulsas`}
+                accessibilityLabel={t`Decrease extra copies`}
               >
                 <Text style={[typography.text, typography.bold, { color: colors.darkText }]}>-</Text>
               </TouchableOpacity>
@@ -369,7 +371,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
                     backgroundColor: colors.L20,
                   },
                 ]}
-                accessibilityLabel={t`Aumentar cópias avulsas`}
+                accessibilityLabel={t`Increase extra copies`}
               >
                 <Text style={[typography.text, typography.bold, { color: colors.darkText }]}>+</Text>
               </TouchableOpacity>
@@ -377,15 +379,15 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
           </View>
         </View>
 
-        {/* Onde estão minhas cópias agora? */}
+        {/* Where are my copies right now? */}
         { mode !== 'disabled' && !!allocation && (
           <View style={styles.subSection}>
             <Text style={[typography.small, typography.bold, typography.uppercase, { color: colors.D10 }, space.marginBottomXs]}>
-              { t`Onde estão minhas cópias agora?` }
+              { t`Where are my copies right now?` }
             </Text>
             <View style={[styles.binderRow, { backgroundColor: colors.L20, borderColor: colors.L10 }]}>
               <Text style={[typography.text, typography.bold, { color: colors.darkText }]}>
-                { t`📦 No Fichário / Caixa: ${inBinder}x` }
+                { t`📦 In Binder / Box: ${inBinder}x` }
               </Text>
             </View>
             { allocation.holders.length > 0 ? (
@@ -394,7 +396,7 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
               ))
             ) : (
               <Text style={[typography.small, { color: colors.D10 }, space.marginTopXs]}>
-                { t`Nenhum deck montado está usando esta carta no momento.` }
+                { t`No assembled deck is currently using this card.` }
               </Text>
             ) }
           </View>

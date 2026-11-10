@@ -90,13 +90,13 @@ function SettingsView() {
   const physicalCollectionModeSummary = useMemo(() => {
     switch (physicalCollectionMode) {
       case 'manual':
-        return t`Modo: Manual por Deck/Campanha`;
+        return t`Mode: Manual per Deck/Campaign`;
       case 'active_campaigns':
-        return t`Modo: Campanhas Ativas`;
+        return t`Mode: Active Campaigns`;
       case 'all_decks':
-        return t`Modo: Todos os Decks`;
+        return t`Mode: All Decks`;
       case 'disabled':
-        return t`Modo: Desativado`;
+        return t`Mode: Disabled`;
     }
   }, [physicalCollectionMode]);
   const updateRemoteSetting = useUpdateRemoteSetting();
@@ -199,7 +199,7 @@ function SettingsView() {
               <DeckButton
                 icon="deck"
                 onPress={myPhysicalCollectionPressed}
-                title={t`Gerenciador de Coleção Física & Decks Montados`}
+                title={t`Physical Collection & Assembled Decks`}
                 detail={physicalCollectionModeSummary}
                 thin
                 bottomMargin={s}

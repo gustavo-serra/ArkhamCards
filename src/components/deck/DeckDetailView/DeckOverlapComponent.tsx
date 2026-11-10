@@ -513,8 +513,8 @@ export default function DeckOverlapComponent({ parsedDeck, deckId, cards, campai
                 ]}
               >
                 { isCurrentDeckAssembled
-                  ? t`✅ Montado Fisicamente (Desmontar)`
-                  : t`📦 Marcar como Montado Fisicamente` }
+                  ? t`✅ Physically Assembled (Disassemble)`
+                  : t`📦 Mark as Physically Assembled` }
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -534,8 +534,8 @@ export default function DeckOverlapComponent({ parsedDeck, deckId, cards, campai
                 ]}
               >
                 { isCurrentDeckExcluded
-                  ? t`🤝 Deck de Amigo (Ignorado na Coleção)`
-                  : t`🤝 Deck de Amigo (Não usa minha coleção)` }
+                  ? t`🤝 Friend's Deck (Ignored in Collection)`
+                  : t`🤝 Friend's Deck (Doesn't use my collection)` }
               </Text>
             </TouchableOpacity>
           </View>
@@ -553,7 +553,7 @@ export default function DeckOverlapComponent({ parsedDeck, deckId, cards, campai
           onPress={setCampaignScope}
         >
           <Text style={[typography.small, { color: !globalScope ? COLORS.white : colors.darkText }]}>
-            { t`Apenas Esta Campanha` }
+            { t`This Campaign Only` }
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -567,13 +567,13 @@ export default function DeckOverlapComponent({ parsedDeck, deckId, cards, campai
           onPress={setGlobalAssembledScope}
         >
           <Text style={[typography.small, { color: globalScope ? COLORS.white : colors.darkText }]}>
-            { t`Todos os Decks Físicos Montados (Global)` }
+            { t`All Physically Assembled Decks (Global)` }
           </Text>
         </TouchableOpacity>
       </View>
       <Text style={[typography.small, space.paddingS]}>
         { globalScope
-          ? t`O total dessas cartas entre os decks desta campanha e seus outros decks físicos montados excede sua coleção.`
+          ? t`The total number of these cards among decks from this campaign and your other physically assembled decks exceeds your card collection.`
           : t`The total number of these cards among decks from this campaign exceeds your card collection.` }
       </Text>
       <View style={[styles.leftRow, space.paddingS, space.paddingBottomM]}>
