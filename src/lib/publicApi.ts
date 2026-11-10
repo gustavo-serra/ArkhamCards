@@ -53,6 +53,12 @@ import {
 } from '@generated/graphql/apollo-schema';
 import { Dispatch } from 'react';
 import CardReprintInfo from '@data/types/CardReprintInfo';
+import {
+  applyCardPtOverlay,
+  ArkhamDbPtOverlay,
+  fetchArkhamDbPtOverlay,
+  getArkhamDbPtForkTreeInfo,
+} from './arkhamDbPtOverlay';
 
 const VERBOSE = false;
 
@@ -238,7 +244,8 @@ function handleDerivativeData(
 function processTranslationData(
   translationResponse: ApolloQueryResult<GetTranslationDataQuery>,
   lang: string | undefined,
-  dispatch: Dispatch<PacksActions | SettingsActions>
+  dispatch: Dispatch<PacksActions | SettingsActions>,
+  ptOverlay?: ArkhamDbPtOverlay
 ): TranslationData {
   const packs: {
     [pack_code: string]: Pack & {
@@ -249,12 +256,18 @@ function processTranslationData(
   const standardPacks: Pack[] = [];
   const customPacks: Pack[] = [];
   forEach(translationResponse.data.cycle, (cycle) => {
-    const cycle_name = head(cycle.translations)?.name || cycle.real_name;
+    const cycle_name =
+      ptOverlay?.cycles[cycle.code] ||
+      head(cycle.translations)?.name ||
+      cycle.real_name;
     const cycle_packs = map(cycle.packs, (pack) => {
       return {
         id: pack.code,
         code: pack.code,
-        name: head(pack.translations)?.name || pack.real_name,
+        name:
+          ptOverlay?.packs[pack.code] ||
+          head(pack.translations)?.name ||
+          pack.real_name,
         position: pack.position || 0,
         cycle_position: cycle.position,
         cycle_code: cycle.code,
@@ -291,21 +304,25 @@ function processTranslationData(
 
   const factionNames: { [code: string]: string } = {};
   forEach(translationResponse.data.faction_name, (faction) => {
-    factionNames[faction.code] = faction.name;
+    factionNames[faction.code] =
+      ptOverlay?.factions[faction.code] || faction.name;
   });
   const typeNames: { [code: string]: string } = {};
   forEach(translationResponse.data.card_type_name, (type) => {
-    typeNames[type.code] = type.name;
+    typeNames[type.code] =
+      ptOverlay?.types[type.code] || type.name;
   });
 
   const subTypeNames: { [code: string]: string } = {};
   forEach(translationResponse.data.card_subtype_name, (type) => {
-    subTypeNames[type.code] = type.name;
+    subTypeNames[type.code] =
+      ptOverlay?.subtypes[type.code] || type.name;
   });
 
   const allEncounterSets: { [code: string]: string | undefined } = {};
   forEach(translationResponse.data.card_encounter_set, (encounterSet) => {
-    allEncounterSets[encounterSet.code] = encounterSet.name;
+    allEncounterSets[encounterSet.code] =
+      ptOverlay?.encounters[encounterSet.code] || encounterSet.name;
   });
 
   VERBOSE && console.time('parse');
@@ -329,7 +346,8 @@ async function processCardResult(
   sqliteVersion: SqliteVersion,
   all_cards: ApolloQueryResult<GetPlayerCardsQuery>['data']['all_card'],
   translationData: TranslationData,
-  progress: number
+  progress: number,
+  ptOverlay?: ArkhamDbPtOverlay
 ): Promise<Card[]> {
   updateProgress(progress);
   VERBOSE && console.timeEnd('download');
@@ -341,7 +359,7 @@ async function processCardResult(
     if (idx % 500 === 0) {
       updateProgress(progress + ((idx * 1.0) / total) * 0.05);
     }
-    return Card.fromGraphQl(card, translationData);
+    return Card.fromGraphQl(applyCardPtOverlay(card, ptOverlay), translationData);
   });
   VERBOSE && console.timeEnd('parse');
   progress += 0.05;
@@ -453,7 +471,14 @@ export const checkForPendingCards = async function(
       canonizeResults: false,
     });
     const serverCache = cacheResponse?.data.all_card_updated[0];
-    if (cache?.lastModified && cache?.lastModifiedTranslation) {
+    let ptOverlayNeedsSync = false;
+    if (lang === 'pt') {
+      const { sha } = await getArkhamDbPtForkTreeInfo();
+      if (!cache?.ptOverlaySha || (sha && cache.ptOverlaySha !== sha)) {
+        ptOverlayNeedsSync = true;
+      }
+    }
+    if (cache?.lastModified && cache?.lastModifiedTranslation && !ptOverlayNeedsSync) {
       VERBOSE && console.time('cache-check');
       const cardCount = await cards.count();
       VERBOSE && console.timeEnd('cache-check');
@@ -505,6 +530,8 @@ export const syncCards = async function(
     VERBOSE && console.log('Starting download.');
     VERBOSE && console.time('download');
 
+    const ptOverlayF = lang === 'pt' ? fetchArkhamDbPtOverlay() : Promise.resolve(undefined);
+
     const translationDataF = anonClient.query<
       GetTranslationDataQuery,
       GetTranslationDataQueryVariables
@@ -539,10 +566,15 @@ export const syncCards = async function(
     VERBOSE && console.timeEnd('rules');
 
     updateProgress(0.1, Platform.OS === 'ios' ? 2000 : 3000);
+    const [translationResponse, ptOverlay] = await Promise.all([
+      translationDataF,
+      ptOverlayF,
+    ]);
     const translationData = processTranslationData(
-      await translationDataF,
+      translationResponse,
       lang,
-      dispatch
+      dispatch,
+      ptOverlay
     );
     updateProgress(0.1);
 
@@ -567,7 +599,8 @@ export const syncCards = async function(
         sqliteVersion,
         cardsResponse.data.all_card,
         translationData,
-        0.3
+        0.3,
+        ptOverlay
       );
       allCards = [...playerCards];
 
@@ -608,7 +641,8 @@ export const syncCards = async function(
       sqliteVersion,
       cardsResponse.data.all_card,
       translationData,
-      0.7
+      0.7,
+      ptOverlay
     );
     allCards = [...allCards, ...encounterCards];
 
@@ -626,6 +660,7 @@ export const syncCards = async function(
       cardCount,
       lastModified: updated?.cards_updated_at,
       lastModifiedTranslation: updated?.translation_updated_at,
+      ptOverlaySha: ptOverlay ? (ptOverlay.treeSha || 'fallback') : undefined,
     };
   } catch (e) {
     console.log(e);

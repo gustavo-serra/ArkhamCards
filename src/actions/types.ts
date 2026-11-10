@@ -854,6 +854,7 @@ export interface CardCache {
   lastModified?: string;
   lastModifiedTranslation?: string;
   lastAttemptedSync?: string;
+  ptOverlaySha?: string;
 }
 
 export interface TabooCache {
