@@ -3536,7 +3536,7 @@ msgstr "${ normalCardCount } / ${ deckSize } cartas"
 msgid "${ cycleCount } Cycle"
 msgid_plural "${ cycleCount } Cycles"
 msgstr[0] "${ cycleCount } Ciclo"
-msgstr[1] "${ cycleCount } Ciclo"
+msgstr[1] "${ cycleCount } Ciclos"
 
 #, javascript-format
 msgid "${ standalonePackCount } Pack"
@@ -8641,8 +8641,6 @@ msgstr "E, como sempre, muito obrigado aos meus apoiadores no Patreon — agrade
 
 #, javascript-format
 msgctxt "filter"
-msgid "${ cycleNames[cycle_position] } Cycle"
-msgstr "${ cycleNames[cycle_position] } Ciclo"
 
 msgctxt "Types"
 msgid "All"
