@@ -3593,32 +3593,32 @@
           },
           {
             "id": "$codex_rule",
-            "title": "O Códice",
+            "title": "O Códice [codex]",
             "type": "rule_reminder",
-            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, os investigadores consultarão o Códice para ler passagens de história, resolver encontros com os residentes da Ilha Hemlock e descobrir os mistérios sombrios que cercam a ilha.\nO Códice funciona como um guia narrativo interativo com entradas numeradas que expandem a história conforme as escolhas dos jogadores:",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, alguns efeitos de cartas podem instruir que um jogador leia uma entrada específica de um códice. Enquanto estiver jogando, tenha o Guia de Campanha em mãos para referência.\nCertos locais, personagens ou inimigos em <i>O Banquete de Hemlock Vale</i> têm entradas de códices, marcadas com ([codex] X). Para ler a entrada do códice de um personagem ou local, você deve pagar todos os custos dessa habilidade primeiro, então ir até o Códice do cenário ou prelúdio atual neste Guia de Campanha e resolver todo o texto.",
             "bullets": [
               {
-                "text": "Quando instruído a ler uma entrada do Códice, localize o número indicado no livro do Códice (ou selecione-o diretamente no aplicativo) e leia apenas a passagem especificada.",
+                "text": "Cada entrada de códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que especificado de outra forma.",
                 "bullet_type": "small"
               },
               {
-                "text": "Não leia nenhuma outra entrada além daquela explicitamente indicada pelo efeito de jogo ou instrução de cenário.",
+                "text": "Ao resolver uma entrada de códice, o jogador que desencadeou essa entrada resolve todos os efeitos <i>(resolver um teste, causar dano, pagar recursos etc.)</i>. Caso não esteja claro quem desencadeou a entrada do códice, o investigador líder resolve a entrada.",
                 "bullet_type": "small"
               },
               {
-                "text": "Algumas entradas do Códice instruirão os investigadores a registrar informações no Registro da Campanha ou alterar o estado do jogo.",
+                "text": "Se uma entrada de códice instruir os jogadores a colocar em jogo um residente nomeado previamente separado, coloque esse personagem em jogo com seu lado de ativo de história virado para cima, a menos que seja indicado o contrário.",
                 "bullet_type": "small"
               },
               {
-                "text": "O Códice contém informações sobre os residentes locais, suas motivações e segredos ocultos que podem ajudar nas investigações.",
+                "text": "<b>Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários.</b> Se o nome de um residente estiver riscado, todas as entradas nas Anotações desse residente também estarão.",
                 "bullet_type": "small"
               },
               {
-                "text": "Se uma instrução do Códice entrar em conflito com o Guia de Campanha, siga a instrução do Códice.",
+                "text": "Enquanto estiver resolvendo uma entrada do códice de um personagem específico, você só pode ler uma única seção para a qual você atenda aos requisitos. Se você não atender aos requisitos da primeira seção da entrada de um códice, pule para a próxima seção. Consulte apenas as Anotações e Nível de Relacionamento desse personagem no Registro da Campanha, a menos que seja indicado o contrário. <i>(por exemplo, “Nas Anotações de River Hawthorne, o registro</i> River é um arraso<i>” instrui os jogadores a alterar a seção “Anotações” na entrada de River no Registro da Campanha.)</i>",
                 "bullet_type": "small"
               },
               {
-                "text": "No aplicativo, as passagens do Códice são apresentadas automaticamente nos momentos oportunos da narrativa.",
+                "text": "Após resolver uma entrada de um códice e fazer quaisquer mudanças no Registro da Campanha, retome o jogo.",
                 "bullet_type": "small"
               }
             ]
@@ -74863,32 +74863,32 @@
           },
           {
             "id": "$codex_rule",
-            "title": "O Códice",
+            "title": "O Códice [codex]",
             "type": "rule_reminder",
-            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, os investigadores consultarão o Códice para ler passagens de história, resolver encontros com os residentes da Ilha Hemlock e descobrir os mistérios sombrios que cercam a ilha.\nO Códice funciona como um guia narrativo interativo com entradas numeradas que expandem a história conforme as escolhas dos jogadores:",
+            "text": "A campanha <i>O Banquete de Hemlock Vale</i> apresenta um novo conceito de jogo: O Códice. Durante esta campanha, alguns efeitos de cartas podem instruir que um jogador leia uma entrada específica de um códice. Enquanto estiver jogando, tenha o Guia de Campanha em mãos para referência.\nCertos locais, personagens ou inimigos em <i>O Banquete de Hemlock Vale</i> têm entradas de códices, marcadas com ([codex] X). Para ler a entrada do códice de um personagem ou local, você deve pagar todos os custos dessa habilidade primeiro, então ir até o Códice do cenário ou prelúdio atual neste Guia de Campanha e resolver todo o texto.",
             "bullets": [
               {
-                "text": "Quando instruído a ler uma entrada do Códice, localize o número indicado no livro do Códice (ou selecione-o diretamente no aplicativo) e leia apenas a passagem especificada.",
+                "text": "Cada entrada de códice não pode ser resolvida mais de uma vez por cenário ou prelúdio, a menos que especificado de outra forma.",
                 "bullet_type": "small"
               },
               {
-                "text": "Não leia nenhuma outra entrada além daquela explicitamente indicada pelo efeito de jogo ou instrução de cenário.",
+                "text": "Ao resolver uma entrada de códice, o jogador que desencadeou essa entrada resolve todos os efeitos <i>(resolver um teste, causar dano, pagar recursos etc.)</i>. Caso não esteja claro quem desencadeou a entrada do códice, o investigador líder resolve a entrada.",
                 "bullet_type": "small"
               },
               {
-                "text": "Algumas entradas do Códice instruirão os investigadores a registrar informações no Registro da Campanha ou alterar o estado do jogo.",
+                "text": "Se uma entrada de códice instruir os jogadores a colocar em jogo um residente nomeado previamente separado, coloque esse personagem em jogo com seu lado de ativo de história virado para cima, a menos que seja indicado o contrário.",
                 "bullet_type": "small"
               },
               {
-                "text": "O Códice contém informações sobre os residentes locais, suas motivações e segredos ocultos que podem ajudar nas investigações.",
+                "text": "<b>Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários.</b> Se o nome de um residente estiver riscado, todas as entradas nas Anotações desse residente também estarão.",
                 "bullet_type": "small"
               },
               {
-                "text": "Se uma instrução do Códice entrar em conflito com o Guia de Campanha, siga a instrução do Códice.",
+                "text": "Enquanto estiver resolvendo uma entrada do códice de um personagem específico, você só pode ler uma única seção para a qual você atenda aos requisitos. Se você não atender aos requisitos da primeira seção da entrada de um códice, pule para a próxima seção. Consulte apenas as Anotações e Nível de Relacionamento desse personagem no Registro da Campanha, a menos que seja indicado o contrário. <i>(por exemplo, “Nas Anotações de River Hawthorne, o registro</i> River é um arraso<i>” instrui os jogadores a alterar a seção “Anotações” na entrada de River no Registro da Campanha.)</i>",
                 "bullet_type": "small"
               },
               {
-                "text": "No aplicativo, as passagens do Códice são apresentadas automaticamente nos momentos oportunos da narrativa.",
+                "text": "Após resolver uma entrada de um códice e fazer quaisquer mudanças no Registro da Campanha, retome o jogo.",
                 "bullet_type": "small"
               }
             ]
@@ -74912,31 +74912,31 @@
           {
             "id": "$residents_rule",
             "type": "rule_reminder",
-            "title": "Residentes de Hemlock Vale",
-            "text": "Às vezes, o texto da história pode instruir os investigadores a aumentar o Nível de Relacionamento de um residente ou fazer anotações sob o perfil de um residente no Registro da Campanha:",
+            "title": "Residentes & Níveis de Relacionamento",
+            "text": "Às vezes, o texto da história pode instruir os investigadores a aumentar seu Nível de Relacionamento com um residente específico. Caso seja instruído a fazer isso, verifique o Registro da Campanha e encontre a entrada do residente especificado.",
             "bullets": [
               {
-                "text": "Cada residente possui um Nível de Relacionamento que reflete o quanto eles confiam nos investigadores.",
+                "text": "Ao fazer referência ao Nível de Relacionamento de um residente, o número de caixas assinaladas em sua entrada é o Nível de Relacionamento desse residente.",
                 "bullet_type": "small"
               },
               {
-                "text": "Para aumentar o Nível de Relacionamento de um residente, preencha o próximo círculo vazio em seu perfil no Registro da Campanha.",
+                "text": "Para aumentar o Nível de Relacionamento de um residente, assinale a caixa vazia mais à esquerda na entrada desse residente.",
                 "bullet_type": "small"
               },
               {
-                "text": "Um residente com Nível de Relacionamento mais alto pode conceder ajuda adicional, bônus especiais ou cartas de história úteis durante os cenários.",
+                "text": "Para reduzir o Nível de Relacionamento de um residente, apague a caixa assinalada mais à direita na entrada desse residente.",
                 "bullet_type": "small"
               },
               {
-                "text": "Alguns eventos trágicos ou escolhas erradas podem fazer com que um residente se torne hostil ou se perca nos perigos da ilha.",
+                "text": "A menos que seja indicado o contrário, você deve aumentar ou reduzir o Nível de Relacionamento de um residente em 1 caixa por vez.",
                 "bullet_type": "small"
               },
               {
-                "text": "Os perfis dos residentes contêm detalhes sobre sua personalidade, ocupação e conexões com a trama da ilha.",
+                "text": "Caso seja instruído a definir o Nível de Relacionamento de um residente como 0, apague todas as caixas assinaladas na entrada desse residente.",
                 "bullet_type": "small"
               },
               {
-                "text": "No aplicativo, os relacionamentos são monitorados e atualizados diretamente na tela da campanha.",
+                "text": "<b>Um residente cujo nome esteja riscado no Registro da Campanha não pode entrar em jogo durante prelúdios ou cenários.</b>",
                 "bullet_type": "small"
               }
             ]
@@ -74944,23 +74944,23 @@
           {
             "id": "$location_adjacency_rule",
             "type": "rule_reminder",
-            "title": "Adjacência de Locais",
-            "text": "A maioria dos cenários desta campanha é organizada em um padrão de grade. <b>Durante esses cenários, os locais conectam-se apenas ortogonalmente (esquerda, direita, cima e baixo). Os locais não se conectam na diagonal, a menos que uma carta afirme expressamente o contrário.</b>",
+            "title": "Adjacência dos Locais nesta Campanha",
+            "text": "A maioria dos cenários desta campanha são organizados em um padrão em grade. <b>Durante esses cenários, cada local está conectado a cada local adjacente a ele, além de eventuais ícones de conexão.</b>",
             "bullets": [
               {
-                "text": "Locais que compartilham uma borda comum na grade são considerados conectados entre si.",
+                "text": "Locais adjacentes compartilham um lado (esquerda, direita, acima ou abaixo). Locais que compartilham apenas um canto não são considerados adjacentes.",
                 "bullet_type": "small"
               },
               {
-                "text": "Mover-se entre locais adjacentes na grade segue as regras normais de movimento.",
+                "text": "Quando você for instruído a colocar um local em jogo, coloque-o em um espaço vazio adjacente acima, abaixo, à esquerda ou à direita de seu local.",
                 "bullet_type": "small"
               },
               {
-                "text": "Algumas habilidades de carta ou efeitos de cenário podem bloquear passagens ou abrir rotas secretas entre locais não conectados.",
+                "text": "Você não pode colocar um local em jogo onde já houver um local. Ao escolher onde colocar um novo local, você deve selecionar um lugar que não esteja ocupado por um local, se possível. Se você não puder, nenhum local novo será colocado em jogo.",
                 "bullet_type": "small"
               },
               {
-                "text": "Inimigos patrulham ou caçam movendo-se pelas conexões ortogonais válidas mais curtas na grade.",
+                "text": "Observe que durante prelúdios e cenários que utilizam o conjunto de encontros <i>O Vale</i>, os locais se conectam apenas por seus ícones.",
                 "bullet_type": "small"
               }
             ]
@@ -169924,26 +169924,26 @@
             "id": "$artifacts_rule",
             "title": "Artefatos",
             "type": "rule_reminder",
-            "text": "Os investigadores podem adquirir certos ativos de história de [[Artefato]] (também chamados simplesmente de “artefatos”) ao longo desta campanha. Ativos de artefato obedecem às seguintes regras adicionais:",
+            "text": "Os investigadores podem adquirir certos ativos de história de [[Artefato]] (também chamados simplesmente de “artefatos”) durante a campanha de <i>A Cidade Submersa</i>. Os artefatos funcionam como outros ativos de história, com as seguintes exceções:",
             "bullets": [
               {
-                "text": "Artefatos não pertencem ao baralho de nenhum jogador e não entram na mão ou na área de jogo de nenhum jogador até serem descobertos.",
+                "text": "Os artefatos nunca são adicionados aos baralhos de investigador. Após a resolução de um cenário, devolva todos os artefatos em jogo para o acervo de cartas.",
                 "bullet_type": "small"
               },
               {
-                "text": "Quando um investigador assumir o controle de um artefato, ele é colocado na área de jogo desse investigador e fica sob seu controle.",
+                "text": "Durante a preparação do cenário, os investigadores podem ser instruídos a começar o jogo com um ativo de história de Artefato adquirido. Somente os artefatos que foram marcados na seção “Artefatos Adquiridos” do Registro da Campanha poderão ser escolhidos desta forma.",
                 "bullet_type": "small"
               },
               {
-                "text": "Artefatos não contam para o limite de espaços de cartas de um investigador, a menos que especificado de outra forma.",
+                "text": "Os artefatos têm um verso de carta único, não têm custo, não ocupam espaços e não podem ser descartados por cartas de encontro.",
                 "bullet_type": "small"
               },
               {
-                "text": "Artefatos concedem poderes únicos e misteriosos que podem ser cruciais para desvendar os segredos das profundezas da cidade submersa.",
+                "text": "Alguns artefatos contêm glifos alienígenas (consulte Glifos Alienígenas a seguir). Qualquer texto abaixo desses glifos é considerado em branco até que os investigadores tenham traduzido cada glifo alienígena no artefato.",
                 "bullet_type": "small"
               },
               {
-                "text": "Se um investigador que controla um artefato for derrotado ou eliminado, o artefato é derrubado em seu local como se fosse uma chave.",
+                "text": "Se qualquer investigador que controla um artefato for derrotado, dê o controle do artefato ao investigador sobrevivente mais próximo. Se não houver investigadores sobreviventes, coloque o artefato no local desse investigador.",
                 "bullet_type": "small"
               }
             ]
@@ -169952,22 +169952,22 @@
             "id": "$alien_glyphs",
             "title": "Glifos Alienígenas",
             "type": "rule_reminder",
-            "text": "Ao longo da campanha, os investigadores podem ser instruídos a traduzir um glifo na segunda página do Registro da Campanha. Ao traduzir um glifo, os investigadores obedecem às seguintes regras adicionais:",
+            "text": "Ao longo da campanha, os investigadores podem ser instruídos a traduzir um glifo na segunda página do Registro da Campanha. Para fazer isso, escreva o texto traduzido no espaço logo abaixo desse glifo, usando a chave de decodificação fornecida pelo efeito do jogo:",
             "bullets": [
               {
-                "text": "Localize o glifo correspondente no Registro da Campanha e registre a tradução fornecida pelo efeito de jogo.",
+                "text": "O significado de um glifo não tem efeito inerente no jogo. No entanto, traduzir certos glifos pode permitir que os investigadores leiam o texto de história em certos locais ou ativem certas habilidades de artefatos.",
                 "bullet_type": "small"
               },
               {
-                "text": "Glifos traduzidos desbloqueiam conhecimentos antigos essenciais para sobreviver aos horrores da cidade submersa.",
+                "text": "Alguns artefatos contêm glifos alienígenas (consulte Artefatos acima). Qualquer texto abaixo desses glifos é considerado em branco até que os investigadores tenham traduzido cada glifo alienígena no artefato.",
                 "bullet_type": "small"
               },
               {
-                "text": "Não leia as passagens ou traduções de glifos que você ainda não foi instruído a traduzir.",
+                "text": "Durante a preparação de certos cenários, o guia da campanha instruirá os jogadores a separarem cartas de Glifo, fora de jogo. A maioria das cartas de Glifo são cartas de história dupla face que contêm passagens de história em sua face.",
                 "bullet_type": "small"
               },
               {
-                "text": "No aplicativo, as traduções de glifos são salvas e exibidas conforme são conquistadas.",
+                "text": "Não tente decodificar ou traduzir manualmente qualquer glifo alienígena por mais de 5 minutos por vez.",
                 "bullet_type": "small"
               }
             ]
@@ -169976,7 +169976,7 @@
             "id": "$relentless_rule",
             "title": "Implacável",
             "type": "rule_reminder",
-            "text": "Alguns inimigos nesta campanha têm a palavra-chave implacável. Durante a fase dos inimigos (após a etapa estrutural 3.3), cada inimigo com a palavra-chave implacável que atacou nessa fase (mesmo que o ataque tenha sido cancelado) é preparado e ataca os investigadores com os quais está engajado uma segunda vez."
+            "text": "Alguns inimigos nesta campanha têm a palavra-chave implacável. Durante a fase dos inimigos (na etapa estrutural 3.3), cada inimigo preparado e engajado com a palavra-chave implacável que atacou nessa fase realiza um ataque adicional contra o investigador com quem está engajado."
           },
           {
             "id": "$patrol_rule",
