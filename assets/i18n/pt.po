@@ -9550,3 +9550,27 @@ msgstr "O banco de dados de cartas foi redefinido.\n\nPor favor, feche o aplicat
 
 msgid "A side-story is a scenario that may be played between any two scenarios of an <i>Arkham Horror: The Card Game</i> campaign.\n- Playing a side-story costs each investigator in the campaign a certain amount of experience, which should be paid when you start the scenario.\n- Weaknesses, trauma, experience, and rewards granted by playing a side-story stay with the investigators for the remainder of the campaign.\n- Each side-story may only be played once per campaign.\n\n<b>Note:</b> When using this app, the experience required to play these scenarios will be deducted automatically at the <b>end of the scenario</b>, but you should be sure you have sufficient experience set aside to pay for it."
 msgstr "Uma história paralela é um cenário que pode ser jogado entre quaisquer dois cenários de uma campanha de <i>Arkham Horror: The Card Game</i>.\n- Jogar uma história paralela custa a cada investigador na campanha uma certa quantidade de experiência, que deve ser paga ao iniciar o cenário.\n- Fraquezas, traumas, experiência e recompensas concedidas ao jogar uma história paralela fica com os investigadores pelo restante da campanha.\n- Cada história paralela só pode ser jogada uma vez por campanha.\n\n<b>Observação:</b> ao usar este aplicativo, a experiência necessária para jogar esses cenários serão deduzidos automaticamente no <b>final do cenário</b>, mas você deve ter certeza de que tem experiência suficiente para pagar por isso."
+
+#, javascript-format
+msgid "You have ${ deckCount } deck(s) across ${ campaignCount } open campaign(s). Enable physical collection tracking and assemble them in chronological order (oldest played first)? Remaining uncontested cards stay marked in older campaigns, while newer campaigns hold physical priority on shared cards and older decks show missing cards."
+msgstr "Você tem ${ deckCount } deck(s) em ${ campaignCount } campanha(s) em aberto. Ativar o rastreamento de coleção física e montá-los em ordem cronológica (mais antiga primeiro)? Cartas remanescentes sem conflito ficam marcadas nas campanhas antigas, enquanto campanhas mais novas ficam com prioridade física e os decks antigos mostram cartas faltantes."
+
+#, javascript-format
+msgid "You have ${ deckCount } deck(s) across ${ campaignCount } open campaign(s) not yet assembled. Assemble them now in chronological order (oldest played first)? Remaining uncontested cards stay marked in older campaigns, while newer campaigns hold physical priority on shared cards and older decks show missing cards."
+msgstr "Você tem ${ deckCount } deck(s) em ${ campaignCount } campanha(s) em aberto ainda não montados. Montá-los agora em ordem cronológica (mais antiga primeiro)? Cartas remanescentes sem conflito ficam marcadas nas campanhas antigas, enquanto campanhas mais novas ficam com prioridade física e os decks antigos mostram cartas faltantes."
+
+msgid "Assemble Open Campaigns Chronologically?"
+msgstr "Montar campanhas em aberto em ordem cronológica?"
+
+msgid "Assemble Chronologically"
+msgstr "Montar em ordem"
+
+#, javascript-format
+msgid "⚠️ ${ missingInDeck } card(s) missing (in newer deck)"
+msgstr "⚠️ ${ missingInDeck } carta(s) faltando (em deck mais novo)"
+
+msgid "Assemble Open Campaigns Chronologically"
+msgstr "Montar campanhas em aberto em ordem cronológica"
+
+msgid "Marks uncontested cards in older campaigns and missing cards where newer campaigns took them"
+msgstr "Marca cartas remanescentes nas campanhas antigas e cartas faltantes tomadas por campanhas mais novas"

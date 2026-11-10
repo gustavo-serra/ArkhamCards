@@ -1,6 +1,8 @@
 import { useContext, useMemo } from 'react';
+import { Alert } from 'react-native';
 import { useSelector } from 'react-redux';
 import { filter, find, flatMap, forEach, isEqual, keys, map, sortBy, sumBy, uniq, values } from 'lodash';
+import { t } from 'ttag';
 
 import {
   AssembledDeckState,
@@ -14,6 +16,7 @@ import {
   getCampaignLastUpdated,
   getDeckId,
   PhysicalCollectionMode,
+  PhysicalDeckAssemblyEntry,
   Slots,
 } from '@actions/types';
 import {
@@ -268,9 +271,14 @@ interface CampaignStatusLike {
   updatedAtIso?: string;
 }
 
-function getFallbackTimestamp(deck: Deck, campaign?: Campaign, campaignStatus?: CampaignStatusLike): string {
+function getFallbackTimestamp(
+  deck: Deck,
+  campaign?: Campaign,
+  campaignStatus?: CampaignStatusLike,
+  guide?: { lastUpdated?: Date | string | number }
+): string {
   if (campaign) {
-    const lastUpdated = getCampaignLastUpdated(campaign);
+    const lastUpdated = getCampaignLastUpdated(campaign, guide);
     if (lastUpdated.getTime() > 0) {
       return lastUpdated.toISOString();
     }
@@ -279,6 +287,74 @@ function getFallbackTimestamp(deck: Deck, campaign?: Campaign, campaignStatus?: 
     return campaignStatus.updatedAtIso;
   }
   return deck.date_update || deck.date_creation || new Date(0).toISOString();
+}
+
+export function buildChronologicalOpenCampaignAssemblyEntries(
+  allTrackedDecks: TrackedPhysicalDeck[],
+  assembledDecksState: { [deckKey: string]: AssembledDeckState | undefined }
+): PhysicalDeckAssemblyEntry[] {
+  const candidates = filter(allTrackedDecks, d => {
+    if (!d.campaignId || d.isArchivedCampaign || d.assembled) {
+      return false;
+    }
+    const safeUuid = getSafeDeckUuid(d.deckId);
+    const state =
+      assembledDecksState[d.deckKey] ||
+      (safeUuid ? assembledDecksState[safeUuid] : undefined);
+    if (state && (state.tracked === false || state.assembled)) {
+      return false;
+    }
+    return true;
+  });
+
+  // Sort oldest played/updated first -> newest last so newest open campaigns get physical priority
+  const chronological = sortBy(candidates, d => {
+    const parsedMs = new Date(d.assembledAt).getTime();
+    return isNaN(parsedMs) ? 0 : parsedMs;
+  });
+
+  return map(chronological, (d, index) => {
+    const parsedTime = new Date(d.assembledAt).getTime();
+    const baseMs = !isNaN(parsedTime) && parsedTime > 0 ? parsedTime : Date.now() - (chronological.length - index) * 1000;
+    return {
+      deckKey: d.deckKey,
+      campaignId: d.campaignId,
+      campaignName: d.campaignName,
+      investigatorCode: d.investigatorCode,
+      deckId: d.deckId,
+      deckName: d.deck.name,
+      physicalSlots: d.targetSlots,
+      assembledAt: new Date(baseMs + index).toISOString(),
+    };
+  });
+}
+
+export function promptChronologicalOpenCampaignAssembly(
+  entries: PhysicalDeckAssemblyEntry[],
+  onConfirm: () => void,
+  enablePhysicalModeFirst?: boolean
+): void {
+  const deckCount = entries.length;
+  const campaignCount = uniq(
+    map(entries, e => e.campaignId?.campaignId).filter((id): id is string => !!id)
+  ).length;
+  const message = enablePhysicalModeFirst
+    ? t`You have ${deckCount} deck(s) across ${campaignCount} open campaign(s). Enable physical collection tracking and assemble them in chronological order (oldest played first)? Remaining uncontested cards stay marked in older campaigns, while newer campaigns hold physical priority on shared cards and older decks show missing cards.`
+    : t`You have ${deckCount} deck(s) across ${campaignCount} open campaign(s) not yet assembled. Assemble them now in chronological order (oldest played first)? Remaining uncontested cards stay marked in older campaigns, while newer campaigns hold physical priority on shared cards and older decks show missing cards.`;
+  Alert.alert(
+    t`Assemble Open Campaigns Chronologically?`,
+    message,
+    [
+      {
+        text: t`Not Now`,
+        style: 'cancel',
+      },
+      {
+        text: t`Assemble Chronologically`,
+        onPress: onConfirm,
+      },
+    ]
+  );
 }
 
 export function isDeckTrackedAndAssembled(
@@ -326,7 +402,10 @@ export function isDeckTrackedAndAssembled(
  * Returns all latest decks in the app (Redux local/ArkhamDB decks, Remote Arkham Cards Cloud decks,
  * and any explicitly assembled decks) with their physical assembly status and slots.
  */
-export function useTrackedPhysicalDecks(enabled: boolean = true): {
+export function useTrackedPhysicalDecks(
+  enabled: boolean = true,
+  ignoreDisabledMode: boolean = false
+): {
   mode: PhysicalCollectionMode;
   allTrackedDecks: TrackedPhysicalDeck[];
   assembledDecksList: TrackedPhysicalDeck[];
@@ -336,9 +415,11 @@ export function useTrackedPhysicalDecks(enabled: boolean = true): {
   const allDecks = useSelector(getAllDecks);
   const deckToCampaign = useSelector(getDeckToCampaignMap);
   const allCampaigns = useSelector((state: AppState) => state.campaigns_2.all);
+  const allGuides = useSelector((state: AppState) => state.guides.all);
 
+  const effectiveEnabled = enabled && (ignoreDisabledMode || mode !== 'disabled');
   const { userId } = useContext(ArkhamCardsAuthContext);
-  const skipRemote = !userId || !enabled || mode === 'disabled';
+  const skipRemote = !userId || !effectiveEnabled;
   const { data: remoteDecksData } = useGetMyDecksQuery({
     variables: { userId: userId || '' },
     skip: skipRemote,
@@ -351,7 +432,7 @@ export function useTrackedPhysicalDecks(enabled: boolean = true): {
   });
 
   return useMemo(() => {
-    if (!enabled || mode === 'disabled') {
+    if (!effectiveEnabled) {
       return {
         mode,
         allTrackedDecks: [],
@@ -412,7 +493,8 @@ export function useTrackedPhysicalDecks(enabled: boolean = true): {
         ? normalizeSlots(state.physicalSlots)
         : targetSlots;
       const hasPendingUpgrade = assembled && !areSlotsEqual(physicalSlots, targetSlots);
-      const assembledAt = state?.assembledAt || getFallbackTimestamp(deck, resolvedLocalCampaign, campaignStatus);
+      const resolvedGuide = resolvedLocalCampaign ? allGuides[resolvedLocalCampaign.uuid] : undefined;
+      const assembledAt = state?.assembledAt || getFallbackTimestamp(deck, resolvedLocalCampaign, campaignStatus, resolvedGuide);
 
       seenDeckKeys.add(deckKey);
       seenDeckUuids.add(safeUuid);
@@ -482,7 +564,8 @@ export function useTrackedPhysicalDecks(enabled: boolean = true): {
         ? normalizeSlots(state.physicalSlots)
         : targetSlots;
       const hasPendingUpgrade = assembled && !areSlotsEqual(physicalSlots, targetSlots);
-      const assembledAt = state?.assembledAt || getFallbackTimestamp(remoteDeck.deck, localCampaign, campaignStatus);
+      const resolvedGuide = localCampaign ? allGuides[localCampaign.uuid] : undefined;
+      const assembledAt = state?.assembledAt || getFallbackTimestamp(remoteDeck.deck, localCampaign, campaignStatus, resolvedGuide);
 
       seenDeckKeys.add(deckKey);
       seenDeckUuids.add(safeUuid);
@@ -591,7 +674,7 @@ export function useTrackedPhysicalDecks(enabled: boolean = true): {
       allTrackedDecks: sorted,
       assembledDecksList,
     };
-  }, [enabled, mode, assembledDecks, allDecks, deckToCampaign, allCampaigns, remoteDecksData, remoteCampaignsData]);
+  }, [effectiveEnabled, enabled, ignoreDisabledMode, mode, assembledDecks, allDecks, deckToCampaign, allCampaigns, allGuides, remoteDecksData, remoteCampaignsData]);
 }
 
 function getCardOwnedCount(

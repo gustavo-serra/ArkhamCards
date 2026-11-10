@@ -10,8 +10,22 @@ import { BasicStackParamList, RootStackParamList } from '@navigation/types';
 import { t } from 'ttag';
 
 import PackListComponent from '@components/core/PackListComponent';
-import { setInCollection, setCycleInCollection, setPackDraft, setPackQuantity } from '@actions';
-import { getAllRealPacks, getDraftPacks, getPacksInCollection, getPackQuantities } from '@reducers';
+import {
+  confirmMultiplePhysicalDecksAssembly,
+  setCycleInCollection,
+  setInCollection,
+  setPackDraft,
+  setPackQuantity,
+  setPhysicalCollectionMode,
+} from '@actions';
+import {
+  getAllRealPacks,
+  getAssembledDecks,
+  getDraftPacks,
+  getPackQuantities,
+  getPacksInCollection,
+  getPhysicalCollectionMode,
+} from '@reducers';
 import StyleContext from '@styles/StyleContext';
 import DeckCheckboxButton from '@components/deck/controls/DeckCheckboxButton';
 import space from '@styles/space';
@@ -19,6 +33,11 @@ import { useRemoteSettingFlag, useSettingFlag } from '@components/core/hooks';
 import LoadingSpinner from '@components/core/LoadingSpinner';
 
 import DeckButton from '@components/deck/controls/DeckButton';
+import {
+  buildChronologicalOpenCampaignAssemblyEntries,
+  promptChronologicalOpenCampaignAssembly,
+  useTrackedPhysicalDecks,
+} from '@components/deck/usePhysicalCollectionTracker';
 import { useAppDispatch } from '@app/store';
 import { useUpdateRemotePack, useUpdateRemoteSetting } from '@data/remote/settings';
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
@@ -48,6 +67,33 @@ export default function CollectionEditView() {
   const updateRemoteSetting = useUpdateRemoteSetting();
   const updateRemotePack = useUpdateRemotePack();
   const [ignoreCollection, toggleIgnoreCollection] = useRemoteSettingFlag('ignore_collection', updateRemoteSetting);
+  const physicalMode = useSelector(getPhysicalCollectionMode);
+  const assembledDecksState = useSelector(getAssembledDecks);
+  const { allTrackedDecks } = useTrackedPhysicalDecks(!draftMode, true);
+  const openCampaignAssemblyEntries = useMemo(() => {
+    return buildChronologicalOpenCampaignAssemblyEntries(allTrackedDecks, assembledDecksState);
+  }, [allTrackedDecks, assembledDecksState]);
+
+  const handleToggleIgnoreCollection = useCallback((value: boolean) => {
+    toggleIgnoreCollection(value);
+    if (
+      !value &&
+      openCampaignAssemblyEntries.length > 0 &&
+      (physicalMode === 'disabled' || physicalMode === 'manual')
+    ) {
+      promptChronologicalOpenCampaignAssembly(
+        openCampaignAssemblyEntries,
+        () => {
+          if (physicalMode === 'disabled') {
+            dispatch(setPhysicalCollectionMode('manual'));
+          }
+          dispatch(confirmMultiplePhysicalDecksAssembly(openCampaignAssemblyEntries));
+        },
+        physicalMode === 'disabled'
+      );
+    }
+  }, [dispatch, toggleIgnoreCollection, openCampaignAssemblyEntries, physicalMode]);
+
   const setChecked = useCallback((code: string, value: boolean) => {
     if (draftMode) {
       dispatch(setPackDraft(code, value));
@@ -116,12 +162,12 @@ export default function CollectionEditView() {
             title={t`Show all cards`}
             description={ignoreCollection ? t`Disable to choose individual packs to show` : t`All cards are shown throughout the app`}
             value={ignoreCollection}
-            onValueChange={toggleIgnoreCollection}
+            onValueChange={handleToggleIgnoreCollection}
           />
         </View>
       </>
     );
-  }, [ignoreCollection, typography, draftMode, draftFromCollection, onEditCollection, onManagePhysicalCollection, toggleIgnoreCollection, toggleDraftFromCollection]);
+  }, [ignoreCollection, typography, draftMode, draftFromCollection, onEditCollection, onManagePhysicalCollection, handleToggleIgnoreCollection, toggleDraftFromCollection]);
   if (!packs.length) {
     return (
       <LoadingSpinner large />

@@ -17,13 +17,30 @@ import {
   CardPrintingOverrides,
   AssembledDeckState,
   CONFIRM_PHYSICAL_DECK_ASSEMBLY,
+  CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY,
   DISASSEMBLE_CAMPAIGN_DECKS,
   DISASSEMBLE_PHYSICAL_DECK,
   PhysicalCollectionActions,
   PhysicalCollectionMode,
+  PhysicalDeckAssemblyEntry,
   SET_DECK_PHYSICAL_TRACKING,
   SET_PHYSICAL_COLLECTION_MODE,
 } from '@actions/types';
+
+function toAssembledDeckState(entry: PhysicalDeckAssemblyEntry): AssembledDeckState {
+  return {
+    deckKey: entry.deckKey,
+    campaignId: entry.campaignId,
+    campaignName: entry.campaignName,
+    investigatorCode: entry.investigatorCode,
+    deckId: entry.deckId,
+    deckName: entry.deckName,
+    tracked: true,
+    assembled: true,
+    physicalSlots: { ...entry.physicalSlots },
+    assembledAt: entry.assembledAt,
+  };
+}
 
 interface PacksState {
   all: Pack[];
@@ -256,18 +273,18 @@ export default function(
 
   if (action.type === CONFIRM_PHYSICAL_DECK_ASSEMBLY) {
     const nextDecks = { ...(state.assembled_decks || {}) };
-    nextDecks[action.deckKey] = {
-      deckKey: action.deckKey,
-      campaignId: action.campaignId,
-      campaignName: action.campaignName,
-      investigatorCode: action.investigatorCode,
-      deckId: action.deckId,
-      deckName: action.deckName,
-      tracked: true,
-      assembled: true,
-      physicalSlots: { ...action.physicalSlots },
-      assembledAt: action.assembledAt,
+    nextDecks[action.deckKey] = toAssembledDeckState(action);
+    return {
+      ...state,
+      assembled_decks: nextDecks,
     };
+  }
+
+  if (action.type === CONFIRM_MULTIPLE_PHYSICAL_DECKS_ASSEMBLY) {
+    const nextDecks = { ...(state.assembled_decks || {}) };
+    forEach(action.decks, entry => {
+      nextDecks[entry.deckKey] = toAssembledDeckState(entry);
+    });
     return {
       ...state,
       assembled_decks: nextDecks,
