@@ -6374,7 +6374,7 @@ msgstr "Ancestral"
 
 msgctxt "trait"
 msgid "Ancient One"
-msgstr "O Ancestral"
+msgstr "Ancião"
 
 msgctxt "trait"
 msgid "Arkham"
@@ -6418,7 +6418,7 @@ msgstr "Pântano"
 
 msgctxt "trait"
 msgid "Believer"
-msgstr "Crente"
+msgstr "Convicto"
 
 msgctxt "trait"
 msgid "Blessed"
@@ -6426,7 +6426,7 @@ msgstr "Abençoado"
 
 msgctxt "trait"
 msgid "Blunder"
-msgstr "Erro"
+msgstr "Tropeço"
 
 msgctxt "trait"
 msgid "Boat"
@@ -6434,11 +6434,11 @@ msgstr "Barco"
 
 msgctxt "trait"
 msgid "Bold"
-msgstr "Ousado"
+msgstr "Audaz"
 
 msgctxt "trait"
 msgid "Boon"
-msgstr "Benefício"
+msgstr "Dádiva"
 
 msgctxt "trait"
 msgid "Bridge"
@@ -6478,7 +6478,7 @@ msgstr "Central"
 
 msgctxt "trait"
 msgid "Charm"
-msgstr "Encanto"
+msgstr "Talismã"
 
 msgctxt "trait"
 msgid "Chosen"
@@ -6502,11 +6502,11 @@ msgstr "Clarividente"
 
 msgctxt "trait"
 msgid "Clothing"
-msgstr "Roupas"
+msgstr "Vestuário"
 
 msgctxt "trait"
 msgid "Clover Club"
-msgstr "Clube do Trevo"
+msgstr "Clover Club"
 
 msgctxt "trait"
 msgid "Coastal"
@@ -6530,11 +6530,11 @@ msgstr "Conspirador"
 
 msgctxt "trait"
 msgid "Construct"
-msgstr "Construir"
+msgstr "Constructo"
 
 msgctxt "trait"
 msgid "Covenant"
-msgstr "Pacto"
+msgstr ""
 
 msgctxt "trait"
 msgid "Creature"
@@ -6542,7 +6542,7 @@ msgstr "Criatura"
 
 msgctxt "trait"
 msgid "Crime Scene"
-msgstr "Cena do crime"
+msgstr "Cena do Crime"
 
 msgctxt "trait"
 msgid "Criminal"
@@ -6562,11 +6562,11 @@ msgstr "Amaldiçoado"
 
 msgctxt "trait"
 msgid "Dark Young"
-msgstr "Jovem Sombrio"
+msgstr "Cria Sombria"
 
 msgctxt "trait"
 msgid "Deep One"
-msgstr "Profundo"
+msgstr "Abissal"
 
 msgctxt "trait"
 msgid "Depths"
@@ -6830,7 +6830,7 @@ msgstr "Chave"
 
 msgctxt "trait"
 msgid "Lead"
-msgstr "Líder"
+msgstr "Pista"
 
 msgctxt "trait"
 msgid "Leng"
@@ -6870,7 +6870,7 @@ msgstr "Mi-Go"
 
 msgctxt "trait"
 msgid "Midtown"
-msgstr "Centro"
+msgstr ""
 
 msgctxt "trait"
 msgid "Miskatonic"
@@ -7522,7 +7522,7 @@ msgstr "Dispositivo"
 
 msgctxt "trait"
 msgid "Downtown"
-msgstr "Centro"
+msgstr ""
 
 msgctxt "trait"
 msgid "Enigma"
@@ -7602,7 +7602,7 @@ msgstr "Marrakech"
 
 msgctxt "trait"
 msgid "Medical"
-msgstr "Médico"
+msgstr ""
 
 msgctxt "trait"
 msgid "Music"
@@ -7730,7 +7730,7 @@ msgstr "Subterrâneo"
 
 msgctxt "trait"
 msgid "Unstable"
-msgstr "Instável"
+msgstr ""
 
 msgctxt "trait"
 msgid "Upper Floor"
@@ -7814,7 +7814,7 @@ msgstr "Não Praticado"
 
 msgctxt "trait"
 msgid "Allied"
-msgstr "Aliado"
+msgstr ""
 
 msgctxt "trait"
 msgid "Bog"
