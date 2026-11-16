@@ -45,7 +45,6 @@ export interface TrackedPhysicalDeck {
   investigatorCode: string;
   campaignId?: CampaignId;
   campaignUuid?: string;
-  campaignGroupId?: string;
   campaignName?: string;
   isArchivedCampaign: boolean;
   tracked: boolean;
@@ -63,7 +62,6 @@ export interface CardPhysicalHolder {
   deckName: string;
   investigatorCode: string;
   campaignId?: CampaignId;
-  campaignGroupId?: string;
   campaignName?: string;
   assembledAt: string;
   physicalCopies: number;
@@ -375,7 +373,7 @@ export function buildChronologicalOpenCampaignAssemblyEntries(
   } = {};
 
   forEach(candidates, d => {
-    const cKey = d.campaignGroupId || d.campaignUuid || d.campaignId?.campaignId || d.deckKey;
+    const cKey = d.campaignUuid || d.campaignId?.campaignId || d.deckKey;
     const deckMs = (d.campaignRecencyMs && d.campaignRecencyMs > 0)
       ? d.campaignRecencyMs
       : Math.max(
@@ -527,7 +525,6 @@ export function useTrackedPhysicalDecks(
       };
     }
     const remoteCampaignMap: { [uuid: string]: CampaignStatusLike | undefined } = {};
-    const linkedGroupMap: { [uuid: string]: string | undefined } = {};
 
     forEach(remoteCampaignsData?.users_by_pk?.campaigns || [], entry => {
       const c = entry.campaign;
@@ -541,12 +538,8 @@ export function useTrackedPhysicalDecks(
           archived: parentArchived,
           updatedAtIso: parentUpdatedIso,
         };
-        if (c.link_a_campaign?.uuid || c.link_b_campaign?.uuid) {
-          linkedGroupMap[c.uuid] = c.uuid;
-        }
         if (c.link_a_campaign?.uuid) {
           const a = c.link_a_campaign;
-          linkedGroupMap[a.uuid] = c.uuid;
           remoteCampaignMap[a.uuid] = {
             uuid: a.uuid,
             serverId: a.id,
@@ -557,7 +550,6 @@ export function useTrackedPhysicalDecks(
         }
         if (c.link_b_campaign?.uuid) {
           const b = c.link_b_campaign;
-          linkedGroupMap[b.uuid] = c.uuid;
           remoteCampaignMap[b.uuid] = {
             uuid: b.uuid,
             serverId: b.id,
@@ -566,29 +558,6 @@ export function useTrackedPhysicalDecks(
             updatedAtIso: b.updated_at ? new Date(Date.parse(b.updated_at)).toISOString() : parentUpdatedIso,
           };
         }
-      }
-    });
-
-    forEach(allCampaigns, camp => {
-      if (!camp?.uuid) {
-        return;
-      }
-      if (camp.linkUuid) {
-        linkedGroupMap[camp.uuid] = camp.uuid;
-        if (camp.linkUuid.campaignIdA) {
-          linkedGroupMap[camp.linkUuid.campaignIdA] = camp.uuid;
-        }
-        if (camp.linkUuid.campaignIdB) {
-          linkedGroupMap[camp.linkUuid.campaignIdB] = camp.uuid;
-        }
-      }
-    });
-    forEach(allCampaigns, camp => {
-      if (camp?.uuid && camp.linkedCampaignUuid && !linkedGroupMap[camp.uuid]) {
-        const existingGroup = linkedGroupMap[camp.linkedCampaignUuid];
-        const groupKey = existingGroup || [camp.uuid, camp.linkedCampaignUuid].sort()[0];
-        linkedGroupMap[camp.uuid] = groupKey;
-        linkedGroupMap[camp.linkedCampaignUuid] = groupKey;
       }
     });
 
@@ -605,36 +574,21 @@ export function useTrackedPhysicalDecks(
       }
     });
     const campaignRecencyMap: { [uuid: string]: number } = {};
-    const groupArchivedMap: { [groupId: string]: boolean } = {};
     forEach(allCampaigns, camp => {
       if (camp?.uuid) {
-        const gId = linkedGroupMap[camp.uuid] || camp.uuid;
-        if (camp.archived || remoteCampaignMap[camp.uuid]?.archived) {
-          groupArchivedMap[gId] = true;
-        }
-        const recency = getCampaignPlayRecencyMs(
+        campaignRecencyMap[camp.uuid] = getCampaignPlayRecencyMs(
           camp,
           remoteCampaignMap[camp.uuid],
           allGuides[camp.uuid],
           decksByCampaignUuid[camp.uuid]
         );
-        if (recency > (campaignRecencyMap[gId] || 0)) {
-          campaignRecencyMap[gId] = recency;
-        }
-        if (recency > (campaignRecencyMap[camp.uuid] || 0)) {
-          campaignRecencyMap[camp.uuid] = recency;
-        }
       }
     });
     forEach(remoteCampaignMap, rc => {
       if (rc?.uuid) {
-        const gId = linkedGroupMap[rc.uuid] || rc.uuid;
-        if (rc.archived) {
-          groupArchivedMap[gId] = true;
-        }
         const recency = getCampaignPlayRecencyMs(undefined, rc, allGuides[rc.uuid], decksByCampaignUuid[rc.uuid]);
-        if (recency > (campaignRecencyMap[gId] || 0)) {
-          campaignRecencyMap[gId] = recency;
+        if (recency > (campaignRecencyMap[rc.uuid] || 0)) {
+          campaignRecencyMap[rc.uuid] = recency;
         }
       }
     });
@@ -854,38 +808,18 @@ export function useTrackedPhysicalDecks(
 
     forEach(allTrackedDecks, d => {
       if (d.campaignUuid) {
-        const gId = linkedGroupMap[d.campaignUuid] || d.campaignUuid;
-        d.campaignGroupId = gId;
         const localCamp = allCampaigns[d.campaignUuid];
         const remoteCamp = remoteCampaignMap[d.campaignUuid];
         const guide = allGuides[d.campaignUuid];
         const recency = getCampaignPlayRecencyMs(localCamp, remoteCamp, guide, [d.deck]);
-        if (recency > (campaignRecencyMap[gId] || 0)) {
-          campaignRecencyMap[gId] = recency;
-        }
         if (recency > (campaignRecencyMap[d.campaignUuid] || 0)) {
           campaignRecencyMap[d.campaignUuid] = recency;
-        }
-        if (d.isArchivedCampaign) {
-          groupArchivedMap[gId] = true;
         }
       }
     });
     forEach(allTrackedDecks, d => {
-      if (d.campaignUuid) {
-        const gId = d.campaignGroupId || linkedGroupMap[d.campaignUuid] || d.campaignUuid;
-        d.campaignGroupId = gId;
-        if (groupArchivedMap[gId] && !d.isArchivedCampaign) {
-          d.isArchivedCampaign = true;
-          const state = assembledDecks[d.deckKey] || assembledDecks[getSafeDeckUuid(d.deckId)];
-          const updatedStatus = isDeckTrackedAndAssembled(mode, state, { archived: true });
-          d.tracked = updatedStatus.tracked;
-          d.assembled = updatedStatus.assembled;
-        }
-        const groupRecency = campaignRecencyMap[gId] || campaignRecencyMap[d.campaignUuid];
-        if (groupRecency) {
-          d.campaignRecencyMs = groupRecency;
-        }
+      if (d.campaignUuid && campaignRecencyMap[d.campaignUuid]) {
+        d.campaignRecencyMs = campaignRecencyMap[d.campaignUuid];
       }
     });
 
@@ -1068,7 +1002,6 @@ export function usePhysicalCollectionAllocations(
           deckName: deck.deck.name,
           investigatorCode: deck.investigatorCode,
           campaignId: deck.campaignId,
-          campaignGroupId: deck.campaignGroupId || deck.campaignUuid || deck.campaignId?.campaignId,
           campaignName: deck.campaignName,
           assembledAt: deck.assembledAt,
           physicalCopies,
@@ -1265,23 +1198,6 @@ export function useDeckPhysicalChecklistPlan(
     });
 
     const currentCampaignUuid = trackedDeck?.campaignUuid || campaign?.uuid || state?.campaignId?.campaignId;
-    const currentCampaignGroupId = trackedDeck?.campaignGroupId || (
-      campaign?.linkedCampaignUuid
-        ? [campaign.uuid, campaign.linkedCampaignUuid].sort()[0]
-        : currentCampaignUuid
-    );
-    const sameCampaignUuids = new Set<string>();
-    if (currentCampaignUuid) {
-      sameCampaignUuids.add(currentCampaignUuid);
-    }
-    if (campaign?.linkedCampaignUuid) {
-      sameCampaignUuids.add(campaign.linkedCampaignUuid);
-    }
-    if (campaign?.linkUuid) {
-      sameCampaignUuids.add(campaign.linkUuid.campaignIdA);
-      sameCampaignUuids.add(campaign.linkUuid.campaignIdB);
-    }
-
     let totalTargetCount = 0;
     let inDeckboxCount = 0;
     let borrowedFromSelfCount = 0;
@@ -1300,17 +1216,9 @@ export function useDeckPhysicalChecklistPlan(
       inDeckboxCount += Math.min(targetCount, heldBySelfNow);
 
       const otherHolders = filter(allocation?.holders || [], h => h.deckKey !== deckKey && h.heldCopies > 0);
-      const otherCampaignHolders = filter(otherHolders, h => {
-        const holderCampUuid = h.campaignId?.campaignId;
-        const holderGroupId = h.campaignGroupId || holderCampUuid;
-        if (currentCampaignGroupId && holderGroupId === currentCampaignGroupId) {
-          return false;
-        }
-        if (holderCampUuid && sameCampaignUuids.has(holderCampUuid)) {
-          return false;
-        }
-        return true;
-      });
+      const otherCampaignHolders = currentCampaignUuid
+        ? filter(otherHolders, h => h.campaignId?.campaignId !== currentCampaignUuid)
+        : otherHolders;
       const heldByOthersTotal = sumBy(otherHolders, h => h.heldCopies);
       const inBinderNow = Math.max(0, totalOwned - heldBySelfNow - heldByOthersTotal);
 
