@@ -2,8 +2,9 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { t } from 'ttag';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { disassembleCampaignDecks } from '@actions';
 import { CampaignId } from '@actions/types';
 import { ShowAlert } from '@components/deck/dialogs';
 import ArkhamCardsAuthContext from '@lib/ArkhamCardsAuthContext';
@@ -36,15 +37,31 @@ export default function DeleteCampaignButton({ actions, campaignId, campaign, sh
   const navigation = useNavigation();
   const { userId } = useContext(ArkhamCardsAuthContext);
   const dispatch: Dispatch = useDispatch();
+  const rawLocalCampaign = useSelector((state: AppState) => state.campaigns_2.all[campaignId.campaignId]);
   const deleteServerCampaign = useDeleteCampaignRequest();
   const leaveCampaign = useLeaveCampaignRequest();
+  const disassembleAllLinkedCampaignDecks = useCallback(() => {
+    dispatch(disassembleCampaignDecks(campaignId));
+    if (campaign?.linkedCampaignId) {
+      dispatch(disassembleCampaignDecks(campaign.linkedCampaignId));
+    }
+    if (rawLocalCampaign?.linkedCampaignUuid) {
+      dispatch(disassembleCampaignDecks({ campaignId: rawLocalCampaign.linkedCampaignUuid }));
+    }
+    if (rawLocalCampaign?.linkUuid) {
+      dispatch(disassembleCampaignDecks({ campaignId: rawLocalCampaign.linkUuid.campaignIdA }));
+      dispatch(disassembleCampaignDecks({ campaignId: rawLocalCampaign.linkUuid.campaignIdB }));
+    }
+  }, [dispatch, campaignId, campaign?.linkedCampaignId, rawLocalCampaign]);
+
   const actuallyDeleteCampaign = useCallback(() => {
+    disassembleAllLinkedCampaignDecks();
     if (campaignId.serverId && userId) {
       deleteServerCampaign(campaignId);
     }
     dispatch(deleteCampaign(userId, campaignId));
     navigation.goBack();
-  }, [navigation, dispatch, campaignId, deleteServerCampaign, userId]);
+  }, [navigation, dispatch, campaignId, deleteServerCampaign, userId, disassembleAllLinkedCampaignDecks]);
   const confirmDeleteCampaign = useCallback(() => {
     const campaignName = campaign?.name || '';
     showAlert(
@@ -60,11 +77,12 @@ export default function DeleteCampaignButton({ actions, campaignId, campaign, sh
   }, [campaign, actuallyDeleteCampaign, showAlert, standalone]);
 
   const actuallyLeaveCampaign = useCallback(() => {
+    disassembleAllLinkedCampaignDecks();
     if (campaignId.serverId) {
       leaveCampaign(campaignId);
     }
     navigation.goBack();
-  }, [campaignId, navigation, leaveCampaign]);
+  }, [campaignId, navigation, leaveCampaign, disassembleAllLinkedCampaignDecks]);
   const confirmLeaveCampaign = useCallback(() => {
     showAlert(
       standalone ? t`Leave standalone` : t`Leave campaign`,
@@ -79,10 +97,14 @@ export default function DeleteCampaignButton({ actions, campaignId, campaign, sh
   }, [standalone, actuallyLeaveCampaign, showAlert]);
   const [archiveLoading, setArchiveLoading] = useState(false);
   const archiveCampaign = useCallback(async() => {
+    const nextArchived = !campaign?.archived;
     setArchiveLoading(true);
-    await dispatch(updateCampaignArchived(userId, actions, campaignId, !campaign?.archived));
+    await dispatch(updateCampaignArchived(userId, actions, campaignId, nextArchived));
+    if (nextArchived) {
+      disassembleAllLinkedCampaignDecks();
+    }
     setArchiveLoading(false);
-  }, [dispatch, setArchiveLoading, campaignId, actions, userId, campaign?.archived]);
+  }, [dispatch, setArchiveLoading, campaignId, actions, userId, campaign?.archived, disassembleAllLinkedCampaignDecks]);
   const archiveButton = useMemo(() => {
     const archived = !!campaign?.archived;
     return (
