@@ -64,6 +64,7 @@ export interface CardPhysicalHolder {
   campaignId?: CampaignId;
   campaignName?: string;
   assembledAt: string;
+  campaignRecencyMs?: number;
   physicalCopies: number;
   targetCopies: number;
   heldCopies: number;
@@ -993,7 +994,10 @@ export function usePhysicalCollectionAllocations(
         const borrowedCopies = Math.max(0, physicalCopies - heldCopies);
         const borrowedByDecks = borrowedCopies > 0 ? [...activeClaimers] : [];
         if (heldCopies > 0) {
-          activeClaimers.push(deck.deck.name);
+          const claimerLabel = deck.campaignName
+            ? `${deck.deck.name} (${deck.campaignName})`
+            : deck.deck.name;
+          activeClaimers.push(claimerLabel);
         }
 
         return {
@@ -1004,6 +1008,7 @@ export function usePhysicalCollectionAllocations(
           campaignId: deck.campaignId,
           campaignName: deck.campaignName,
           assembledAt: deck.assembledAt,
+          campaignRecencyMs: deck.campaignRecencyMs,
           physicalCopies,
           targetCopies,
           heldCopies,
@@ -1254,8 +1259,12 @@ export function useDeckPhysicalChecklistPlan(
           needed -= fromBinder;
         }
         if (needed > 0 && otherCampaignHolders.length > 0) {
-          // Retrieve from oldest assembled decks in OTHER campaigns first (never from the same campaign)
-          const sortedOtherHolders = sortBy(otherCampaignHolders, h => new Date(h.assembledAt).getTime());
+          // Retrieve from oldest assembled campaigns/decks in OTHER campaigns first (never from the same campaign)
+          const sortedOtherHolders = sortBy(
+            otherCampaignHolders,
+            h => (h.campaignRecencyMs && h.campaignRecencyMs > 0 ? h.campaignRecencyMs : parseTimestampMs(h.assembledAt)),
+            h => parseTimestampMs(h.assembledAt)
+          );
           forEach(sortedOtherHolders, holder => {
             if (needed <= 0) {
               return;
