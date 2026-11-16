@@ -211,6 +211,7 @@ function DeckPhysicalBoxSection({
   const returnCount = sumBy(plan.toReturnToBinder, item => item.count);
   const missingCount = sumBy(plan.missingFromCollection, item => item.count);
   const borrowedCount = plan.borrowedFromSelfCount;
+  const uncertainCount = plan.uncertainCount;
   const inDeckboxCount = plan.inDeckboxCount;
   const totalTargetCount = plan.totalTargetCount;
 
@@ -219,7 +220,7 @@ function DeckPhysicalBoxSection({
     : isAssembled
       ? (plan.hasPendingUpgrade
           ? t`🔄 Pending Physical Upgrade (Deckbox needs updating)`
-          : borrowedCount > 0
+          : (borrowedCount > 0 || uncertainCount > 0)
             ? t`⚠️ Partially Assembled (${inDeckboxCount}/${totalTargetCount} in deckbox)`
             : t`✅ Physically Assembled in Deckbox`)
       : t`📦 Not yet physically assembled`;
@@ -255,11 +256,15 @@ function DeckPhysicalBoxSection({
           { !isFriendDeck && (
             <Text style={[typography.small, { color: colors.M, marginTop: 2 }]}>
               { isAssembled
-                ? (borrowedCount > 0
-                    ? t`⚠️ ${borrowedCount} card(s) from this deck are currently in a more recently played campaign.`
-                    : (returnCount > 0 || binderCount > 0)
-                      ? t`To update deckbox: return ${returnCount} to binder and take ${binderCount}.`
-                      : t`All ${totalTargetCount} physical card(s) are allocated in this deckbox.`)
+                ? (borrowedCount > 0 && uncertainCount > 0
+                    ? t`⚠️ ${borrowedCount} card(s) in a newer campaign · ❓ ${uncertainCount} card(s) with uncertain deckbox.`
+                    : uncertainCount > 0
+                      ? t`❓ ${uncertainCount} card(s) have uncertain physical location between older campaigns.`
+                      : borrowedCount > 0
+                        ? t`⚠️ ${borrowedCount} card(s) from this deck are currently in a more recently played campaign.`
+                        : (returnCount > 0 || binderCount > 0)
+                          ? t`To update deckbox: return ${returnCount} to binder and take ${binderCount}.`
+                          : t`All ${totalTargetCount} physical card(s) are allocated in this deckbox.`)
                 : unbuiltSummary }
             </Text>
           ) }

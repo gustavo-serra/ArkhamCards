@@ -36,6 +36,7 @@ import {
   DISASSEMBLE_PHYSICAL_DECK,
   SET_DECK_PHYSICAL_TRACKING,
   DISASSEMBLE_CAMPAIGN_DECKS,
+  SET_DECK_CARD_PHYSICAL_POSSESSION,
   PhysicalCollectionMode,
   PhysicalDeckAssemblyEntry,
   ConfirmPhysicalDeckAssemblyAction,
@@ -43,6 +44,7 @@ import {
   DisassemblePhysicalDeckAction,
   SetDeckPhysicalTrackingAction,
   DisassembleCampaignDecksAction,
+  SetDeckCardPhysicalPossessionAction,
   SetPhysicalCollectionModeAction,
   CampaignId,
 } from './types';
@@ -501,6 +503,19 @@ export function disassembleCampaignDecks(
   return {
     type: DISASSEMBLE_CAMPAIGN_DECKS,
     campaignId,
+  };
+}
+
+export function setDeckCardPhysicalPossession(
+  deckKey: string,
+  canonicalCode: string,
+  heldCopies: number | undefined
+): SetDeckCardPhysicalPossessionAction {
+  return {
+    type: SET_DECK_CARD_PHYSICAL_POSSESSION,
+    deckKey,
+    canonicalCode,
+    heldCopies,
   };
 }
 

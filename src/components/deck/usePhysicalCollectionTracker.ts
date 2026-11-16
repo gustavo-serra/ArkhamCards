@@ -52,6 +52,7 @@ export interface TrackedPhysicalDeck {
   assembledAt: string;
   campaignRecencyMs?: number;
   physicalSlots: Slots;
+  confirmedSlots?: { [canonicalCode: string]: number | undefined };
   targetSlots: Slots;
   hasPendingUpgrade: boolean;
 }
@@ -68,6 +69,8 @@ export interface CardPhysicalHolder {
   physicalCopies: number;
   targetCopies: number;
   heldCopies: number;
+  uncertainCopies: number;
+  uncertainWithDecks: string[];
   borrowedCopies: number;
   borrowedByDecks: string[];
   hasPendingUpgrade: boolean;
@@ -105,6 +108,7 @@ export interface DeckPhysicalChecklistPlan {
   hasPendingUpgrade: boolean;
   totalTargetCount: number;
   inDeckboxCount: number;
+  uncertainCount: number;
   borrowedFromSelfCount: number;
   toReturnToBinder: ChecklistCardQuantity[];
   toRetrieveFromOtherDecks: ChecklistRetrieveItem[];
@@ -654,6 +658,7 @@ export function useTrackedPhysicalDecks(
         assembled,
         assembledAt,
         physicalSlots,
+        confirmedSlots: state?.confirmedSlots,
         targetSlots,
         hasPendingUpgrade,
       });
@@ -725,6 +730,7 @@ export function useTrackedPhysicalDecks(
         assembled,
         assembledAt,
         physicalSlots,
+        confirmedSlots: state?.confirmedSlots,
         targetSlots,
         hasPendingUpgrade,
       });
@@ -802,6 +808,7 @@ export function useTrackedPhysicalDecks(
         assembled,
         assembledAt: state.assembledAt,
         physicalSlots: normalizedPhysical,
+        confirmedSlots: state.confirmedSlots,
         targetSlots: normalizedPhysical,
         hasPendingUpgrade: false,
       });
@@ -969,8 +976,14 @@ export function usePhysicalCollectionAllocations(
       });
     });
 
-    // Since `assembledDecksList` is already sorted by `assembledAt` descending,
-    // we allocate physical copies from `totalOwned` in that exact order.
+    // Since `assembledDecksList` is already sorted by campaign recency / `assembledAt` descending,
+    // the newest campaign holds physical priority with certainty, while contested remaining copies
+    // among multiple older campaigns automatically enter as "uncertain (?)" unless manually confirmed.
+    const newestGlobalCampaignId =
+      assembledDecksList[0]?.campaignUuid ||
+      assembledDecksList[0]?.campaignId?.campaignId ||
+      assembledDecksList[0]?.deckKey;
+
     forEach(canonicalToDeckRequests, (requests, canonicalCode) => {
       const sampleCard = canonicalToSampleCard[canonicalCode] || cardsMap[canonicalCode];
       const totalOwned = getCardOwnedCount(
@@ -986,19 +999,92 @@ export function usePhysicalCollectionAllocations(
       let totalPhysicalRequested = 0;
       const activeClaimers: string[] = [];
 
-      const holders: CardPhysicalHolder[] = map(requests, ({ deck, physicalCopies, targetCopies }) => {
-        totalPhysicalRequested += physicalCopies;
-        const heldCopies = Math.min(physicalCopies, Math.max(0, remainingAvailable));
-        remainingAvailable = Math.max(0, remainingAvailable - heldCopies);
-        totalAllocated += heldCopies;
-        const borrowedCopies = Math.max(0, physicalCopies - heldCopies);
-        const borrowedByDecks = borrowedCopies > 0 ? [...activeClaimers] : [];
-        if (heldCopies > 0) {
-          const claimerLabel = deck.campaignName
-            ? `${deck.deck.name} (${deck.campaignName})`
-            : deck.deck.name;
-          activeClaimers.push(claimerLabel);
+      const getDeckLabel = (d: TrackedPhysicalDeck): string =>
+        d.campaignName ? `${d.deck.name} (${d.campaignName})` : d.deck.name;
+
+      // 1. Identify certain holders (manually confirmed >= 0, or in the newest campaign when unconfirmed)
+      const heldByDeckKey: { [key: string]: number } = {};
+      const uncertainByDeckKey: { [key: string]: number } = {};
+      const ambiguousRequests: typeof requests = [];
+
+      forEach(requests, req => {
+        totalPhysicalRequested += req.physicalCopies;
+        const manualVal = req.deck.confirmedSlots?.[canonicalCode];
+        if (manualVal !== undefined && manualVal >= 0) {
+          const held = Math.min(req.physicalCopies, manualVal, Math.max(0, remainingAvailable));
+          heldByDeckKey[req.deck.deckKey] = held;
+          remainingAvailable = Math.max(0, remainingAvailable - held);
+          totalAllocated += held;
+          if (held > 0) {
+            activeClaimers.push(getDeckLabel(req.deck));
+          }
         }
+      });
+
+      forEach(requests, req => {
+        const manualVal = req.deck.confirmedSlots?.[canonicalCode];
+        if (manualVal !== undefined && manualVal >= 0) {
+          return;
+        }
+        const reqCampId = req.deck.campaignUuid || req.deck.campaignId?.campaignId || req.deck.deckKey;
+        const isNewestCampaign = !!newestGlobalCampaignId && reqCampId === newestGlobalCampaignId;
+        if (manualVal === undefined && isNewestCampaign) {
+          const held = Math.min(req.physicalCopies, Math.max(0, remainingAvailable));
+          heldByDeckKey[req.deck.deckKey] = held;
+          remainingAvailable = Math.max(0, remainingAvailable - held);
+          totalAllocated += held;
+          if (held > 0) {
+            activeClaimers.push(getDeckLabel(req.deck));
+          }
+        } else {
+          ambiguousRequests.push(req);
+        }
+      });
+
+      // 2. Evaluate remaining copies across older unconfirmed campaigns (or manually uncertain -1)
+      const totalOlderNeeded = sumBy(ambiguousRequests, r => r.physicalCopies);
+      const hasManualUncertain = !!find(ambiguousRequests, r => r.deck.confirmedSlots?.[canonicalCode] === -1);
+      const isAmbiguousAcrossOlder =
+        hasManualUncertain ||
+        (ambiguousRequests.length >= 2 && remainingAvailable > 0 && remainingAvailable < totalOlderNeeded);
+
+      const uncertainLabels: string[] = isAmbiguousAcrossOlder
+        ? map(ambiguousRequests, r => getDeckLabel(r.deck))
+        : [];
+
+      if (isAmbiguousAcrossOlder) {
+        const poolToShare = Math.max(hasManualUncertain ? 1 : 0, remainingAvailable);
+        forEach(ambiguousRequests, req => {
+          heldByDeckKey[req.deck.deckKey] = 0;
+          uncertainByDeckKey[req.deck.deckKey] = Math.min(req.physicalCopies, poolToShare);
+        });
+        const allocatedFromPool = Math.min(remainingAvailable, totalOlderNeeded);
+        totalAllocated += allocatedFromPool;
+        remainingAvailable = Math.max(0, remainingAvailable - allocatedFromPool);
+      } else {
+        forEach(ambiguousRequests, req => {
+          const held = Math.min(req.physicalCopies, Math.max(0, remainingAvailable));
+          heldByDeckKey[req.deck.deckKey] = held;
+          uncertainByDeckKey[req.deck.deckKey] = 0;
+          remainingAvailable = Math.max(0, remainingAvailable - held);
+          totalAllocated += held;
+          if (held > 0) {
+            activeClaimers.push(getDeckLabel(req.deck));
+          }
+        });
+      }
+
+      const holders: CardPhysicalHolder[] = map(requests, ({ deck, physicalCopies, targetCopies }) => {
+        const heldCopies = heldByDeckKey[deck.deckKey] ?? 0;
+        const uncertainCopies = uncertainByDeckKey[deck.deckKey] ?? 0;
+        const borrowedCopies = Math.max(0, physicalCopies - heldCopies - uncertainCopies);
+        const selfLabel = getDeckLabel(deck);
+        const borrowedByDecks = borrowedCopies > 0
+          ? filter(activeClaimers, c => c !== selfLabel)
+          : [];
+        const uncertainWithDecks = uncertainCopies > 0
+          ? filter(uncertainLabels, l => l !== selfLabel)
+          : [];
 
         return {
           deckKey: deck.deckKey,
@@ -1012,6 +1098,8 @@ export function usePhysicalCollectionAllocations(
           physicalCopies,
           targetCopies,
           heldCopies,
+          uncertainCopies,
+          uncertainWithDecks,
           borrowedCopies,
           borrowedByDecks,
           hasPendingUpgrade: physicalCopies !== targetCopies,
@@ -1205,6 +1293,7 @@ export function useDeckPhysicalChecklistPlan(
     const currentCampaignUuid = trackedDeck?.campaignUuid || campaign?.uuid || state?.campaignId?.campaignId;
     let totalTargetCount = 0;
     let inDeckboxCount = 0;
+    let uncertainCount = 0;
     let borrowedFromSelfCount = 0;
 
     forEach(canonicalGroup, ({ code, targetCount }, canonicalCode) => {
@@ -1217,15 +1306,21 @@ export function useDeckPhysicalChecklistPlan(
 
       const selfHolder = allocation?.holders.find(h => h.deckKey === deckKey);
       const heldBySelfNow = assembled ? (selfHolder?.heldCopies ?? 0) : 0;
+      const uncertainSelfNow = assembled ? (selfHolder?.uncertainCopies ?? 0) : 0;
+      uncertainCount += uncertainSelfNow;
       borrowedFromSelfCount += assembled ? (selfHolder?.borrowedCopies ?? 0) : 0;
       inDeckboxCount += Math.min(targetCount, heldBySelfNow);
 
-      const otherHolders = filter(allocation?.holders || [], h => h.deckKey !== deckKey && h.heldCopies > 0);
+      const otherHolders = filter(
+        allocation?.holders || [],
+        h => h.deckKey !== deckKey && (h.heldCopies > 0 || h.uncertainCopies > 0)
+      );
       const otherCampaignHolders = currentCampaignUuid
         ? filter(otherHolders, h => h.campaignId?.campaignId !== currentCampaignUuid)
         : otherHolders;
-      const heldByOthersTotal = sumBy(otherHolders, h => h.heldCopies);
-      const inBinderNow = Math.max(0, totalOwned - heldBySelfNow - heldByOthersTotal);
+      const inBinderNow = allocation
+        ? allocation.inBinder
+        : Math.max(0, totalOwned - heldBySelfNow - sumBy(otherHolders, h => h.heldCopies));
 
       if (heldBySelfNow > targetCount) {
         if (targetCount > 0) {
@@ -1269,15 +1364,21 @@ export function useDeckPhysicalChecklistPlan(
             if (needed <= 0) {
               return;
             }
-            const take = Math.min(needed, holder.heldCopies);
+            const availableInHolder = holder.heldCopies > 0 ? holder.heldCopies : holder.uncertainCopies;
+            const take = Math.min(needed, availableInHolder);
             if (take > 0) {
+              const uncertainSuffix = holder.uncertainCopies > 0 && holder.heldCopies === 0
+                ? (holder.uncertainWithDecks.length > 0
+                    ? ` (❓ ou em ${holder.uncertainWithDecks.join(' / ')})`
+                    : ' (❓ incerta)')
+                : '';
               toRetrieveFromOtherDecks.push({
                 code,
                 canonicalCode,
                 count: take,
                 fromDeckKey: holder.deckKey,
                 fromDeckId: holder.deckId,
-                fromDeckName: holder.deckName,
+                fromDeckName: `${holder.deckName}${uncertainSuffix}`,
                 fromInvestigatorCode: holder.investigatorCode,
                 fromCampaignName: holder.campaignName,
               });
@@ -1303,6 +1404,7 @@ export function useDeckPhysicalChecklistPlan(
       hasPendingUpgrade,
       totalTargetCount,
       inDeckboxCount,
+      uncertainCount,
       borrowedFromSelfCount,
       toReturnToBinder,
       toRetrieveFromOtherDecks,

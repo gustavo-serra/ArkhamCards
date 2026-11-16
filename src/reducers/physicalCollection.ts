@@ -117,9 +117,44 @@ export default function physicalCollection(
             ...deckState,
             assembled: false,
             physicalSlots: {},
+            confirmedSlots: {},
           };
         }
       });
+      return {
+        ...state,
+        assembledDecks: nextDecks,
+      };
+    }
+    case 'SET_DECK_CARD_PHYSICAL_POSSESSION': {
+      const nextDecks = { ...(state.assembledDecks || {}) };
+      const existing = nextDecks[action.deckKey];
+      const nextConfirmed = { ...(existing?.confirmedSlots || {}) };
+      if (action.heldCopies === undefined) {
+        delete nextConfirmed[action.canonicalCode];
+      } else {
+        nextConfirmed[action.canonicalCode] = action.heldCopies;
+      }
+      nextDecks[action.deckKey] = existing
+        ? {
+            ...existing,
+            confirmedSlots: nextConfirmed,
+          }
+        : {
+            deckKey: action.deckKey,
+            investigatorCode: '',
+            deckId: {
+              id: undefined,
+              arkhamdb_user: undefined,
+              local: true,
+              uuid: action.deckKey,
+            },
+            tracked: true,
+            assembled: true,
+            physicalSlots: {},
+            confirmedSlots: nextConfirmed,
+            assembledAt: new Date(0).toISOString(),
+          };
       return {
         ...state,
         assembledDecks: nextDecks,

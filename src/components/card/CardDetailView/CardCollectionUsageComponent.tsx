@@ -15,7 +15,7 @@ import {
   getPacksInCollection,
   getPhysicalCollectionMode,
 } from '@reducers';
-import { setCardPrintingOverride } from '@actions';
+import { setCardPrintingOverride, setDeckCardPhysicalPossession } from '@actions';
 import CardDetailSectionHeader from './CardDetailSectionHeader';
 import StyleContext from '@styles/StyleContext';
 import space, { m, s, xs } from '@styles/space';
@@ -129,11 +129,14 @@ function PrintingSourceRow({ canonicalCode, source, packName }: PrintingSourceRo
 }
 
 interface HolderRowProps {
+  canonicalCode: string;
   holder: CardPhysicalHolder;
+  showPossessionControls: boolean;
 }
 
-function HolderRow({ holder }: HolderRowProps) {
+function HolderRow({ canonicalCode, holder, showPossessionControls }: HolderRowProps) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const { colors, typography } = useContext(StyleContext);
 
   const onPress = useCallback(() => {
@@ -144,12 +147,26 @@ function HolderRow({ holder }: HolderRowProps) {
     });
   }, [navigation, holder.deckId, holder.campaignId]);
 
+  const onMarkHeldHere = useCallback(() => {
+    dispatch(setDeckCardPhysicalPossession(holder.deckKey, canonicalCode, holder.physicalCopies));
+  }, [dispatch, holder.deckKey, canonicalCode, holder.physicalCopies]);
+
+  const onMarkTakenFromHere = useCallback(() => {
+    dispatch(setDeckCardPhysicalPossession(holder.deckKey, canonicalCode, 0));
+  }, [dispatch, holder.deckKey, canonicalCode]);
+
+  const onMarkUncertain = useCallback(() => {
+    dispatch(setDeckCardPhysicalPossession(holder.deckKey, canonicalCode, -1));
+  }, [dispatch, holder.deckKey, canonicalCode]);
+
   const campaignLabel = holder.campaignName || t`Standalone`;
   const physicalCount = holder.physicalCopies;
   const heldCount = holder.heldCopies;
+  const uncertainCount = holder.uncertainCopies;
   const targetCount = holder.targetCopies;
   const borrowedCount = holder.borrowedCopies;
   const borrowedDecksLabel = holder.borrowedByDecks.join(', ');
+  const uncertainDecksLabel = holder.uncertainWithDecks.join(', ');
 
   return (
     <TouchableOpacity
@@ -169,7 +186,7 @@ function HolderRow({ holder }: HolderRowProps) {
           style={[
             styles.deckboxPill,
             {
-              backgroundColor: borrowedCount > 0 ? colors.warn : colors.L10,
+              backgroundColor: (borrowedCount > 0 || uncertainCount > 0) ? colors.warn : colors.L10,
             },
           ]}
         >
@@ -177,13 +194,24 @@ function HolderRow({ holder }: HolderRowProps) {
             style={[
               typography.small,
               typography.bold,
-              { color: borrowedCount > 0 ? colors.D30 : colors.darkText },
+              { color: (borrowedCount > 0 || uncertainCount > 0) ? colors.D30 : colors.darkText },
             ]}
           >
-            { t`${heldCount}/${physicalCount}x in Deckbox` }
+            { uncertainCount > 0
+              ? t`❓ Uncertain (${uncertainCount}x)`
+              : t`${heldCount}/${physicalCount}x in Deckbox` }
           </Text>
         </View>
       </View>
+      { uncertainCount > 0 && (
+        <View style={[styles.warningRow, { backgroundColor: colors.L10 }]}>
+          <Text style={[typography.small, typography.bold, { color: colors.D20 }]}>
+            { uncertainDecksLabel.length > 0
+              ? t`❓ Could be here or in: ${uncertainDecksLabel}`
+              : t`❓ Uncertain physical location (${uncertainCount}x)` }
+          </Text>
+        </View>
+      ) }
       { borrowedCount > 0 && (
         <View style={[styles.warningRow, { backgroundColor: colors.L10 }]}>
           <Text style={[typography.small, typography.bold, { color: colors.red }]}>
@@ -191,6 +219,52 @@ function HolderRow({ holder }: HolderRowProps) {
               ? t`⚠️ Borrowed (${borrowedCount}x) by: ${borrowedDecksLabel}`
               : t`⚠️ Borrowed / Missing (${borrowedCount}x)` }
           </Text>
+        </View>
+      ) }
+      { showPossessionControls && (
+        <View style={styles.possessionControlsRow}>
+          <TouchableOpacity
+            onPress={onMarkHeldHere}
+            style={[
+              styles.possessionChip,
+              {
+                borderColor: colors.M,
+                backgroundColor: heldCount > 0 && uncertainCount === 0 ? colors.L30 : colors.L10,
+              },
+            ]}
+          >
+            <Text style={[typography.small, { color: colors.darkText }]}>
+              { t`✅ Here` }
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onMarkTakenFromHere}
+            style={[
+              styles.possessionChip,
+              {
+                borderColor: colors.M,
+                backgroundColor: heldCount === 0 && uncertainCount === 0 ? colors.L30 : colors.L10,
+              },
+            ]}
+          >
+            <Text style={[typography.small, { color: colors.darkText }]}>
+              { t`❌ Took from here` }
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onMarkUncertain}
+            style={[
+              styles.possessionChip,
+              {
+                borderColor: colors.M,
+                backgroundColor: uncertainCount > 0 ? colors.L30 : colors.L10,
+              },
+            ]}
+          >
+            <Text style={[typography.small, { color: colors.darkText }]}>
+              { t`❓ Uncertain` }
+            </Text>
+          </TouchableOpacity>
         </View>
       ) }
       { holder.hasPendingUpgrade && (
@@ -392,7 +466,12 @@ export default function CardCollectionUsageComponent({ card, width }: Props) {
             </View>
             { allocation.holders.length > 0 ? (
               map(allocation.holders, holder => (
-                <HolderRow key={holder.deckKey} holder={holder} />
+                <HolderRow
+                  key={holder.deckKey}
+                  canonicalCode={breakdown.canonicalCode}
+                  holder={holder}
+                  showPossessionControls={allocation.holders.length > 1}
+                />
               ))
             ) : (
               <Text style={[typography.small, { color: colors.D10 }, space.marginTopXs]}>
@@ -531,6 +610,18 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: s,
     borderRadius: 4,
+  },
+  possessionControlsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: xs,
+    marginTop: xs,
+  },
+  possessionChip: {
+    paddingHorizontal: s,
+    paddingVertical: 4,
+    borderRadius: 6,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   upgradeBadge: {
     marginTop: xs,

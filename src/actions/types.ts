@@ -1174,6 +1174,7 @@ export interface AssembledDeckState {
   tracked: boolean;
   assembled: boolean;
   physicalSlots: Slots;
+  confirmedSlots?: { [canonicalCode: string]: number | undefined };
   assembledAt: string;
 }
 
@@ -1227,13 +1228,22 @@ export interface DisassembleCampaignDecksAction {
   campaignId: CampaignId;
 }
 
+export const SET_DECK_CARD_PHYSICAL_POSSESSION = 'SET_DECK_CARD_PHYSICAL_POSSESSION';
+export interface SetDeckCardPhysicalPossessionAction {
+  type: typeof SET_DECK_CARD_PHYSICAL_POSSESSION;
+  deckKey: string;
+  canonicalCode: string;
+  heldCopies: number | undefined;
+}
+
 export type PhysicalCollectionActions =
   | SetPhysicalCollectionModeAction
   | ConfirmPhysicalDeckAssemblyAction
   | ConfirmMultiplePhysicalDecksAssemblyAction
   | DisassemblePhysicalDeckAction
   | SetDeckPhysicalTrackingAction
-  | DisassembleCampaignDecksAction;
+  | DisassembleCampaignDecksAction
+  | SetDeckCardPhysicalPossessionAction;
 
 
 export const NEW_CAMPAIGN = 'NEW_CAMPAIGN';

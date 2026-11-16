@@ -9615,3 +9615,40 @@ msgstr "Usar Minha Coleção Real (Desativar Ignorar Coleção)"
 
 msgid "Sync Chronological Order (Most Recent Campaign Priority)"
 msgstr "Sincronizar Ordem Cronológica (Prioridade para Campanha Mais Recente)"
+
+#, javascript-format
+msgid "❓ Uncertain (${ uncertainCount }x)"
+msgstr "❓ Incerta (${ uncertainCount }x)"
+
+#, javascript-format
+msgid "❓ Could be here or in: ${ uncertainDecksLabel }"
+msgstr "❓ Pode estar aqui ou em: ${ uncertainDecksLabel }"
+
+#, javascript-format
+msgid "❓ Uncertain physical location (${ uncertainCount }x)"
+msgstr "❓ Localização física incerta (${ uncertainCount }x)"
+
+msgid "✅ Here"
+msgstr "✅ Está aqui"
+
+msgid "❌ Took from here"
+msgstr "❌ Tirei daqui"
+
+msgid "❓ Uncertain"
+msgstr "❓ Incerta"
+
+#, javascript-format
+msgid "⚠️ ${ plan.inDeckboxCount }/${ plan.totalTargetCount } in deckbox · ${ plan.borrowedFromSelfCount } missing · ❓ ${ plan.uncertainCount } uncertain"
+msgstr "⚠️ ${ plan.inDeckboxCount }/${ plan.totalTargetCount } na deckbox · ${ plan.borrowedFromSelfCount } faltando · ❓ ${ plan.uncertainCount } incerta(s)"
+
+#, javascript-format
+msgid "❓ ${ plan.inDeckboxCount }/${ plan.totalTargetCount } in deckbox · ${ plan.uncertainCount } uncertain (check deckboxes)"
+msgstr "❓ ${ plan.inDeckboxCount }/${ plan.totalTargetCount } na deckbox · ${ plan.uncertainCount } incerta(s) (verificar deckboxes)"
+
+#, javascript-format
+msgid "⚠️ ${ borrowedCount } card(s) in a newer campaign · ❓ ${ uncertainCount } card(s) with uncertain deckbox."
+msgstr "⚠️ ${ borrowedCount } carta(s) em campanha mais recente · ❓ ${ uncertainCount } carta(s) com deckbox incerta."
+
+#, javascript-format
+msgid "❓ ${ uncertainCount } card(s) have uncertain physical location between older campaigns."
+msgstr "❓ ${ uncertainCount } carta(s) com localização física incerta entre campanhas antigas."

@@ -316,11 +316,17 @@ function DeckChecklistView({
     if (plan.hasPendingUpgrade) {
       return t`🔄 Pending Physical Upgrade (${plan.inDeckboxCount}/${plan.totalTargetCount} in deckbox)`;
     }
-    if (plan.borrowedFromSelfCount > 0) {
+    if (plan.borrowedFromSelfCount > 0 || plan.uncertainCount > 0) {
+      if (plan.uncertainCount > 0 && plan.borrowedFromSelfCount > 0) {
+        return t`⚠️ ${plan.inDeckboxCount}/${plan.totalTargetCount} in deckbox · ${plan.borrowedFromSelfCount} missing · ❓ ${plan.uncertainCount} uncertain`;
+      }
+      if (plan.uncertainCount > 0) {
+        return t`❓ ${plan.inDeckboxCount}/${plan.totalTargetCount} in deckbox · ${plan.uncertainCount} uncertain (check deckboxes)`;
+      }
       return t`⚠️ ${plan.inDeckboxCount}/${plan.totalTargetCount} in deckbox · ${plan.borrowedFromSelfCount} missing (in newer campaign)`;
     }
     return t`✅ Physically Assembled in Deckbox (${plan.inDeckboxCount}/${plan.totalTargetCount})`;
-  }, [plan.assembled, plan.hasPendingUpgrade, plan.inDeckboxCount, plan.totalTargetCount, plan.borrowedFromSelfCount]);
+  }, [plan.assembled, plan.hasPendingUpgrade, plan.inDeckboxCount, plan.totalTargetCount, plan.borrowedFromSelfCount, plan.uncertainCount]);
 
   return (
     <View style={[backgroundStyle, { flex: 1 }]}>
