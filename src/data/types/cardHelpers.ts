@@ -81,6 +81,14 @@ export function getCardPrintingBreakdown(
   const seenPacks = new Set<string>();
   const sources: CardPrintingSourceBreakdown[] = [];
 
+  const rawSources: {
+    packCode: string;
+    quantityPerPack: number;
+    packName?: string;
+    cardCode?: string;
+    position?: number;
+  }[] = [];
+
   const addSource = (
     packCode: string,
     quantityPerPack: number,
@@ -92,20 +100,12 @@ export function getCardPrintingBreakdown(
       return;
     }
     seenPacks.add(packCode);
-    const packsOwned = getPackCopies(packCode, packInCollection, packQuantities);
-    const baseCopies = packsOwned * quantityPerPack;
-    const manualDelta = overridesForCard[packCode] || 0;
-    const totalCopies = Math.max(0, baseCopies + manualDelta);
-    sources.push({
+    rawSources.push({
       packCode,
-      packName: packName || packNamesMap?.[packCode] || specialPackNames[packCode] || packCode,
+      quantityPerPack,
+      packName,
       cardCode,
       position,
-      quantityPerPack,
-      packsOwned,
-      baseCopies,
-      manualDelta,
-      totalCopies,
     });
   };
 
@@ -154,6 +154,58 @@ export function getCardPrintingBreakdown(
       }
     });
   }
+
+  // Prevent double-counting when both a legacy pack (e.g. 'dwl' or 'core') and its
+  // Investigator/Campaign Expansion reprint ('dwlp' or 'rcore') are marked in `packInCollection`,
+  // unless the user explicitly configured `packQuantities` on both editions.
+  const suppressedPacks = new Set<string>();
+  if (seenPacks.has('core') && seenPacks.has('rcore') && packInCollection.rcore) {
+    const hasExplicitCoreQty = packQuantities?.core !== undefined && packQuantities.core > 0;
+    if (!hasExplicitCoreQty) {
+      suppressedPacks.add('core');
+    }
+  }
+  forEach(rawSources, ({ packCode }) => {
+    const cycleReprintPack = card.encounter_code
+      ? specialReprintCampaignPacks[packCode]
+      : specialReprintPlayerPacks[packCode];
+    if (
+      cycleReprintPack &&
+      seenPacks.has(cycleReprintPack) &&
+      packInCollection[packCode] &&
+      packInCollection[cycleReprintPack]
+    ) {
+      const explicitLegacy = packQuantities?.[packCode] !== undefined && (packQuantities[packCode] ?? 0) > 0;
+      const explicitReprint = packQuantities?.[cycleReprintPack] !== undefined && (packQuantities[cycleReprintPack] ?? 0) > 0;
+      if (!(explicitLegacy && explicitReprint)) {
+        if (explicitLegacy && !explicitReprint) {
+          suppressedPacks.add(cycleReprintPack);
+        } else {
+          suppressedPacks.add(packCode);
+        }
+      }
+    }
+  });
+
+  forEach(rawSources, ({ packCode, quantityPerPack, packName, cardCode, position }) => {
+    const packsOwned = suppressedPacks.has(packCode)
+      ? 0
+      : getPackCopies(packCode, packInCollection, packQuantities);
+    const baseCopies = packsOwned * quantityPerPack;
+    const manualDelta = overridesForCard[packCode] || 0;
+    const totalCopies = Math.max(0, baseCopies + manualDelta);
+    sources.push({
+      packCode,
+      packName: packName || packNamesMap?.[packCode] || specialPackNames[packCode] || packCode,
+      cardCode,
+      position,
+      quantityPerPack,
+      packsOwned,
+      baseCopies,
+      manualDelta,
+      totalCopies,
+    });
+  });
 
   const extraManualDelta = overridesForCard.extra || 0;
   const sourcesTotal = sum(sources.map((s) => s.totalCopies));

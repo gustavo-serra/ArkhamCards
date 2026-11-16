@@ -344,7 +344,7 @@ export function setCycle(
     const cyclePack = find(packs, (pack) => pack.code === cycle_code);
     if (cyclePack) {
       forEach(packs, (pack) => {
-        if (pack.cycle_position === cyclePack.cycle_position) {
+        if (pack.cycle_position === cyclePack.cycle_position && !!pack.reprint === !!cyclePack.reprint) {
           updates[pack.code] = value;
         }
       });

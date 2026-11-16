@@ -314,10 +314,13 @@ function DeckChecklistView({
       return t`📦 Deck not yet physically assembled`;
     }
     if (plan.hasPendingUpgrade) {
-      return t`🔄 Pending Physical Upgrade (Deckbox out of date)`;
+      return t`🔄 Pending Physical Upgrade (${plan.inDeckboxCount}/${plan.totalTargetCount} in deckbox)`;
     }
-    return t`✅ Physically Assembled in Deckbox`;
-  }, [plan.assembled, plan.hasPendingUpgrade]);
+    if (plan.borrowedFromSelfCount > 0) {
+      return t`⚠️ ${plan.inDeckboxCount}/${plan.totalTargetCount} in deckbox · ${plan.borrowedFromSelfCount} missing (in newer campaign)`;
+    }
+    return t`✅ Physically Assembled in Deckbox (${plan.inDeckboxCount}/${plan.totalTargetCount})`;
+  }, [plan.assembled, plan.hasPendingUpgrade, plan.inDeckboxCount, plan.totalTargetCount, plan.borrowedFromSelfCount]);
 
   return (
     <View style={[backgroundStyle, { flex: 1 }]}>

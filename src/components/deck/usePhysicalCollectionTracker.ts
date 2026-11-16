@@ -13,7 +13,6 @@ import {
   DeckId,
   DecksMap,
   FIXED_CHAOS_BAG_CAMPAIGN_ID,
-  getCampaignLastUpdated,
   getDeckId,
   PhysicalCollectionMode,
   PhysicalDeckAssemblyEntry,
@@ -51,6 +50,7 @@ export interface TrackedPhysicalDeck {
   tracked: boolean;
   assembled: boolean;
   assembledAt: string;
+  campaignRecencyMs?: number;
   physicalSlots: Slots;
   targetSlots: Slots;
   hasPendingUpgrade: boolean;
@@ -102,6 +102,9 @@ export interface DeckPhysicalChecklistPlan {
   assembled: boolean;
   assembledAt?: string;
   hasPendingUpgrade: boolean;
+  totalTargetCount: number;
+  inDeckboxCount: number;
+  borrowedFromSelfCount: number;
   toReturnToBinder: ChecklistCardQuantity[];
   toRetrieveFromOtherDecks: ChecklistRetrieveItem[];
   toTakeFromBinder: ChecklistCardQuantity[];
@@ -271,62 +274,144 @@ interface CampaignStatusLike {
   updatedAtIso?: string;
 }
 
+function parseTimestampMs(value?: Date | string | number | null): number {
+  if (!value) {
+    return 0;
+  }
+  if (value instanceof Date) {
+    const ms = value.getTime();
+    return isNaN(ms) ? 0 : ms;
+  }
+  if (typeof value === 'number') {
+    return isNaN(value) ? 0 : value;
+  }
+  const ms = Date.parse(value);
+  return isNaN(ms) ? 0 : ms;
+}
+
+function getCampaignPlayRecencyMs(
+  campaign?: Campaign,
+  campaignStatus?: CampaignStatusLike,
+  guide?: { lastUpdated?: Date | string | number },
+  decksInCampaign?: Deck[]
+): number {
+  let maxMs = 0;
+  if (campaign) {
+    maxMs = Math.max(maxMs, parseTimestampMs(campaign.lastUpdated));
+    forEach(campaign.scenarioResults || [], sr => {
+      maxMs = Math.max(
+        maxMs,
+        parseTimestampMs(sr.completedAt),
+        parseTimestampMs(sr.startedAt)
+      );
+    });
+  }
+  if (guide) {
+    maxMs = Math.max(maxMs, parseTimestampMs(guide.lastUpdated));
+  }
+  if (campaignStatus?.updatedAtIso) {
+    maxMs = Math.max(maxMs, parseTimestampMs(campaignStatus.updatedAtIso));
+  }
+  forEach(decksInCampaign || [], d => {
+    maxMs = Math.max(
+      maxMs,
+      parseTimestampMs(d.date_update),
+      parseTimestampMs(d.date_creation)
+    );
+  });
+  return maxMs;
+}
+
 function getFallbackTimestamp(
   deck: Deck,
   campaign?: Campaign,
   campaignStatus?: CampaignStatusLike,
-  guide?: { lastUpdated?: Date | string | number }
+  guide?: { lastUpdated?: Date | string | number },
+  campaignRecencyMs?: number
 ): string {
-  if (campaign) {
-    const lastUpdated = getCampaignLastUpdated(campaign, guide);
-    if (lastUpdated.getTime() > 0) {
-      return lastUpdated.toISOString();
-    }
-  }
-  if (campaignStatus?.updatedAtIso) {
-    return campaignStatus.updatedAtIso;
+  const recencyMs = campaignRecencyMs !== undefined
+    ? campaignRecencyMs
+    : getCampaignPlayRecencyMs(campaign, campaignStatus, guide, [deck]);
+  if (recencyMs > 0) {
+    return new Date(recencyMs).toISOString();
   }
   return deck.date_update || deck.date_creation || new Date(0).toISOString();
 }
 
 export function buildChronologicalOpenCampaignAssemblyEntries(
   allTrackedDecks: TrackedPhysicalDeck[],
-  assembledDecksState: { [deckKey: string]: AssembledDeckState | undefined }
+  assembledDecksState: { [deckKey: string]: AssembledDeckState | undefined },
+  includeAlreadyAssembled: boolean = false
 ): PhysicalDeckAssemblyEntry[] {
   const candidates = filter(allTrackedDecks, d => {
-    if (!d.campaignId || d.isArchivedCampaign || d.assembled) {
+    if (!d.campaignId || d.isArchivedCampaign) {
+      return false;
+    }
+    if (!includeAlreadyAssembled && d.assembled) {
       return false;
     }
     const safeUuid = getSafeDeckUuid(d.deckId);
     const state =
       assembledDecksState[d.deckKey] ||
       (safeUuid ? assembledDecksState[safeUuid] : undefined);
-    if (state && (state.tracked === false || state.assembled)) {
+    if (state && state.tracked === false) {
+      return false;
+    }
+    if (!includeAlreadyAssembled && state?.assembled) {
       return false;
     }
     return true;
   });
 
-  // Sort oldest played/updated first -> newest last so newest open campaigns get physical priority
-  const chronological = sortBy(candidates, d => {
-    const parsedMs = new Date(d.assembledAt).getTime();
-    return isNaN(parsedMs) ? 0 : parsedMs;
+  // Group by campaign so decks in the same campaign share campaign play recency
+  // and never interleave with other campaigns.
+  const campaignBuckets: {
+    [campaignKey: string]: {
+      recencyMs: number;
+      decks: TrackedPhysicalDeck[];
+    };
+  } = {};
+
+  forEach(candidates, d => {
+    const cKey = d.campaignUuid || d.campaignId?.campaignId || d.deckKey;
+    const deckMs = (d.campaignRecencyMs && d.campaignRecencyMs > 0)
+      ? d.campaignRecencyMs
+      : Math.max(
+          0,
+          parseTimestampMs(d.deck.date_update),
+          parseTimestampMs(d.deck.date_creation),
+          parseTimestampMs(d.assembledAt)
+        );
+    if (!campaignBuckets[cKey]) {
+      campaignBuckets[cKey] = { recencyMs: deckMs, decks: [] };
+    } else if (deckMs > campaignBuckets[cKey].recencyMs) {
+      campaignBuckets[cKey].recencyMs = deckMs;
+    }
+    campaignBuckets[cKey].decks.push(d);
   });
 
-  return map(chronological, (d, index) => {
-    const parsedTime = new Date(d.assembledAt).getTime();
-    const baseMs = !isNaN(parsedTime) && parsedTime > 0 ? parsedTime : Date.now() - (chronological.length - index) * 1000;
-    return {
-      deckKey: d.deckKey,
-      campaignId: d.campaignId,
-      campaignName: d.campaignName,
-      investigatorCode: d.investigatorCode,
-      deckId: d.deckId,
-      deckName: d.deck.name,
-      physicalSlots: d.targetSlots,
-      assembledAt: new Date(baseMs + index).toISOString(),
-    };
+  // Sort oldest played campaign first -> newest played campaign last
+  const sortedCampaigns = sortBy(values(campaignBuckets), b => b.recencyMs);
+  const nowBase = Date.now() - sortedCampaigns.length * 10000;
+  const entries: PhysicalDeckAssemblyEntry[] = [];
+
+  forEach(sortedCampaigns, (bucket, campaignIdx) => {
+    const campaignBaseMs = bucket.recencyMs > 0 ? bucket.recencyMs : nowBase + campaignIdx * 10000;
+    forEach(bucket.decks, (d, deckIdx) => {
+      entries.push({
+        deckKey: d.deckKey,
+        campaignId: d.campaignId,
+        campaignName: d.campaignName,
+        investigatorCode: d.investigatorCode,
+        deckId: d.deckId,
+        deckName: d.deck.name,
+        physicalSlots: d.targetSlots,
+        assembledAt: new Date(campaignBaseMs + campaignIdx * 1000 + deckIdx).toISOString(),
+      });
+    });
   });
+
+  return entries;
 }
 
 export function promptChronologicalOpenCampaignAssembly(
@@ -454,6 +539,29 @@ export function useTrackedPhysicalDecks(
     });
 
     const latestDecks = filter(values(allDecks), (d): d is Deck => !!d && !d.nextDeckId);
+    const decksByCampaignUuid: { [uuid: string]: Deck[] } = {};
+    forEach(latestDecks, d => {
+      const safeUuid = getSafeDeckUuid(getDeckId(d));
+      const camp = safeUuid ? deckToCampaign[safeUuid] : undefined;
+      if (camp?.uuid) {
+        if (!decksByCampaignUuid[camp.uuid]) {
+          decksByCampaignUuid[camp.uuid] = [];
+        }
+        decksByCampaignUuid[camp.uuid].push(d);
+      }
+    });
+    const campaignRecencyMap: { [uuid: string]: number } = {};
+    forEach(allCampaigns, camp => {
+      if (camp?.uuid) {
+        campaignRecencyMap[camp.uuid] = getCampaignPlayRecencyMs(
+          camp,
+          remoteCampaignMap[camp.uuid],
+          allGuides[camp.uuid],
+          decksByCampaignUuid[camp.uuid]
+        );
+      }
+    });
+
     const allTrackedDecks: TrackedPhysicalDeck[] = [];
     const seenDeckKeys = new Set<string>();
     const seenDeckUuids = new Set<string>();
@@ -494,7 +602,9 @@ export function useTrackedPhysicalDecks(
         : targetSlots;
       const hasPendingUpgrade = assembled && !areSlotsEqual(physicalSlots, targetSlots);
       const resolvedGuide = resolvedLocalCampaign ? allGuides[resolvedLocalCampaign.uuid] : undefined;
-      const assembledAt = state?.assembledAt || getFallbackTimestamp(deck, resolvedLocalCampaign, campaignStatus, resolvedGuide);
+      const cUuid = campaignStatus?.uuid || state?.campaignId?.campaignId;
+      const recencyMs = cUuid ? campaignRecencyMap[cUuid] : undefined;
+      const assembledAt = state?.assembledAt || getFallbackTimestamp(deck, resolvedLocalCampaign, campaignStatus, resolvedGuide, recencyMs);
 
       seenDeckKeys.add(deckKey);
       seenDeckUuids.add(safeUuid);
@@ -665,8 +775,29 @@ export function useTrackedPhysicalDecks(
       });
     });
 
-    // Sort newest assembled first (higher priority for physical possession)
-    const sorted = sortBy(allTrackedDecks, d => -new Date(d.assembledAt).getTime());
+    forEach(allTrackedDecks, d => {
+      if (d.campaignUuid) {
+        const localCamp = allCampaigns[d.campaignUuid];
+        const remoteCamp = remoteCampaignMap[d.campaignUuid];
+        const guide = allGuides[d.campaignUuid];
+        const recency = getCampaignPlayRecencyMs(localCamp, remoteCamp, guide, [d.deck]);
+        if (recency > (campaignRecencyMap[d.campaignUuid] || 0)) {
+          campaignRecencyMap[d.campaignUuid] = recency;
+        }
+      }
+    });
+    forEach(allTrackedDecks, d => {
+      if (d.campaignUuid && campaignRecencyMap[d.campaignUuid]) {
+        d.campaignRecencyMs = campaignRecencyMap[d.campaignUuid];
+      }
+    });
+
+    // Sort newest campaign / newest assembled first (higher priority for physical possession)
+    const sorted = sortBy(
+      allTrackedDecks,
+      d => -(d.campaignRecencyMs && d.campaignRecencyMs > 0 ? d.campaignRecencyMs : parseTimestampMs(d.assembledAt)),
+      d => -parseTimestampMs(d.assembledAt)
+    );
     const assembledDecksList = filter(sorted, d => d.assembled);
 
     return {
@@ -1035,7 +1166,13 @@ export function useDeckPhysicalChecklistPlan(
       canonicalGroup[canonicalCode].targetCount += qty;
     });
 
+    const currentCampaignUuid = trackedDeck?.campaignUuid || campaign?.uuid || state?.campaignId?.campaignId;
+    let totalTargetCount = 0;
+    let inDeckboxCount = 0;
+    let borrowedFromSelfCount = 0;
+
     forEach(canonicalGroup, ({ code, targetCount }, canonicalCode) => {
+      totalTargetCount += targetCount;
       const card = cardsMap[code] || cardsMap[canonicalCode];
       const allocation = allocationsByCanonicalCode[canonicalCode];
       const totalOwned = allocation
@@ -1044,7 +1181,13 @@ export function useDeckPhysicalChecklistPlan(
 
       const selfHolder = allocation?.holders.find(h => h.deckKey === deckKey);
       const heldBySelfNow = assembled ? (selfHolder?.heldCopies ?? 0) : 0;
+      borrowedFromSelfCount += assembled ? (selfHolder?.borrowedCopies ?? 0) : 0;
+      inDeckboxCount += Math.min(targetCount, heldBySelfNow);
+
       const otherHolders = filter(allocation?.holders || [], h => h.deckKey !== deckKey && h.heldCopies > 0);
+      const otherCampaignHolders = currentCampaignUuid
+        ? filter(otherHolders, h => h.campaignId?.campaignId !== currentCampaignUuid)
+        : otherHolders;
       const heldByOthersTotal = sumBy(otherHolders, h => h.heldCopies);
       const inBinderNow = Math.max(0, totalOwned - heldBySelfNow - heldByOthersTotal);
 
@@ -1079,9 +1222,9 @@ export function useDeckPhysicalChecklistPlan(
           });
           needed -= fromBinder;
         }
-        if (needed > 0 && otherHolders.length > 0) {
-          // Retrieve from oldest assembled decks first so the most recently played decks are disturbed last
-          const sortedOtherHolders = sortBy(otherHolders, h => new Date(h.assembledAt).getTime());
+        if (needed > 0 && otherCampaignHolders.length > 0) {
+          // Retrieve from oldest assembled decks in OTHER campaigns first (never from the same campaign)
+          const sortedOtherHolders = sortBy(otherCampaignHolders, h => new Date(h.assembledAt).getTime());
           forEach(sortedOtherHolders, holder => {
             if (needed <= 0) {
               return;
@@ -1118,6 +1261,9 @@ export function useDeckPhysicalChecklistPlan(
       assembled,
       assembledAt: state?.assembledAt || trackedDeck?.assembledAt,
       hasPendingUpgrade,
+      totalTargetCount,
+      inDeckboxCount,
+      borrowedFromSelfCount,
       toReturnToBinder,
       toRetrieveFromOtherDecks,
       toTakeFromBinder,

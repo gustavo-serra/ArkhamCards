@@ -9574,3 +9574,44 @@ msgstr "Montar campanhas em aberto em ordem cronológica"
 
 msgid "Marks uncontested cards in older campaigns and missing cards where newer campaigns took them"
 msgstr "Marca cartas remanescentes nas campanhas antigas e cartas faltantes tomadas por campanhas mais novas"
+
+#, javascript-format
+msgid "⚠️ Partially Assembled (${ inDeckboxCount }/${ totalTargetCount } in deckbox)"
+msgstr "⚠️ Parcialmente Montado (${ inDeckboxCount }/${ totalTargetCount } na deckbox)"
+
+#, javascript-format
+msgid "⚠️ ${ borrowedCount } card(s) from this deck are currently in a more recently played campaign."
+msgstr "⚠️ ${ borrowedCount } carta(s) deste deck estão atualmente em uma campanha jogada mais recentemente."
+
+#, javascript-format
+msgid "All ${ totalTargetCount } physical card(s) are allocated in this deckbox."
+msgstr "Todas as ${ totalTargetCount } carta(s) físicas estão alocadas nesta deckbox."
+
+#, javascript-format
+msgid "To assemble now: ${ binderCount } from binder, ${ retrieveCount } from other campaigns (${ missingCount } missing from collection)."
+msgstr "Para montar agora: ${ binderCount } do fichário, ${ retrieveCount } de outras campanhas (${ missingCount } faltando na coleção)."
+
+#, javascript-format
+msgid "To assemble now: ${ binderCount } from binder, ${ retrieveCount } from other campaigns."
+msgstr "Para montar agora: ${ binderCount } do fichário, ${ retrieveCount } de outras campanhas."
+
+#, javascript-format
+msgid "🔄 Pending Physical Upgrade (${ plan.inDeckboxCount }/${ plan.totalTargetCount } in deckbox)"
+msgstr "🔄 Upgrade Físico Pendente (${ plan.inDeckboxCount }/${ plan.totalTargetCount } na deckbox)"
+
+#, javascript-format
+msgid "⚠️ ${ plan.inDeckboxCount }/${ plan.totalTargetCount } in deckbox · ${ plan.borrowedFromSelfCount } missing (in newer campaign)"
+msgstr "⚠️ ${ plan.inDeckboxCount }/${ plan.totalTargetCount } na deckbox · ${ plan.borrowedFromSelfCount } faltando (em campanha mais recente)"
+
+#, javascript-format
+msgid "✅ Physically Assembled in Deckbox (${ plan.inDeckboxCount }/${ plan.totalTargetCount })"
+msgstr "✅ Montado Fisicamente na Deckbox (${ plan.inDeckboxCount }/${ plan.totalTargetCount })"
+
+msgid "⚠️ \"Ignore Collection\" is enabled. The app is assuming you own max copies of every card."
+msgstr "⚠️ \"Ignorar Coleção\" está ativado. O aplicativo está assumindo que você possui cópias máximas de todas as cartas."
+
+msgid "Use My Real Collection (Disable Ignore Collection)"
+msgstr "Usar Minha Coleção Real (Desativar Ignorar Coleção)"
+
+msgid "Sync Chronological Order (Most Recent Campaign Priority)"
+msgstr "Sincronizar Ordem Cronológica (Prioridade para Campanha Mais Recente)"

@@ -1,22 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
-// Load environment variables from .env file
-function loadEnv() {
-  const envPath = path.resolve(__dirname, '.env');
+// Load environment variables from .env and .env.local files
+function loadEnvFile(envPath, env) {
   if (!fs.existsSync(envPath)) {
-    console.warn('.env file not found');
-    return {};
+    return false;
   }
 
   const envFile = fs.readFileSync(envPath, 'utf8');
-  const env = {};
-
   envFile.split('\n').forEach(line => {
     const match = line.match(/^([^=:#]+?)\s*=\s*(.*)?\s*$/);
     if (match) {
-      const key = match[1];
-      let value = match[2] || '';
+      const key = match[1].trim();
+      let value = (match[2] || '').trim();
 
       // Remove quotes if present
       if (value.startsWith('"') && value.endsWith('"')) {
@@ -28,7 +24,16 @@ function loadEnv() {
       env[key] = value;
     }
   });
+  return true;
+}
 
+function loadEnv() {
+  const env = {};
+  const hasEnv = loadEnvFile(path.resolve(__dirname, '.env'), env);
+  const hasEnvLocal = loadEnvFile(path.resolve(__dirname, '.env.local'), env);
+  if (!hasEnv && !hasEnvLocal) {
+    console.warn('.env file not found');
+  }
   return env;
 }
 

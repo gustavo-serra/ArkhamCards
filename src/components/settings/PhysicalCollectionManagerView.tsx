@@ -35,6 +35,8 @@ import RoundedFactionBlock from '@components/core/RoundedFactionBlock';
 import DeckSectionHeader from '@components/deck/section/DeckSectionHeader';
 import DeckButton from '@components/deck/controls/DeckButton';
 import { TouchableOpacity } from '@components/core/Touchables';
+import { useRemoteSettingFlag } from '@components/core/hooks';
+import { useUpdateRemoteSetting } from '@data/remote/settings';
 import AppIcon from '@icons/AppIcon';
 import { showCard } from '@components/nav/helper';
 
@@ -98,8 +100,15 @@ export default function PhysicalCollectionManagerView() {
     loading,
   } = usePhysicalCollectionAllocations();
 
+  const updateRemoteSetting = useUpdateRemoteSetting();
+  const [ignoreCollection, toggleIgnoreCollection] = useRemoteSettingFlag('ignore_collection', updateRemoteSetting);
+
   const openCampaignAssemblyEntries = useMemo(() => {
-    return buildChronologicalOpenCampaignAssemblyEntries(rawTrackedDecks, assembledDecksState);
+    return buildChronologicalOpenCampaignAssemblyEntries(rawTrackedDecks, assembledDecksState, false);
+  }, [rawTrackedDecks, assembledDecksState]);
+
+  const reconcileChronologicalEntries = useMemo(() => {
+    return buildChronologicalOpenCampaignAssemblyEntries(rawTrackedDecks, assembledDecksState, true);
   }, [rawTrackedDecks, assembledDecksState]);
 
   const borrowedCountByDeckKey = useMemo((): { [deckKey: string]: number | undefined } => {
@@ -123,6 +132,12 @@ export default function PhysicalCollectionManagerView() {
     }
   }, [dispatch, openCampaignAssemblyEntries]);
 
+  const handleReconcileChronologicalOrder = useCallback(() => {
+    if (reconcileChronologicalEntries.length > 0) {
+      dispatch(confirmMultiplePhysicalDecksAssembly(reconcileChronologicalEntries));
+    }
+  }, [dispatch, reconcileChronologicalEntries]);
+
   const handlePromptChronologicalAssembly = useCallback(() => {
     if (openCampaignAssemblyEntries.length > 0) {
       promptChronologicalOpenCampaignAssembly(
@@ -134,7 +149,7 @@ export default function PhysicalCollectionManagerView() {
 
   const handleSelectMode = useCallback((nextMode: PhysicalCollectionMode) => {
     dispatch(setPhysicalCollectionMode(nextMode));
-    if (nextMode === 'manual' && openCampaignAssemblyEntries.length > 0) {
+    if ((nextMode === 'manual' || nextMode === 'active_campaigns') && openCampaignAssemblyEntries.length > 0) {
       promptChronologicalOpenCampaignAssembly(
         openCampaignAssemblyEntries,
         handleAssembleOpenCampaigns
@@ -268,6 +283,37 @@ export default function PhysicalCollectionManagerView() {
 
         {mode !== 'disabled' && (
           <>
+            {ignoreCollection && (
+              <View style={[space.paddingSideS, space.paddingBottomS]}>
+                <View style={[styles.deckCard, borderStyle, { backgroundColor: colors.L20 }]}>
+                  <Text style={[typography.small, typography.bold, { color: colors.warn }]}>
+                    {t`⚠️ "Ignore Collection" is enabled. The app is assuming you own max copies of every card.`}
+                  </Text>
+                  <View style={space.marginTopXs}>
+                    <DeckButton
+                      icon="edit"
+                      color="gold"
+                      title={t`Use My Real Collection (Disable Ignore Collection)`}
+                      onPress={() => toggleIgnoreCollection(false)}
+                      thin
+                    />
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {reconcileChronologicalEntries.length > 0 && (
+              <View style={[space.paddingSideS, space.paddingBottomS]}>
+                <DeckButton
+                  icon="check-thin"
+                  color="light_gray"
+                  title={t`Sync Chronological Order (Most Recent Campaign Priority)`}
+                  onPress={handleReconcileChronologicalOrder}
+                  thin
+                />
+              </View>
+            )}
+
             {/* Section 2: Active Conflicts & Borrowed Cards */}
             <View style={[space.paddingSideS, space.paddingBottomS]}>
               <RoundedFactionBlock

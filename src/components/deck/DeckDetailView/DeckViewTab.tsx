@@ -210,21 +210,26 @@ function DeckPhysicalBoxSection({
   const binderCount = sumBy(plan.toTakeFromBinder, item => item.count);
   const returnCount = sumBy(plan.toReturnToBinder, item => item.count);
   const missingCount = sumBy(plan.missingFromCollection, item => item.count);
+  const borrowedCount = plan.borrowedFromSelfCount;
+  const inDeckboxCount = plan.inDeckboxCount;
+  const totalTargetCount = plan.totalTargetCount;
 
   const statusLabel = isFriendDeck
     ? t`🤝 Friend's Deck (Ignored in your Physical Collection)`
     : isAssembled
       ? (plan.hasPendingUpgrade
           ? t`🔄 Pending Physical Upgrade (Deckbox needs updating)`
-          : t`✅ Physically Assembled in Deckbox`)
+          : borrowedCount > 0
+            ? t`⚠️ Partially Assembled (${inDeckboxCount}/${totalTargetCount} in deckbox)`
+            : t`✅ Physically Assembled in Deckbox`)
       : t`📦 Not yet physically assembled`;
 
   const unbuiltSummary = useMemo(() => {
     if (retrieveCount > 0 && missingCount > 0) {
-      return t`To assemble now: ${binderCount} from binder, ${retrieveCount} from other assembled decks (${missingCount} missing from collection).`;
+      return t`To assemble now: ${binderCount} from binder, ${retrieveCount} from other campaigns (${missingCount} missing from collection).`;
     }
     if (retrieveCount > 0) {
-      return t`To assemble now: ${binderCount} from binder, ${retrieveCount} from other assembled decks.`;
+      return t`To assemble now: ${binderCount} from binder, ${retrieveCount} from other campaigns.`;
     }
     if (missingCount > 0) {
       return t`To assemble now: ${binderCount} from binder (${missingCount} missing from collection).`;
@@ -250,11 +255,11 @@ function DeckPhysicalBoxSection({
           { !isFriendDeck && (
             <Text style={[typography.small, { color: colors.M, marginTop: 2 }]}>
               { isAssembled
-                ? (retrieveCount > 0
-                    ? t`⚠️ ${retrieveCount} card(s) from this deck are borrowed by a more recently assembled deck.`
+                ? (borrowedCount > 0
+                    ? t`⚠️ ${borrowedCount} card(s) from this deck are currently in a more recently played campaign.`
                     : (returnCount > 0 || binderCount > 0)
                       ? t`To update deckbox: return ${returnCount} to binder and take ${binderCount}.`
-                      : t`All physical cards for this deck are allocated in this deckbox.`)
+                      : t`All ${totalTargetCount} physical card(s) are allocated in this deckbox.`)
                 : unbuiltSummary }
             </Text>
           ) }
@@ -279,7 +284,7 @@ function DeckPhysicalBoxSection({
                 thin
               />
             ) }
-            { isAssembled && retrieveCount > 0 && !plan.hasPendingUpgrade && (
+            { isAssembled && borrowedCount > 0 && !plan.hasPendingUpgrade && (
               <DeckButton
                 icon="check-thin"
                 color="default"
