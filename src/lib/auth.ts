@@ -104,6 +104,17 @@ export function prefetch(): Promise<void> {
   return Promise.resolve();
 }
 
+async function waitForAccessToken(maxAttempts: number = 6, delayMs: number = 400): Promise<string | null> {
+  for (let i = 0; i < maxAttempts; i++) {
+    const token = await getAccessToken();
+    if (token) {
+      return token;
+    }
+    await new Promise(resolve => setTimeout(resolve, delayMs));
+  }
+  return null;
+}
+
 export async function signInFlow(): Promise<SignInResult> {
   try {
     const response = await authorize(config, PROVIDER);
@@ -112,9 +123,16 @@ export async function signInFlow(): Promise<SignInResult> {
       success: true,
     };
   } catch (err) {
+    const msg = err?.message || err;
+    if (msg === AUTH_ALREADY_COMPLETED || msg === 'Authentication was cancelled') {
+      const token = await waitForAccessToken();
+      if (token) {
+        return { success: true };
+      }
+    }
     return {
       success: false,
-      error: err.message || err,
+      error: msg,
     };
   }
 }
@@ -141,8 +159,8 @@ export async function completeSignInFromRedirect(url: string): Promise<SignInRes
     return { success: true };
   } catch (err) {
     if ((err?.message || err) === AUTH_ALREADY_COMPLETED) {
-      // The warm path already completed the exchange; report the real state.
-      const accessToken = await getAccessToken();
+      // The warm path is completing or already completed the exchange; wait briefly and report the real state.
+      const accessToken = await waitForAccessToken();
       return accessToken
         ? { success: true }
         : { success: false, error: 'Login could not be completed' };

@@ -102,7 +102,9 @@ export async function authorize(config: AppAuthConfig, provider: OAuthProvider):
     return Promise.reject(new Error(result.error?.description || 'Authentication failed'));
   }
 
-  await clearPendingOAuth(provider);
+  if (Platform.OS !== 'android') {
+    await clearPendingOAuth(provider);
+  }
   return Promise.reject(new Error('Authentication was cancelled'));
 }
 

@@ -108,7 +108,7 @@ module.exports = {
         'android.permission.RECORD_AUDIO',
         'android.permission.MODIFY_AUDIO_SETTINGS',
       ],
-      versionCode: 4200002,
+      versionCode: 4200003,
     },
     locales: {
       'ko': './assets/i18n-app/ko.metadata.json',
